@@ -11,6 +11,8 @@ function respond() {
   var botRegexDonald = /Donald|Trump/i;
   var botRegexFuckOff = /^\/fuckoff/;
   var botRegexChel = /Chel/i;
+  var botRegexEightBall = /^\/8ball/;
+  var botRegexHelp = /^\/Help/;
 
   if(request.text && botRegexCoolGuy.test(request.text)) {
     this.res.writeHead(200);
@@ -30,6 +32,16 @@ function respond() {
   else if(request.text && botRegexChel.test(request.text)) {
     this.res.writeHead(200);
     postMessage("http://i.giphy.com/mzhMdvdANaMGk.gif");
+    this.res.end();
+  }
+  else if(request.text && botRegexEightBall.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage(eightBall());
+    this.res.end();
+  }
+  else if(request.text && botRegexHelp.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage(help());
     this.res.end();
   }
   else {
@@ -74,5 +86,42 @@ function postMessage(message) {
   botReq.end(JSON.stringify(body));
 }
 
+function eightBall() {
+  var outcomes = [
+      "It is certain",
+      "It is decidedly so",
+      "Without a doubt",
+      "Yes, definitely",
+      "You may rely on it",
+      "As I see it, yes",
+      "Most Likely",
+      "Outlook Good",
+      "Yes",
+      "Signs point to yes",
+      "Reply hazy try again",
+      "Ask again later",
+      "Better not tell you now",
+      "Cannot predict now",
+      "Concentrate and ask again",
+      "Don't count on it",
+      "My reply is no",
+      "My sources say no",
+      "Outlook not so good",
+      "Very doubtful"
+  ];
+
+  return outcomes[Math.floor(Math.random() * quotes.length)];
+}
+
+function help(){
+  return "Help Menu\n\n" +
+      "Trigger Words:\n" +
+      "Donald or Trump\n" +
+      "Chel\n\n" +
+      "Commands:\n" +
+      "/fuckoff {Person} - Tell that person to fuck off\n" +
+      "/8ball {Question} - ask an 8ball question\n" +
+      "/help - display this menu";
+}
 
 exports.respond = respond;
