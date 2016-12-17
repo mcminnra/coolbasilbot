@@ -110,7 +110,7 @@ function eightBall() {
       "Very doubtful"
   ];
 
-  return outcomes[Math.floor(Math.random() * quotes.length)];
+  return outcomes[Math.floor(Math.random() * outcomes.length)];
 }
 
 function help(){
