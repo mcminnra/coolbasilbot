@@ -9,6 +9,7 @@ function respond() {
   /* Regex Commands */
   var botRegexCoolGuy = /^\/cool guy$/;
   var botRegexDonald = /Donald|Trump/i;
+  var botRegexFuckOff = /^\/fuckoff/;
 
   if(request.text && botRegexCoolGuy.test(request.text)) {
     this.res.writeHead(200);
@@ -18,6 +19,11 @@ function respond() {
   else if(request.text && botRegexDonald.test(request.text)) {
     this.res.writeHead(200);
     postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
+    this.res.end();
+  }
+  else if(request.text && botRegexFuckOff.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(8));
     this.res.end();
   }
   else {
