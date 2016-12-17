@@ -8,7 +8,7 @@ function respond() {
 
   /* Regex Commands */
   var botRegexCoolGuy = /^\/cool guy$/;
-  var botRegexDonald = /Donald|Trump/;
+  var botRegexDonald = /Donald|Trump/i;
 
   if(request.text && botRegexCoolGuy.test(request.text)) {
     this.res.writeHead(200);
@@ -17,7 +17,7 @@ function respond() {
   }
   else if(request.text && botRegexDonald.test(request.text)) {
     this.res.writeHead(200);
-    postMessage("_|___|___| BUILD THAT WALL!!! _|___|___|");
+    postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
     this.res.end();
   }
   else {
