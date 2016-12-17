@@ -12,7 +12,7 @@ function respond() {
   var botRegexFuckOff = /^\/fuckoff/;
   var botRegexChel = /Chel/i;
   var botRegexEightBall = /^\/8ball/;
-  var botRegexHelp = /^\/Help/;
+  var botRegexHelp = /^\/help/;
 
   if(request.text && botRegexCoolGuy.test(request.text)) {
     this.res.writeHead(200);
@@ -115,9 +115,6 @@ function eightBall() {
 
 function help(){
   return "Help Menu\n\n" +
-      "Trigger Words:\n" +
-      "Donald or Trump\n" +
-      "Chel\n\n" +
       "Commands:\n" +
       "/fuckoff {Person} - Tell that person to fuck off\n" +
       "/8ball {Question} - ask an 8ball question\n" +
