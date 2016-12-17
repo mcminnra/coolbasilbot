@@ -10,6 +10,7 @@ function respond() {
   var botRegexCoolGuy = /^\/cool guy$/;
   var botRegexDonald = /Donald|Trump/i;
   var botRegexFuckOff = /^\/fuckoff/;
+  var botRegexChel = /Chel/i;
 
   if(request.text && botRegexCoolGuy.test(request.text)) {
     this.res.writeHead(200);
@@ -23,7 +24,12 @@ function respond() {
   }
   else if(request.text && botRegexFuckOff.test(request.text)) {
     this.res.writeHead(200);
-    postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(8));
+    postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
+    this.res.end();
+  }
+  else if(request.text && botRegexChel.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage("http://i.giphy.com/mzhMdvdANaMGk.gif");
     this.res.end();
   }
   else {
