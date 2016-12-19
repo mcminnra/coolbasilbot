@@ -13,6 +13,7 @@ function respond() {
   var botRegexChel = /Chel/i;
   var botRegexEightBall = /^\/8ball/;
   var botRegexHelp = /^\/help/;
+  var botRegexCoin = /^\/coin/;
 
   if(request.text && botRegexCoolGuy.test(request.text)) {
     this.res.writeHead(200);
@@ -43,6 +44,11 @@ function respond() {
     this.res.writeHead(200);
     postMessage(help());
     this.res.end();
+  }
+  else if(request.text && botRegexCoin.test(request.text)) {
+      this.res.writeHead(200);
+      postMessage(coin());
+      this.res.end();
   }
   else {
     console.log("don't care");
@@ -113,12 +119,21 @@ function eightBall() {
   return outcomes[Math.floor(Math.random() * outcomes.length)];
 }
 
+function coin() {
+    var options = [
+      "HEADS",
+      "TAILS"
+    ];
+
+    return options[Math.floor(Math.random() * options.length)]
+}
 function help(){
   return "Help Menu\n\n" +
       "Commands:\n" +
       "/fuckoff {Person} - Tell that person to fuck off\n" +
-      "/8ball {Question} - ask an 8ball question\n" +
-      "/help - display this menu";
+      "/8ball {Question} - Ask an 8ball question\n" +
+      "/coin - Flips a coin heads or tails" +
+      "/help - Display this menu";
 }
 
 exports.respond = respond;
