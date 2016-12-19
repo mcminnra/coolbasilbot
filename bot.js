@@ -132,7 +132,7 @@ function help(){
       "Commands:\n" +
       "/fuckoff {Person} - Tell that person to fuck off\n" +
       "/8ball {Question} - Ask an 8ball question\n" +
-      "/coin - Flips a coin heads or tails" +
+      "/coin - Flips a coin heads or tails\n" +
       "/help - Display this menu";
 }
 
