@@ -63,7 +63,7 @@ function respond() {
         this.res.writeHead(200);
         // Random gif by tag using callback
         giphy.random('superman', function(err, resGif) {
-            postMessage(resGif.url);
+            postMessage(resGif.data.url);
         });
         this.res.end();
     }
