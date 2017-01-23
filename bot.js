@@ -1,5 +1,6 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
+var giphy = require('giphy-api')();
 
 var botID = process.env.BOT_ID;
 
@@ -15,6 +16,7 @@ function respond() {
     var botRegexHelp = /^\/help/i;
     var botRegexCoin = /^\/coin/i;
     var botRegexOhFuckMe =/^\/ohfuckme/i;
+    var botRegexRandom = /^\/random/i;
 
 
     if(request.text && botRegexCoolGuy.test(request.text)) {
@@ -55,6 +57,14 @@ function respond() {
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         this.res.writeHead(200);
         postMessage("http://i.giphy.com/AZGzgV2q4MwVO.gif");
+        this.res.end();
+    }
+    else if(request.text && botRegexRandom.test(request.text)) {
+        this.res.writeHead(200);
+        // Random gif by tag using callback
+        giphy.random('superman', function(err, resGif) {
+            postMessage(resGif);
+        });
         this.res.end();
     }
     else {
@@ -142,6 +152,10 @@ function help(){
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/help - Display this menu";
+}
+
+function randomGif(keyword){
+
 }
 
 exports.respond = respond;
