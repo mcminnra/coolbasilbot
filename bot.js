@@ -63,7 +63,7 @@ function respond() {
         this.res.writeHead(200);
         // Random gif by tag using callback
         giphy.random('superman', function(err, resGif) {
-            postMessage(resGif);
+            postMessage(resGif.url);
         });
         this.res.end();
     }
@@ -152,10 +152,6 @@ function help(){
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/help - Display this menu";
-}
-
-function randomGif(keyword){
-
 }
 
 exports.respond = respond;
