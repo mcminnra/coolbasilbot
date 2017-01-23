@@ -26,6 +26,10 @@ function respond() {
     }
     else if(request.text && botRegexDonald.test(request.text)) {
         this.res.writeHead(200);
+        giphy.random("Donald Trump", function(err, resGif) {
+            postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|\n\n"
+                + resGif.data.image_url);
+        });
         postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
         this.res.end();
     }
@@ -155,6 +159,7 @@ function help(){
         "/8ball {Question} - Ask an 8ball question\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
+        "/random {Keyword(s)} - displays random gif\n" +
         "/help - Display this menu";
 }
 
