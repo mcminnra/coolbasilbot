@@ -27,8 +27,8 @@ function respond() {
     else if(request.text && botRegexDonald.test(request.text)) {
         this.res.writeHead(200);
         giphy.random("Donald Trump", function(err, resGif) {
-            postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
             postMessage(resGif.data.image_url);
+            postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
         });
         this.res.end();
     }
