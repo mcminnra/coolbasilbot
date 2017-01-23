@@ -36,7 +36,9 @@ function respond() {
     }
     else if(request.text && botRegexChel.test(request.text)) {
         this.res.writeHead(200);
-        postMessage("http://i.giphy.com/mzhMdvdANaMGk.gif");
+        giphy.random('nhl', function(err, resGif) {
+            postMessage(resGif.data.image_url);
+        });
         this.res.end();
     }
     else if(request.text && botRegexEightBall.test(request.text)) {
@@ -56,14 +58,16 @@ function respond() {
     }
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         this.res.writeHead(200);
-        postMessage("http://i.giphy.com/AZGzgV2q4MwVO.gif");
+        giphy.random('fuck me', function(err, resGif) {
+            postMessage(resGif.data.image_url);
+        });
         this.res.end();
     }
     else if(request.text && botRegexRandom.test(request.text)) {
         this.res.writeHead(200);
         // Random gif by tag using callback
-        giphy.random('superman', function(err, resGif) {
-            postMessage(resGif.data.url);
+        giphy.random(request.text.substring(8), function(err, resGif) {
+            postMessage(resGif.data.image_url);
         });
         this.res.end();
     }
