@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 var giphy = require('giphy-api')();
+var weather = require('weather-js');
 
 var botID = process.env.BOT_ID;
 
@@ -17,6 +18,7 @@ function respond() {
     var botRegexCoin = /^\/coin/i;
     var botRegexOhFuckMe =/^\/ohfuckme/i;
     var botRegexRandom = /^\/random/i;
+    var botRegexWeather = /^\/weather/i;
 
 
     if(request.text && botRegexCoolGuy.test(request.text)) {
@@ -62,6 +64,8 @@ function respond() {
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         this.res.writeHead(200);
         giphy.random('fuck me', function(err, resGif) {
+            if(err) postMessage("Error Retrieving Gif");
+
             postMessage(resGif.data.image_url);
         });
         this.res.end();
@@ -70,12 +74,34 @@ function respond() {
         this.res.writeHead(200);
         // Random gif by tag using callback
         giphy.random(request.text.substring(8), function(err, resGif) {
+            if(err) postMessage("Error Retrieving Gif");
+
             postMessage(resGif.data.image_url);
         });
         this.res.end();
     }
+    else if(request.text && botRegexWeather.test(request.text)) {
+        this.res.writeHead(200);
+        weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, result) {
+            if(err) postMessage("Error Retrieving Weather");
+
+            postMessage(
+                '--Weather for ' + location.name + ' (' + location.zipcode + ')--\n +' +
+                current.skytext + '\n' +
+                'Current Temp: ' + current.temperature + 'F (Feels Like ' + current.feelslike + 'F)\n' +
+                'Humidity: ' + current.humidity + '\n' +
+                'Wind: ' + current.winddisplay + '\n\n' +
+                'Today\'s Forecast:\n' +
+                forecast[0].skytextday +
+                'High: '+ forecast[0].high + ' \n' +
+                'Low: '+ forecast[0].low + ' \n' +
+                'Precipitation: '+ forecast[0].precip + ' \n' +
+                );
+        });
+        this.res.end();
+    }
     else {
-        console.log("don't care");
+        console.log("No Command");
         this.res.writeHead(200);
         this.res.end();
     }
@@ -159,6 +185,7 @@ function help(){
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
+        "/weather {City / Zip} - displays weather\n" +
         "/help - Display this menu";
 }
 
