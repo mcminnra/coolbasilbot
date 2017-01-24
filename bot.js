@@ -85,6 +85,8 @@ function respond() {
         weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, res) {
             if(err) postMessage("Error Retrieving Weather");
 
+            res = res[0]; // Only One Object
+
             postMessage(
                 '--Weather for ' + res.location.name + ' (' + res.location.zipcode + ')--\n +' +
                 res.current.skytext + '\n' +
