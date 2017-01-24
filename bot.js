@@ -86,16 +86,16 @@ function respond() {
             if(err) postMessage("Error Retrieving Weather");
 
             postMessage(
-                '--Weather for ' + location.name + ' (' + location.zipcode + ')--\n +' +
-                current.skytext + '\n' +
-                'Current Temp: ' + current.temperature + 'F (Feels Like ' + current.feelslike + 'F)\n' +
-                'Humidity: ' + current.humidity + '\n' +
-                'Wind: ' + current.winddisplay + '\n\n' +
+                '--Weather for ' + res.location.name + ' (' + res.location.zipcode + ')--\n +' +
+                res.current.skytext + '\n' +
+                'Current Temp: ' + res.current.temperature + 'F (Feels Like ' + res.current.feelslike + 'F)\n' +
+                'Humidity: ' + res.current.humidity + '\n' +
+                'Wind: ' + res.current.winddisplay + '\n\n' +
                 'Today\'s Forecast:\n' +
-                forecast[0].skytextday +
-                'High: '+ forecast[0].high + ' \n' +
-                'Low: '+ forecast[0].low + ' \n' +
-                'Precipitation: '+ forecast[0].precip + ' \n'
+                res.forecast[0].skytextday +
+                'High: '+ res.forecast[0].high + ' \n' +
+                'Low: '+ res.forecast[0].low + ' \n' +
+                'Precipitation: '+ res.forecast[0].precip + ' \n'
                 );
         });
         this.res.end();
