@@ -29,6 +29,11 @@ function respond() {
     else if(request.text && botRegexDonald.test(request.text)) {
         this.res.writeHead(200);
         giphy.random("Donald Trump", function(err, resGif) {
+            if(err) {
+                postMessage("Error Retrieving Gif");
+                return;
+            }
+
             postMessage(resGif.data.image_url);
             postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
         });
@@ -64,7 +69,10 @@ function respond() {
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         this.res.writeHead(200);
         giphy.random('fuck me', function(err, resGif) {
-            if(err) postMessage("Error Retrieving Gif");
+            if(err) {
+                postMessage("Error Retrieving Gif");
+                return;
+            }
 
             postMessage(resGif.data.image_url);
         });
@@ -74,7 +82,10 @@ function respond() {
         this.res.writeHead(200);
         // Random gif by tag using callback
         giphy.random(request.text.substring(8), function(err, resGif) {
-            if(err) postMessage("Error Retrieving Gif");
+            if(err) {
+                postMessage("Error Retrieving Gif");
+                return;
+            }
 
             postMessage(resGif.data.image_url);
         });
@@ -83,7 +94,10 @@ function respond() {
     else if(request.text && botRegexWeather.test(request.text)) {
         this.res.writeHead(200);
         weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, res) {
-            if(err) postMessage("Error Retrieving Weather");
+            if(err) {
+                postMessage("Error Retrieving Weather");
+                return;
+            }
 
             res = res[0]; // Only One Object
 
