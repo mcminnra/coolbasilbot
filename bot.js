@@ -88,16 +88,16 @@ function respond() {
             res = res[0]; // Only One Object
 
             postMessage(
-                '--Weather for ' + res.location.name + ' (' + res.location.zipcode + ')--\n +' +
+                'Weather for ' + res.location.name + '\n' +
                 res.current.skytext + '\n' +
-                'Current Temp: ' + res.current.temperature + 'F (Feels Like ' + res.current.feelslike + 'F)\n' +
+                'Current Temp: ' + res.current.temperature + 'F \n  (Feels Like ' + res.current.feelslike + 'F)\n' +
                 'Humidity: ' + res.current.humidity + '\n' +
                 'Wind: ' + res.current.winddisplay + '\n\n' +
                 'Today\'s Forecast:\n' +
-                res.forecast[0].skytextday +
+                res.forecast[0].skytextday + '\n' +
                 'High: '+ res.forecast[0].high + ' \n' +
                 'Low: '+ res.forecast[0].low + ' \n' +
-                'Precipitation: '+ res.forecast[0].precip + ' \n'
+                'Precipitation: ' + res.forecast[0].precip + ' \n'
                 );
         });
         this.res.end();
