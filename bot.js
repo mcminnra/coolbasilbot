@@ -82,7 +82,7 @@ function respond() {
     }
     else if(request.text && botRegexWeather.test(request.text)) {
         this.res.writeHead(200);
-        weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, result) {
+        weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, res) {
             if(err) postMessage("Error Retrieving Weather");
 
             postMessage(
