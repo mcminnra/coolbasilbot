@@ -95,7 +95,7 @@ function respond() {
                 forecast[0].skytextday +
                 'High: '+ forecast[0].high + ' \n' +
                 'Low: '+ forecast[0].low + ' \n' +
-                'Precipitation: '+ forecast[0].precip + ' \n' +
+                'Precipitation: '+ forecast[0].precip + ' \n'
                 );
         });
         this.res.end();
