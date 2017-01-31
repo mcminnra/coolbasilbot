@@ -21,6 +21,7 @@ function respond() {
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
     var botRegexWikipedia = /^\/define/i;
+    var botRegexUrbanDictionary = /^\/urbandict/i;
 
 
     if(request.text && botRegexCoolGuy.test(request.text)) {
@@ -121,6 +122,11 @@ function respond() {
     else if(request.text && botRegexWikipedia.test(request.text)) {
         this.res.writeHead(200);
         postMessage(wikipedia(request.text.substring(8)));
+        this.res.end();
+    }
+    else if(request.text && botRegexUrbanDictionary.test(request.text)) {
+        this.res.writeHead(200);
+        postMessage(urbanDictionary(request.text.substring(11)));
         this.res.end();
     }
     else {
@@ -232,6 +238,35 @@ function wikipedia(lookup){
                 postMessage(page.title + "\n\n" + page.extract);
             } else {
                 postMessage("Unable to find '" + lookup + "' Wikipedia Extract");
+            }
+        });
+    });
+
+    //end the request
+    getReq.end();
+    getReq.on('error', function(err){
+        console.log("Error: ", err);
+    });
+}
+
+function urbanDictionary(lookup){
+    var options = {
+        host :  'api.urbandictionary.com',
+        path : '/v0/define?term=' + querystring.escape(lookup),
+        method : 'GET'
+    };
+
+    //making the https get call
+    var getReq = HTTPS.request(options, function(res) {
+        console.log("\nstatus code: ", res.statusCode);
+        res.on('data', function(data) {
+            console.log( JSON.parse(data) );
+            data = JSON.parse(data);
+            var udword = data.list[0];
+            if(data.result_type == "exact"){
+                postMessage(udword.word + "\n\nDefinition:\n" + udword.definition + "\n\nUsage:\n" + udword.example);
+            } else {
+                postMessage("Unable to find '" + lookup + "' Urban Dictionary Term");
             }
         });
     });
