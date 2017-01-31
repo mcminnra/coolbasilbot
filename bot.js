@@ -221,7 +221,7 @@ function wikipedia(lookup){
     };
 
     //making the https get call
-    var getReq = https.request(options, function(res) {
+    var getReq = HTTPS.request(options, function(res) {
         console.log("\nstatus code: ", res.statusCode);
         res.on('data', function(data) {
             console.log( JSON.parse(data) );
