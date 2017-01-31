@@ -216,6 +216,7 @@ function help(){
         "/random {Keyword(s)} - displays random gif\n" +
         "/weather {City / Zip} - displays weather\n" +
         "/define {Keyword} - Gets wikipedia synopsys for keyword\n" +
+        "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
         "/help - Display this menu";
 }
 
