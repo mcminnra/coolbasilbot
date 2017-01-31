@@ -215,8 +215,7 @@ function help(){
 function wikipedia(lookup){
     var options = {
         host :  'en.wikipedia.org',
-        path : '/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles='
-            + querystring.stringify(lookup),
+        path : '/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=' + querystring.escape(lookup),
         method : 'GET'
     };
 
