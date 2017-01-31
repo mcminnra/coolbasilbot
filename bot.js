@@ -2,6 +2,7 @@ var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
 var giphy = require('giphy-api')();
 var weather = require('weather-js');
+var querystring = require('querystring');
 
 var botID = process.env.BOT_ID;
 
@@ -19,6 +20,7 @@ function respond() {
     var botRegexOhFuckMe =/^\/ohfuckme/i;
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
+    var botRegexWikipedia = /^\/define/i;
 
 
     if(request.text && botRegexCoolGuy.test(request.text)) {
@@ -116,6 +118,11 @@ function respond() {
         });
         this.res.end();
     }
+    else if(request.text && botRegexWikipedia.test(request.text)) {
+        this.res.writeHead(200);
+        postMessage(wikipedia(request.text.substring(8)));
+        this.res.end();
+    }
     else {
         console.log("No Command");
         this.res.writeHead(200);
@@ -203,6 +210,30 @@ function help(){
         "/random {Keyword(s)} - displays random gif\n" +
         "/weather {City / Zip} - displays weather\n" +
         "/help - Display this menu";
+}
+
+function wikipedia(lookup){
+    var options = {
+        host :  'en.wikipedia.org/',
+        path : '/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles='
+            + querystring.stringify(lookup),
+        method : 'GET'
+    };
+
+    //making the https get call
+    var getReq = https.request(options, function(res) {
+        console.log("\nstatus code: ", res.statusCode);
+        res.on('data', function(data) {
+            console.log( JSON.parse(data) );
+            postMessage(data.title + "\n\n" + data.extract);
+        });
+    });
+
+    //end the request
+    getReq.end();
+    getReq.on('error', function(err){
+        console.log("Error: ", err);
+    });
 }
 
 exports.respond = respond;
