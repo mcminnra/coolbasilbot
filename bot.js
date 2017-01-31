@@ -209,13 +209,14 @@ function help(){
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
         "/weather {City / Zip} - displays weather\n" +
+        "/define {Keyword} - Gets wikipedia synopsys for keyword\n" +
         "/help - Display this menu";
 }
 
 function wikipedia(lookup){
     var options = {
         host :  'en.wikipedia.org',
-        path : '/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=' + querystring.escape(lookup),
+        path : '/w/api.php?format=json&action=query&prop=extracts&redirect=1&exintro=&explaintext=&titles=' + querystring.escape(lookup),
         method : 'GET'
     };
 
@@ -224,7 +225,13 @@ function wikipedia(lookup){
         console.log("\nstatus code: ", res.statusCode);
         res.on('data', function(data) {
             console.log( JSON.parse(data) );
-            postMessage(data.title + "\n\n" + data.extract);
+            var pages = data.query.pages;
+            for(var page in pages){
+                if(page.title || page.extract){
+                    postMessage(firstPage.title + "\n\n" + firstPage.extract);
+                }
+                postMessage("Unable to find '" + lookup + "' Wikipedia Extract");
+            }
         });
     });
 
