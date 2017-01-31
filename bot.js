@@ -225,12 +225,12 @@ function wikipedia(lookup){
         console.log("\nstatus code: ", res.statusCode);
         res.on('data', function(data) {
             console.log( JSON.parse(data) );
-            var pages = data.query.pages;
-            for(var page in pages){
-                if(page.title || page.extract){
-                    postMessage(firstPage.title + "\n\n" + firstPage.extract);
-                }
-                postMessage("Unable to find '" + lookup + "' Wikipedia Extract");
+            var item_id = Object.keys(data.query.pages)[0];
+            var page = data.query.pages[item_id];
+            if(page.extract){
+                console.log(page.title + "\n\n" + page.extract);
+            } else {
+                console.log("Unable to find '" + lookup + "' Wikipedia Extract");
             }
         });
     });
