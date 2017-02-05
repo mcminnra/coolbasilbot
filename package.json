@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.1.2",
-  "description": "A sample Node.js app using Express 4",
+  "name": "coolbasilbot",
+  "version": "1.0.0",
+  "description": "Personal Node.JS GroupMe Bot for my friend group",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -18,12 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/rmcminn/coolbasilbot"
   },
   "keywords": [
     "node",
-    "heroku",
-    "express"
+    "groupme",
+    "coolbasilbot",
+    "bot
   ],
   "license": "MIT"
 }
