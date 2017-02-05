@@ -3,3 +3,6 @@
 
 # Node
 node_modules/
+
+# Ignore Emacs Temp Files
+*.*~
