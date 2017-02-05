@@ -2,6 +2,8 @@
   "name": "coolbasilbot",
   "version": "1.0.0",
   "description": "Personal Node.JS GroupMe Bot for my friend group",
+  "homepage":"http://coolbasilbot.herokuapp.com/",
+  "author":"http://rydermcminn.com/",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -24,6 +26,6 @@
     "node",
     "groupme",
     "coolbasilbot",
-    "bot
+    "bot"
   ]
 }
