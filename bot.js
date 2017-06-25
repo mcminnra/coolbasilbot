@@ -139,7 +139,7 @@ function respond() {
             }
 
             postMessage(resGif.data.image_url);
-            postMessage("Read: 'Basil' -- Did you mean 'Porn'?");
+            postMessage("Did you mean 'Porn'?");
         });
         this.res.end();
     }
