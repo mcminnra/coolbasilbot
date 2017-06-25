@@ -2,8 +2,8 @@
   "name": "coolbasilbot",
   "version": "1.0.0",
   "description": "Personal Node.JS GroupMe Bot for my friend group",
-  "homepage":"http://coolbasilbot.herokuapp.com/",
-  "author":"http://rydermcminn.com/",
+  "homepage": "http://coolbasilbot.herokuapp.com/",
+  "author": "http://rydermcminn.com/",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -12,11 +12,12 @@
     "cool-ascii-faces": "~1.3.x",
     "director": "",
     "giphy-api": "^1.2.3",
+    "node-gyp": "^3.6.2",
     "querystring": "^0.2.0",
     "weather-js": "^1.0.2"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "8.1.x"
   },
   "repository": {
     "type": "git",

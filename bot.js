@@ -22,6 +22,7 @@ function respond() {
     var botRegexWeather = /^\/weather/i;
     var botRegexWikipedia = /^\/define/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
+    var botRegexBasil = /Basil/i;
 
 
     if(request.text && botRegexCoolGuy.test(request.text)) {
@@ -127,6 +128,19 @@ function respond() {
     else if(request.text && botRegexUrbanDictionary.test(request.text)) {
         this.res.writeHead(200);
         postMessage(urbanDictionary(request.text.substring(11)));
+        this.res.end();
+    }
+    else if(request.text && botRegexBasil.test(request.text)) {
+        this.res.writeHead(200);
+        giphy.random("porn", function(err, resGif) {
+            if(err) {
+                postMessage("Error Retrieving Gif");
+                return;
+            }
+
+            postMessage(resGif.data.image_url);
+            postMessage("Read: 'Basil' -- Did you mean 'Porn'?");
+        });
         this.res.end();
     }
     else {
