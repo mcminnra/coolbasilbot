@@ -147,7 +147,7 @@ function respond() {
     }
     else if(request.text && botRegexHackerNewsTop.test(request.text)) {
         this.res.writeHead(200);
-        hn.author().story().show_hn().top(function (error, data) {
+        hn.author().story().show_hn().since("past_24h").top(function (error, data) {
             if (error) throw error;
             postMessage(data.hits[0].title + "\n\n" + data.hits[0].url);
         });
