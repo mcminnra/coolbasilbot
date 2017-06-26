@@ -153,6 +153,7 @@ function respond() {
 
         hn.author().story().show_hn().top(function (error, data) {
             if (error) throw error;
+            console.log(data.hits[0]);
             title = data.hits[0].title;
             url = data.hits[0].url;
         });
