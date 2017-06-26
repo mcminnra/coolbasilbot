@@ -3,6 +3,7 @@ var cool = require('cool-ascii-faces');
 var giphy = require('giphy-api')();
 var weather = require('weather-js');
 var querystring = require('querystring');
+var hn = require("hacker-news-api")
 
 var botID = process.env.BOT_ID;
 
@@ -23,6 +24,7 @@ function respond() {
     var botRegexWikipedia = /^\/define/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
     var botRegexBasil = /Basil/i;
+    var botRegexHackerNewsTop = /^\/hntop/i;
 
 
     if(request.text && botRegexCoolGuy.test(request.text)) {
@@ -141,6 +143,21 @@ function respond() {
             postMessage(resGif.data.image_url);
             postMessage("Did you mean 'Porn'?");
         });
+        this.res.end();
+    }
+    else if(request.text && botRegexHackerNewsTop.test(request.text)) {
+        this.res.writeHead(200);
+
+        var title = "";
+        var url = "";
+
+        hn.author().story().show_hn().top(function (error, data) {
+            if (error) throw error;
+            title = data.hits[0].title;
+            url = data.hits[0].url;
+        });
+        postMessage(title + "\n\n" + url);
+
         this.res.end();
     }
     else {
