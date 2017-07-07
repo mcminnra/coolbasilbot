@@ -15,6 +15,7 @@
     "hacker-news-api": "^2.0.0",
     "node-gyp": "^3.6.2",
     "querystring": "^0.2.0",
+    "urban": "^0.3.1",
     "weather-js": "^1.0.2"
   },
   "engines": {

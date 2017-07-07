@@ -3,7 +3,8 @@ var cool = require('cool-ascii-faces');
 var giphy = require('giphy-api')();
 var weather = require('weather-js');
 var querystring = require('querystring');
-var hn = require("hacker-news-api")
+var hn = require("hacker-news-api");
+var urban = require('urban');
 
 var botID = process.env.BOT_ID;
 
@@ -21,7 +22,6 @@ function respond() {
     var botRegexOhFuckMe =/^\/ohfuckme/i;
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
-    var botRegexWikipedia = /^\/define/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
     var botRegexBasil = /Basil/i;
     var botRegexHackerNewsTop = /^\/hntop/i;
@@ -122,14 +122,13 @@ function respond() {
         });
         this.res.end();
     }
-    else if(request.text && botRegexWikipedia.test(request.text)) {
-        this.res.writeHead(200);
-        postMessage(wikipedia(request.text.substring(8)));
-        this.res.end();
-    }
     else if(request.text && botRegexUrbanDictionary.test(request.text)) {
         this.res.writeHead(200);
-        postMessage(urbanDictionary(request.text.substring(11)));
+        var query = urban(request.text.substring(11));
+
+        query.first(function(json) {
+            postMessage(json.word +'\n\n' + json.definition + '\n\n' + json.example);
+        });
         this.res.end();
     }
     else if(request.text && botRegexBasil.test(request.text)) {
@@ -239,68 +238,9 @@ function help(){
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
         "/weather {City / Zip} - displays weather\n" +
-        "/define {Keyword} - Gets wikipedia synopsys for keyword\n" +
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
+        "/hntop - gets top Hacker New's story from past 24 hours\n" +
         "/help - Display this menu";
-}
-
-function wikipedia(lookup){
-    var options = {
-        host :  'en.wikipedia.org',
-        path : '/w/api.php?format=json&action=query&prop=extracts&redirect=1&exintro=&explaintext=&titles=' + querystring.escape(lookup),
-        method : 'GET'
-    };
-
-    //making the https get call
-    var getReq = HTTPS.request(options, function(res) {
-        console.log("\nstatus code: ", res.statusCode);
-        res.on('data', function(data) {
-            console.log( JSON.parse(data) );
-            data = JSON.parse(data);
-            var item_id = Object.keys(data.query.pages)[0];
-            var page = data.query.pages[item_id];
-            if(page.extract){
-                postMessage(page.title + "\n\n" + page.extract);
-            } else {
-                postMessage("Unable to find '" + lookup + "' Wikipedia Extract");
-            }
-        });
-    });
-
-    //end the request
-    getReq.end();
-    getReq.on('error', function(err){
-        console.log("Error: ", err);
-    });
-}
-
-function urbanDictionary(lookup){
-    var options = {
-        host :  'api.urbandictionary.com',
-        path : '/v0/define?term=' + querystring.escape(lookup),
-        method : 'GET'
-    };
-
-    //making the https get call
-    var getReq = HTTPS.request(options, function(res) {
-        console.log("\nstatus code: ", res.statusCode);
-        res.on('data', function(data) {
-            console.log( JSON.parse(data) );
-            data = JSON.parse(data);
-            var udword = data.list[0];
-            if(data.result_type == "exact"){
-                postMessage(udword.word + "\n\nDefinition:\n" + udword.definition + "\n\nUsage:\n" + udword.example);
-            } else {
-                postMessage("Unable to find '" + lookup + "' Urban Dictionary Term");
-            }
-        });
-    });
-
-    //end the request
-    getReq.end();
-    getReq.on('error', function(err){
-        console.log("Error: ", err);
-    });
 }
 
 exports.respond = respond;
