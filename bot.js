@@ -34,53 +34,54 @@ function respond() {
     var botRegexAustin = /Austin|Combs/i;
     var botRegexChel = /Chel/i;
 
-    
-    if(request.text && botRegexFuckOff.test(request.text)) {
-        this.res.writeHead(200);
-        postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
-        this.res.end();
-    }
     // Name Metions
     //Ryder
-    else if(request.text && botRegexRyder.test(request.text)) {
+    if(request.text && botRegexRyder.test(request.text)) {
         this.res.writeHead(200);
         autoMention('17738651', 'RM');
         this.res.end();
     }
     //Mason
-    else if(request.text && botRegexMason.test(request.text)) {
+    if(request.text && botRegexMason.test(request.text)) {
         this.res.writeHead(200);
         autoMention('10896812', 'MJ');
         this.res.end();
     }
     //Royce
-    else if(request.text && botRegexRoyce.test(request.text)) {
+    if(request.text && botRegexRoyce.test(request.text)) {
         this.res.writeHead(200);
         autoMention('19585794', 'RF');
         this.res.end();
     }
     //Austin
-    else if(request.text && botRegexAustin.test(request.text)) {
+    if(request.text && botRegexAustin.test(request.text)) {
         this.res.writeHead(200);
         autoMention('20932518', 'AC');
         this.res.end();
     }
     //Thomas
-    else if(request.text && botRegexThomas.test(request.text)) {
+    if(request.text && botRegexThomas.test(request.text)) {
         this.res.writeHead(200);
         autoMention('17079486', 'TK');
         this.res.end();
     }
     //Mitch
-    else if(request.text && botRegexMitch.test(request.text)) {
+    if(request.text && botRegexMitch.test(request.text)) {
         this.res.writeHead(200);
         autoMention('9493451', 'MM');
         this.res.end();
     }
     //Miguel
-    else if(request.text && botRegexMiguel.test(request.text)) {
+    if(request.text && botRegexMiguel.test(request.text)) {
         this.res.writeHead(200);
         autoMention('30310364', 'MT');
+        this.res.end();
+    }
+
+    // Commands
+    if(request.text && botRegexFuckOff.test(request.text)) {
+        this.res.writeHead(200);
+        postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         this.res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) {
