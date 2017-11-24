@@ -150,7 +150,7 @@ function autoMention(user, origin) {
         "bot_id" : botID,
         "attachments" : [
 	    {
-		"loci" : [[0, length(origin) + 1]],
+		"loci" : [[0, origin.length + 1]],
 	    "type" : "mentions",
 	    "user_ids" : [user]
 	    }
