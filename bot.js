@@ -25,13 +25,20 @@ function respond() {
     var botRegexHackerNewsTop = /^\/hntop/i;
 
     /* Keyword */
-    var botRegexBasil = /Basil/i;
+    var botRegexRyder = /Ryder/i;
     var botRegexChel = /Chel/i;
 
     
     if(request.text && botRegexFuckOff.test(request.text)) {
         this.res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
+        this.res.end();
+    }
+    // Name Metions
+    //Ryder
+    else if(request.text && botRegexRyder.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention(17738651) // Ryder's user_id
         this.res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) {
@@ -128,6 +135,41 @@ function respond() {
         this.res.writeHead(200);
         this.res.end();
     }
+}
+
+function autoMention(user) {
+    var botResponse, options, body, botReq;
+
+    options = {
+        hostname: 'api.groupme.com',
+        path: '/v3/bots/post',
+        method: 'POST'
+    };
+
+    attachments = '[{"loci":[[0,12]],"type":"mentions","user_ids":["' + user + '"]}}'
+    
+    body = {
+        "bot_id" : botID,
+        "attachments" : attachments
+    };
+
+    console.log('mentioning ' + user + ' to ' + botID);
+
+    botReq = HTTPS.request(options, function(res) {
+        if(res.statusCode == 202) {
+            //neat
+        } else {
+            console.log('rejecting bad status code ' + res.statusCode);
+        }
+    });
+
+    botReq.on('error', function(err) {
+        console.log('error posting message '  + JSON.stringify(err));
+    });
+    botReq.on('timeout', function(err) {
+        console.log('timeout posting message '  + JSON.stringify(err));
+    });
+    botReq.end(JSON.stringify(body));
 }
 
 function postMessage(message) {
