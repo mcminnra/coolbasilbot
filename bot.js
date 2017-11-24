@@ -146,7 +146,7 @@ function autoMention(user) {
         method: 'POST'
     };
 
-    attachments = '{"loci":[[0,12]],"type":"mentions","user_ids":["' + user + '"]}';
+    attachments = '[{"loci":[[0,12]],"type":"mentions","user_ids":["' + user + '"]}]';
     
     body = {
         "bot_id" : botID,
