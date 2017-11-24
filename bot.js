@@ -38,7 +38,7 @@ function respond() {
     //Ryder
     else if(request.text && botRegexRyder.test(request.text)) {
         this.res.writeHead(200);
-        autoMention(17738651) // Ryder's user_id
+        autoMention('17738651') // Ryder's user_id
         this.res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) {
@@ -155,6 +155,7 @@ function autoMention(user) {
     };
 
     console.log('mentioning ' + user + ' to ' + botID);
+    console.log(body);
 
     botReq = HTTPS.request(options, function(res) {
         if(res.statusCode == 202) {
