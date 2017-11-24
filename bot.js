@@ -150,12 +150,12 @@ function autoMention(user) {
         "bot_id" : botID,
         "attachments" : [
 	    {
-	    "loci" : [[0,12]],
+	    "loci" : [[0, user.length + 1]],
 	    "type" : "mentions",
 	    "user_ids" : [user]
 	    }
 	],
-	"text" : " "
+	"text" : "@" + user
     };
 
     console.log('mentioning ' + user + ' to ' + botID);
