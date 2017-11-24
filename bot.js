@@ -25,7 +25,13 @@ function respond() {
     var botRegexHackerNewsTop = /^\/hntop/i;
 
     /* Keyword */
-    var botRegexRyder = /Ryder/i;
+    var botRegexRyder = /Ryder|McMinn/i;
+    var botRegexRoyce = /Royce|Roy|Funk/i;
+    var botRegexThomas = /Thomas|Kreuzman/i;
+    var botRegexThomas = /Mitch|Molchin/i;
+    var botRegexMason = /Mason|Johnson/i;
+    var botRegexMiguel = /Miguel|Thompson/i;
+    var botRegexAustin = /Austin|Combs/i;
     var botRegexChel = /Chel/i;
 
     
@@ -38,7 +44,43 @@ function respond() {
     //Ryder
     else if(request.text && botRegexRyder.test(request.text)) {
         this.res.writeHead(200);
-        autoMention('17738651', 'Ryry');
+        autoMention('17738651', 'RM');
+        this.res.end();
+    }
+    //Mason
+    else if(request.text && botRegexMason.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention('10896812', 'MJ');
+        this.res.end();
+    }
+    //Royce
+    else if(request.text && botRegexRoyce.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention('19585794', 'RF');
+        this.res.end();
+    }
+    //Austin
+    else if(request.text && botRegexAustin.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention('20932518', 'AC');
+        this.res.end();
+    }
+    //Thomas
+    else if(request.text && botRegexThomas.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention('17079486', 'TK');
+        this.res.end();
+    }
+    //Mitch
+    else if(request.text && botRegexMitch.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention('9493451', 'MM');
+        this.res.end();
+    }
+    //Miguel
+    else if(request.text && botRegexMiguel.test(request.text)) {
+        this.res.writeHead(200);
+        autoMention('30310364', 'MT');
         this.res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) {
