@@ -11,10 +11,9 @@ var botID = process.env.BOT_ID;
 function respond() {
     var request = JSON.parse(this.req.chunks[0]);
 
-    postMessage(request);
+    postMessage(request.stringify());
 
     /* Regex Commands */
-    var botRegexCoolGuy = /^\/cool guy$/;
     var botRegexFuckOff = /^\/fuckoff/i;
     var botRegexEightBall = /^\/8ball/i;
     var botRegexHelp = /^\/help/i;
@@ -28,28 +27,9 @@ function respond() {
     /* Keyword */
     var botRegexBasil = /Basil/i;
     var botRegexChel = /Chel/i;
-    var botRegexDonald = /Donald|Trump/i;
 
     
-    if(request.text && botRegexCoolGuy.test(request.text)) {
-        this.res.writeHead(200);
-        postMessage(cool());
-        this.res.end();
-    }
-    else if(request.text && botRegexDonald.test(request.text)) {
-        this.res.writeHead(200);
-        giphy.random("Donald Trump", function(err, resGif) {
-            if(err) {
-                postMessage("Error Retrieving Gif");
-                return;
-            }
-
-            postMessage(resGif.data.image_url);
-            postMessage("|___|___|___|___|___|___|___|\n     BUILD THAT WALL!!!\n|___|___|___|___|___|___|___|");
-        });
-        this.res.end();
-    }
-    else if(request.text && botRegexFuckOff.test(request.text)) {
+    if(request.text && botRegexFuckOff.test(request.text)) {
         this.res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         this.res.end();
@@ -132,19 +112,6 @@ function respond() {
 
         query.first(function(json) {
             postMessage(json.word +'\n\n' + json.definition + '\n\n' + json.example);
-        });
-        this.res.end();
-    }
-    else if(request.text && botRegexBasil.test(request.text)) {
-        this.res.writeHead(200);
-        giphy.random("porn", function(err, resGif) {
-            if(err) {
-                postMessage("Error Retrieving Gif");
-                return;
-            }
-
-            postMessage(resGif.data.image_url);
-            postMessage("Did you mean 'Porn'?");
         });
         this.res.end();
     }
