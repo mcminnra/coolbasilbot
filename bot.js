@@ -11,11 +11,11 @@ var botID = process.env.BOT_ID;
 function respond() {
     var request = JSON.parse(this.req.chunks[0]);
 
+    postMessage(request);
+
     /* Regex Commands */
     var botRegexCoolGuy = /^\/cool guy$/;
-    var botRegexDonald = /Donald|Trump/i;
     var botRegexFuckOff = /^\/fuckoff/i;
-    var botRegexChel = /Chel/i;
     var botRegexEightBall = /^\/8ball/i;
     var botRegexHelp = /^\/help/i;
     var botRegexCoin = /^\/coin/i;
@@ -23,10 +23,14 @@ function respond() {
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
-    var botRegexBasil = /Basil/i;
     var botRegexHackerNewsTop = /^\/hntop/i;
 
+    /* Keyword */
+    var botRegexBasil = /Basil/i;
+    var botRegexChel = /Chel/i;
+    var botRegexDonald = /Donald|Trump/i;
 
+    
     if(request.text && botRegexCoolGuy.test(request.text)) {
         this.res.writeHead(200);
         postMessage(cool());
