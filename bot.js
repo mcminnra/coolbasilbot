@@ -28,7 +28,7 @@ function respond() {
     var botRegexRyder = /Ryder|McMinn/i;
     var botRegexRoyce = /Royce|Roy|Funk/i;
     var botRegexThomas = /Thomas|Kreuzman/i;
-    var botRegexThomas = /Mitch|Molchin/i;
+    var botRegexMitch = /Mitch|Molchin/i;
     var botRegexMason = /Mason|Johnson/i;
     var botRegexMiguel = /Miguel|Thompson/i;
     var botRegexAustin = /Austin|Combs/i;
