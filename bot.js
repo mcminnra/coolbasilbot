@@ -38,7 +38,7 @@ function respond() {
     //Ryder
     else if(request.text && botRegexRyder.test(request.text)) {
         this.res.writeHead(200);
-        autoMention('17738651') // Ryder's user_id
+        autoMention('17738651', 'Ryder');
         this.res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) {
@@ -137,7 +137,7 @@ function respond() {
     }
 }
 
-function autoMention(user) {
+function autoMention(user, origin) {
     var botResponse, options, body, botReq;
 
     options = {
@@ -150,12 +150,12 @@ function autoMention(user) {
         "bot_id" : botID,
         "attachments" : [
 	    {
-	    "loci" : [[0, user.length + 1]],
+		"loci" : [[0, length(origin) + 1]],
 	    "type" : "mentions",
 	    "user_ids" : [user]
 	    }
 	],
-	"text" : "@" + user
+	"text" : "@" + origin
     };
 
     console.log('mentioning ' + user + ' to ' + botID);
