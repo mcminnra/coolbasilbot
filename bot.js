@@ -151,7 +151,7 @@ function autoMention(user) {
     body = {
         "bot_id" : botID,
         "attachments" : attachments,
-	"text" = " "
+	"text" : " "
     };
 
     console.log('mentioning ' + user + ' to ' + botID);
