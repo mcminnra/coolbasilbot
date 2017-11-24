@@ -38,7 +38,7 @@ function respond() {
     //Ryder
     else if(request.text && botRegexRyder.test(request.text)) {
         this.res.writeHead(200);
-        autoMention('17738651', 'Ryder');
+        autoMention('17738651', 'Ryry');
         this.res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) {
