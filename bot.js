@@ -90,7 +90,8 @@ function respond() {
     else if(request.text && botRegexBeer.test(request.text)) { // Beer
         this.res.writeHead(200);
         rb.beerSearch(request.text.substring(6), function(beers) {
-            postMessage(beers);
+            console.log(beers)
+            //postMessage(beers);
         });
         this.res.end();
     }
