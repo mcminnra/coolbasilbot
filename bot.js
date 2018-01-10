@@ -91,13 +91,18 @@ function respond() {
         this.res.writeHead(200);
         ba.beerSearch(request.text.substring(6), function(beers) {
             beers = JSON.parse(beers);
-            console.log(beers[0]);
-            console.log(beers[0].beer_url);
             beer_url = beers[0].beer_url;
 
             ba.beerPage(beer_url, function(beer) {
-                //postMessage(beer)
-                console.log(beer);
+                beer = JSON.parse(beer);
+
+                postMessage(
+                    'Beer Name: ' + beer.beer_name + 
+                    'Beer Style: ' + beer.beer_style + 
+                    'Beer Abv: ' + beer.beer_abv + 
+                    'Brewery: ' + beer.brewery_name +
+                    'Rating: ' + beer.ba_score + '/5'
+                );
             });
         });
         this.res.end();
