@@ -89,6 +89,7 @@ function respond() {
     }
     else if(request.text && botRegexBeer.test(request.text)) { // Beer
         this.res.writeHead(200);
+        console.log('made it to beer subroutine');
         rb.beerSearch(request.text.substring(6), function(beers) {
             console.log(beers)
             //postMessage(beers);
