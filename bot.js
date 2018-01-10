@@ -98,7 +98,6 @@ function respond() {
 
                 console.log(beer);
                 message = 'Beer Name: ' + beer.beer_name + '\n' + 'Brewery: ' + beer.brewery_name + '\n' + 'Rating: ' + beer.ba_score + '/5';
-                console.log(message);
                 postMessage(message);
             });
         });
