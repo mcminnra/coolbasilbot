@@ -94,7 +94,7 @@ function respond() {
             beer_url = beers[0].beer_url;
 
             ba.beerPage(beer_url, function(beer) {
-                beer = JSON.parse(beer);
+                beer = JSON.parse(beer)[0];
 
                 console.log(beer);
                 // postMessage(
