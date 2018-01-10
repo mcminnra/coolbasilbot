@@ -5,7 +5,7 @@ var weather = require('weather-js');
 var querystring = require('querystring');
 var hn = require("hacker-news-api");
 var urban = require('urban');
-var rb = require('ratebeer-api');
+var ba = require('beeradvocate-api');
 
 
 var botID = process.env.BOT_ID;
@@ -89,10 +89,13 @@ function respond() {
     }
     else if(request.text && botRegexBeer.test(request.text)) { // Beer
         this.res.writeHead(200);
-        console.log('made it to beer subroutine');
-        rb.beerSearch(request.text.substring(6), function(beers) {
-            console.log(beers)
-            //postMessage(beers);
+        ba.beerSearch(request.text.substring(6), function(beers) {
+            beer_url = beers[0].beer_url;
+
+            ba.beerPage(beer_url, function(beer) {
+                //postMessage(beer)
+                console.log(beer);
+            });
         });
         this.res.end();
     }
