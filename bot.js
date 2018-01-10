@@ -90,6 +90,7 @@ function respond() {
     else if(request.text && botRegexBeer.test(request.text)) { // Beer
         this.res.writeHead(200);
         ba.beerSearch(request.text.substring(6), function(beers) {
+            console.log(beers);
             beer_url = beers[0].beer_url;
 
             ba.beerPage(beer_url, function(beer) {
