@@ -5,7 +5,7 @@ var weather = require('weather-js');
 var querystring = require('querystring');
 var hn = require("hacker-news-api");
 var urban = require('urban');
-var rb = require('ratebeer-api')
+var rb = require('ratebeer-api');
 
 
 var botID = process.env.BOT_ID;
