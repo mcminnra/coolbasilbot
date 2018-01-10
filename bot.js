@@ -5,6 +5,8 @@ var weather = require('weather-js');
 var querystring = require('querystring');
 var hn = require("hacker-news-api");
 var urban = require('urban');
+var rb = require('ratebeer-api')
+
 
 var botID = process.env.BOT_ID;
 
@@ -21,13 +23,14 @@ function respond() {
     var botRegexOhFuckMe =/^\/ohfuckme/i;
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
+    var botRegexBeer = /^\/beer/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
     var botRegexHackerNewsTop = /^\/hntop/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
     var botRegexRoyce = /Royce|Roy|Funk/i;
-    var botRegexThomas = /Thomas|Kreuzman/i;
+    var botRegexThomas = /Thomas|Kreuzman|Tommy/i;
     var botRegexMitch = /Mitch|Molchin/i;
     var botRegexMason = /Mason|Johnson/i;
     var botRegexMiguel = /Miguel|Thompson/i;
@@ -84,14 +87,21 @@ function respond() {
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         this.res.end();
     }
-    else if(request.text && botRegexChel.test(request.text)) {
+    else if(request.text && botRegexBeer.test(request.text)) { // Beer
+        this.res.writeHead(200);
+        rb.beerSearch(request.text.substring(6), function(beers) {
+            postMessage(beers);
+        });
+        this.res.end();
+    }
+    else if(request.text && botRegexChel.test(request.text)) { // Chel
         this.res.writeHead(200);
         giphy.random('nhl', function(err, resGif) {
             postMessage(resGif.data.image_url);
         });
         this.res.end();
     }
-    else if(request.text && botRegexEightBall.test(request.text)) {
+    else if(request.text && botRegexEightBall.test(request.text)) { // EEight Ball
         this.res.writeHead(200);
         postMessage(eightBall());
         this.res.end();
@@ -296,6 +306,7 @@ function help(){
         "Commands:\n" +
         "/fuckoff {Person} - Tell that person to fuck off\n" +
         "/8ball {Question} - Ask an 8ball question\n" +
+        "/beer {beer} - Gets beer info and rating\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
