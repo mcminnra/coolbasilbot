@@ -97,13 +97,13 @@ function respond() {
                 beer = JSON.parse(beer)[0];
 
                 console.log(beer);
-                // postMessage(
-                //     'Beer Name: ' + beer.beer_name + '\n' +
-                //     'Beer Style: ' + beer.beer_style + '\n' +
-                //     'Beer Abv: ' + beer.beer_abv + '\n' +
-                //     'Brewery: ' + beer.brewery_name + '\n' +
-                //     'Rating: ' + beer.ba_score + '/5'
-                // );
+                postMessage(
+                    'Beer Name: ' + beer.beer_name + '\n' +
+                    'Beer Style: ' + beer.beer_style + '\n' +
+                    'Beer Abv: ' + beer.beer_abv + '\n' +
+                    'Brewery: ' + beer.brewery_name + '\n' +
+                    'Rating: ' + beer.ba_score + '/5'
+                );
             });
         });
         this.res.end();
