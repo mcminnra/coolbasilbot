@@ -26,6 +26,7 @@ function respond() {
     var botRegexBeer = /^\/beer/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
     var botRegexHackerNewsTop = /^\/hntop/i;
+    var botRegexOddsAre = /^\/odds/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -192,6 +193,12 @@ function respond() {
         });
         this.res.end();
     }
+    else if(request.text && botRegexOddsAre.test(request.text)) {
+        this.res.writeHead(200);
+        req_split = request.text.split(" ");
+	posMessage(oddsAre(req_split[1], req_split[2]));
+        this.res.end();
+    }
     else {
         console.log("No Command");
         this.res.writeHead(200);
@@ -323,6 +330,22 @@ function help(){
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
         "/hntop - gets top Hacker New's story from past 24 hours\n" +
         "/help - Display this menu";
+}
+
+function oddsAre(odds, guess){
+    basil_guess = Math.floor(Math.random() * odds) + 1;
+
+    if(basil_guess == guess){
+	return "Odds: 1 to " + odds + "\n" +
+	    "Your Guess: " + guess + "\n" +
+	    "Basil's Guess: " + basil_guess + "\n\n" +
+	    "Same Number. Gotta do it, Sucka.";
+    } else {
+	return "Odds: 1 to " + odds + "\n" +
+	    "Your Guess: " + guess + "\n" +
+	    "Basil's Guess: " + basil_guess + "\n\n" +
+	    "Missed. Got off easy, punk.";
+    }
 }
 
 exports.respond = respond;
