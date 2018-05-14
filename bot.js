@@ -335,6 +335,8 @@ function help(){
 function oddsAre(odds, guess){
     basil_guess = Math.floor(Math.random() * odds) + 1;
 
+    console.log("Guess: " + guess + ", Odds: " + odds); 
+    
     // Bad Guess
     if(guess > odds){
 	return "Your guess can't be higher than the odds";
