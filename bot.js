@@ -322,6 +322,7 @@ function help(){
         "Commands:\n" +
         "/fuckoff {Person} - Tell that person to fuck off\n" +
         "/8ball {Question} - Ask an 8ball question\n" +
+	"/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
         "/beer {beer} - Gets beer info and rating\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
