@@ -336,23 +336,27 @@ function oddsAre(odds, guess){
     basil_guess = Math.floor(Math.random() * odds) + 1;
 
     console.log("Guess: " + guess + ", Odds: " + odds); 
+
+    var msg = "";
     
     // Bad Guess
     if(guess > odds){
-	return "Your guess can't be higher than the odds";
+	msg = "Your guess can't be higher than the odds";
     }
 
     if(basil_guess == guess){
-	return "Odds: 1 to " + odds + "\n" +
+	msg = "Odds: 1 to " + odds + "\n" +
 	    "Your Guess: " + guess + "\n" +
 	    "Basil's Guess: " + basil_guess + "\n\n" +
 	    "Same Number. Gotta do it, Sucka.";
     } else {
-	return "Odds: 1 to " + odds + "\n" +
+	msg = "Odds: 1 to " + odds + "\n" +
 	    "Your Guess: " + guess + "\n" +
 	    "Basil's Guess: " + basil_guess + "\n\n" +
 	    "Missed. Got off easy, punk.";
     }
+
+    return msg;
 }
 
 exports.respond = respond;
