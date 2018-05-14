@@ -196,7 +196,7 @@ function respond() {
     else if(request.text && botRegexOddsAre.test(request.text)) {
         this.res.writeHead(200);
         req_split = request.text.split(" ");
-	posMessage(oddsAre(req_split[1], req_split[2]));
+	postMessage(oddsAre(req_split[1], req_split[2]));
         this.res.end();
     }
     else {
@@ -334,6 +334,11 @@ function help(){
 
 function oddsAre(odds, guess){
     basil_guess = Math.floor(Math.random() * odds) + 1;
+
+    // Bad Guess
+    if(guess > odds){
+	return "Your guess can't be higher than the odds";
+    }
 
     if(basil_guess == guess){
 	return "Odds: 1 to " + odds + "\n" +
