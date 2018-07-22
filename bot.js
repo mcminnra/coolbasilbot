@@ -29,11 +29,11 @@ function respond() {
     var botRegexOddsAre = /^\/odds/i;
 
     /* Keyword */
-    var botRegexRyder = /Ryder|McMinn/i;
+    var botRegexRyder = /Ryder|McMinn|Ry/i;
     var botRegexRoyce = /Royce|Roy|Funk/i;
-    var botRegexThomas = /Thomas|Kreuzman|Tommy/i;
+    var botRegexThomas = /Thomas|Kreuzman|Tommy|Tom/i;
     var botRegexMitch = /Mitch|Molchin/i;
-    var botRegexMason = /Mason|Johnson/i;
+    var botRegexMason = /Mason|Johnson|MJ/i;
     var botRegexMiguel = /Miguel|Thompson/i;
     var botRegexAustin = /Austin|Combs/i;
     var botRegexChel = /Chel/i;
