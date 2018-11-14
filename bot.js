@@ -1,4 +1,5 @@
 var HTTPS = require('https');
+var request = require('request');
 var cool = require('cool-ascii-faces');
 var giphy = require('giphy-api')();
 var weather = require('weather-js');
@@ -166,13 +167,13 @@ async function respond(req, res, db) {
         return;
     }
     else if(request.text && botRegexHelp.test(request.text)) {
-        postMessage(help());
+        postMessageTest(help());
         return;
     }
     else if(request.text && botRegexCoin.test(request.text)) {
         res.writeHead(200);
         postMessage(coin());
-        res.end();
+        
         return;
     }
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
@@ -367,6 +368,28 @@ function postMessage(message) {
         console.log('timeout posting message '  + JSON.stringify(err));
     });
     botReq.end(JSON.stringify(body));
+}
+
+function postMessageTest(message){
+
+    body = {
+        "bot_id" : botID,
+        "text" : message
+    };
+
+    options = {
+        uri: 'api.groupme.com/v3/bots/post',
+        method: 'POST',
+        body: body,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    request(options, function (error, response) {
+        console.log(error,response.body);
+        return;
+    });
 }
 
 function eightBall() {

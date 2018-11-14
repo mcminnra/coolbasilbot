@@ -20,6 +20,7 @@
     "mongodb": "^3.1.9",
     "node-gyp": "^3.8.0",
     "querystring": "^0.2.0",
+    "request": "^2.88.0",
     "urban": "^0.3.2",
     "weather-js": "^1.0.2"
   },
