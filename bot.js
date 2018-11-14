@@ -263,9 +263,6 @@ async function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        res.writeHead(200);
-        
-
         function getUser() {
             var user_item;
           
@@ -294,6 +291,7 @@ async function respond(req, res, db) {
         var user = await getUser();
         var group = await getGroup();
 
+        res.writeHead(200);
         postMessage(stats(user, group));
         res.end();
         return;
