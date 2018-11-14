@@ -267,7 +267,7 @@ function respond(req, res, db) {
 
         let user;
         let group;
-        
+
         // Find User
         db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
             if (err) {
@@ -276,6 +276,7 @@ function respond(req, res, db) {
                 res.end();
             }
     
+            console.log(item)
             user = item;
         });
         // Find Group
@@ -285,7 +286,8 @@ function respond(req, res, db) {
                 res.writeHead(200);
                 res.end();
             }
-    
+            
+            console.log(item)
             group = item
         });
 
