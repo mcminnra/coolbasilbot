@@ -32,11 +32,11 @@ function respond(req, res, db) {
     }
    
     // Find User
-    db.collection('people').find({'groupme_user_id': request.user_id}).toArray(function(err, items) {
+    db.collection('people').findOne({'groupme_user_id': request.user_id}).toArray(function(err, item) {
         if (err) return console.log('Error retriving people')
 
-        console.log(items)
-        postMessage(JSON.stringify(items))
+        console.log(item)
+        postMessage(JSON.stringify(item))
     });
 
     /* Regex Commands */
