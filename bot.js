@@ -263,8 +263,8 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        var user = getUser(request.user_id);
-        var group = getGroup();
+        var user = getUser(request.user_id, db);
+        var group = getGroup(db);
 
         res.writeHead(200);
         postMessage(stats(user, group));
@@ -278,7 +278,7 @@ function respond(req, res, db) {
     }
 }
 
-async function getUser(user_id) {
+async function getUser(user_id, db) {
     var user_item;
     try {
         user_item = await db.collection('people').findOne({'groupme_user_id': user_id});
@@ -289,7 +289,7 @@ async function getUser(user_id) {
     return user_item
 }
 
-async function getGroup() {
+async function getGroup(db) {
     var group_item;
     try {
         group_item = await db.collection('people').findOne({'name': 'Group'})
