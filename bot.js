@@ -263,6 +263,8 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
+        res.writeHead(200);
+
         // Find User
         db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, user_item) {
             if (err) {
@@ -270,7 +272,6 @@ function respond(req, res, db) {
                 res.writeHead(200);
                 res.end();
             }
-    
             // Find Group
             db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
                 if (err) {
@@ -279,12 +280,11 @@ function respond(req, res, db) {
                     res.end();
                 }
                 
-                res.writeHead(200);
                 postMessage(stats(user_item, group_item));
-                res.end();
             });
         });
         
+        res.end();
         return;
     }
     else {
