@@ -7,6 +7,17 @@ var hn = require("hacker-news-api");
 var urban = require('urban');
 var ba = require('beeradvocate-api');
 
+/* Mongo DB
+var MongoClient = require('mongodb').MongoClient;
+
+// Connect to the db
+MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
+  if(!err) {
+    console.log("Connected to MongoDB");
+  }
+});
+*/
+
 
 var botID = process.env.BOT_ID;
 
