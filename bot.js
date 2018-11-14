@@ -263,8 +263,6 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        res.writeHead(200);
-
         let user;
         let group;
 
@@ -284,10 +282,12 @@ function respond(req, res, db) {
                     res.end();
                 }
                 
+                res.writeHead(200);
                 postMessage(stats(user_item, group_item));
+                res.end();
             });
         });
-        res.end();
+        
         return;
     }
     else {
@@ -455,9 +455,9 @@ function oddsAre(odds, guess){
 function stats(user, group){
     total = Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2)
     msg = user.name + "'s GroupMe Stats" + "\n" +
-          "Groupme Message Percentage: " + total + "%"
+          "Groupme Message Percentage: " + String(total) + "%"
 
-    return msg      
+    return msg;   
 }
 
 exports.respond = respond;
