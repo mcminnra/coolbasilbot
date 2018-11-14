@@ -453,10 +453,7 @@ function oddsAre(odds, guess){
 }
 
 function stats(user, group){
-    console.log(user);
-    console.log(group);
-    total = (user.message_total / group.message_total * 100).toFixed(2)
-    Math.floor(num * 100) / 100
+    total = Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2)
     msg = user.name + "'s GroupMe Stats" + "\n" +
           "Groupme Message Percentage: " + total + "%"
 
