@@ -254,6 +254,7 @@ async function respond(req, res, db) {
 
         var user = await getUser(request.user_id, db);
         var group = await getGroup(db);
+        res.end();
 
         res.writeHead(200);
         postMessage(stats(user, group));
