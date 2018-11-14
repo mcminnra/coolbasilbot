@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "beeradvocate-api": "0.0.1",
+    "body-parser": "^1.18.3",
     "cool-ascii-faces": "~1.3.x",
     "director": "",
     "eslint": "^4.19.1",
+    "express": "^4.16.4",
     "giphy-api": "^1.2.8",
     "hacker-news-api": "^2.0.0",
     "mongodb": "^3.1.9",
