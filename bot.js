@@ -357,6 +357,7 @@ function postMessage(message) {
             //neat
         } else {
             console.log('rejecting bad status code ' + res.statusCode);
+            console.log(res)
         }
     });
 
@@ -450,7 +451,7 @@ function oddsAre(odds, guess){
 
 function stats(user, group){
     total = Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2)
-    msg = String(user.name) + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + String(total) + "%";
+    msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
 
     return msg;   
 }
