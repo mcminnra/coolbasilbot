@@ -269,32 +269,24 @@ function respond(req, res, db) {
         let group;
 
         // Find User
-        db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
+        db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, user_item) {
             if (err) {
                 console.log('Error retriving people')
                 res.writeHead(200);
                 res.end();
             }
     
-            console.log(item)
-            user = item;
+            // Find Group
+            db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
+                if (err) {
+                    console.log('Error retriving people')
+                    res.writeHead(200);
+                    res.end();
+                }
+                
+                postMessage(stats(user_item, group_item));
+            });
         });
-        // Find Group
-        db.collection('people').findOne({'name': 'Group'}, function(err, item) {
-            if (err) {
-                console.log('Error retriving people')
-                res.writeHead(200);
-                res.end();
-            }
-            
-            console.log(item)
-            group = item
-        });
-
-        console.log(user);
-        console.log(group);
-
-        postMessage(stats(user, group));
         res.end();
         return;
     }
