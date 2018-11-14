@@ -252,7 +252,7 @@ async function respond(req, res, db) {
     }
     else if(request.text && botRegexStats.test(request.text)) {
 
-        var user = await getUser(user_id, db);
+        var user = await getUser(request.user_id, db);
         var group = await getGroup(db);
 
         res.writeHead(200);
