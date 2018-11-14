@@ -7,21 +7,9 @@ var hn = require("hacker-news-api");
 var urban = require('urban');
 var ba = require('beeradvocate-api');
 
-/* Mongo DB
-var MongoClient = require('mongodb').MongoClient;
-
-// Connect to the db
-MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
-  if(!err) {
-    console.log("Connected to MongoDB");
-  }
-});
-*/
-
-
 var botID = process.env.BOT_ID;
 
-function respond(req, res, db) {
+async function respond(req, res, db) {
     let request = req.body
 
     /* Skip BasilBot Message */
@@ -263,8 +251,9 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        var user = getUser(request.user_id, db);
-        var group = getGroup(db);
+
+        var user = await getUser(user_id, db);
+        var group = await getGroup(db);
 
         res.writeHead(200);
         postMessage(stats(user, group));
@@ -278,26 +267,28 @@ function respond(req, res, db) {
     }
 }
 
-async function getUser(user_id, db) {
+function getUser(user_id, db) {
     var user_item;
-    try {
-        user_item = await db.collection('people').findOne({'groupme_user_id': user_id});
-    } catch(err) {
-        throw err
-    }
+    
+    return new Promise(function(resolve, reject) {
+        db.collection('people').findOne({'groupme_user_id': user_id}, function(err, user_item) {
+            if (err) throw err
 
-    return user_item
+            resolve(user_item)
+        });
+    });
 }
 
-async function getGroup(db) {
+function getGroup(db) {
     var group_item;
-    try {
-        group_item = await db.collection('people').findOne({'name': 'Group'})
-    } catch (err) {
-        throw err
-    }
 
-    return group_item
+    return new Promise(function(resolve, reject) {
+        db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
+            if (err) throw err
+
+            resolve(group_item)
+        });
+    });
 }
 
 function autoMention(user, origin) {
