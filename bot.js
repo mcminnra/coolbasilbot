@@ -21,11 +21,13 @@ MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
 
 var botID = process.env.BOT_ID;
 
-function respond(req, res) {
+function respond(req, res, db) {
 
     let request = req.body
 
     console.log('Message => "' + request.text + ' - ' + request.name + '"')
+
+    console.log(db.people.find())
 
     /* Regex Commands */
     var botRegexFuckOff = /^\/fuckoff/i;

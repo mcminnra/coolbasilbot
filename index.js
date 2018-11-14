@@ -16,7 +16,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/', (req, res) => {
-  bot.respond(req, res)
+  bot.respond(req, res, db)
 });
 
 app.get('/', (req, res) => {
