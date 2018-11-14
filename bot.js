@@ -278,7 +278,7 @@ function respond(req, res, db) {
             user = item;
         });
         // Find Group
-        db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
+        db.collection('people').findOne({'name': 'Group'}, function(err, item) {
             if (err) {
                 console.log('Error retriving people')
                 res.writeHead(200);
@@ -413,6 +413,7 @@ function coin() {
 function help(){
     return "Help Menu\n\n" +
         "Commands:\n" +
+        "/stats - See your groupme stats\n" +
         "/fuckoff {Person} - Tell that person to fuck off\n" +
         "/8ball {Question} - Ask an 8ball question\n" +
 	"/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
@@ -454,6 +455,8 @@ function oddsAre(odds, guess){
 }
 
 function stats(user, group){
+    console.log(user);
+    console.log(group)
     total = (user.message_total / group.message_total * 100).toFixed(2)
     Math.floor(num * 100) / 100
     msg = user.name + "'s GroupMe Stats" + "\n" +
