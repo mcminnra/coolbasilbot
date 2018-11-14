@@ -29,6 +29,7 @@ function respond(req, res, db) {
         console.log('BasilBot message -- Skipping...')
         res.writeHead(200);
         res.end();
+        return;
     } else {
         console.log('Message => "' + request.text + ' - ' + request.name + '"')
     }
@@ -39,6 +40,7 @@ function respond(req, res, db) {
             console.log('Error incrementing group')
             res.writeHead(200);
             res.end();
+            return;
         }
     });
     db.collection("people").updateOne({'groupme_user_id': request.user_id}, {$inc: { "message_total": 1 }}, function(err, res) {
@@ -46,6 +48,7 @@ function respond(req, res, db) {
             console.log('Error incrementing person')
             res.writeHead(200);
             res.end();
+            return;
         }
     });
 
