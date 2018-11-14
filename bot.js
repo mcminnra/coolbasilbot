@@ -21,7 +21,7 @@ MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
 
 var botID = process.env.BOT_ID;
 
-async function respond(req, res, db) {
+function respond(req, res, db) {
     let request = req.body
 
     /* Skip BasilBot Message */
@@ -263,33 +263,8 @@ async function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        function getUser() {
-            var user_item;
-          
-            return new Promise(function(resolve, reject) {
-                db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, user_item) {
-                    if (err) throw err
-
-                    resolve(user_item)
-                });
-            });
-          }
-
-        function getGroup() {
-            var group_item;
-        
-            return new Promise(function(resolve, reject) {
-                db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
-                    if (err) throw err
-
-                    resolve(group_item)
-                });
-            });
-        }
-
-
-        var user = await getUser();
-        var group = await getGroup();
+        var user = getUser(request.user_id);
+        var group = getGroup();
 
         res.writeHead(200);
         postMessage(stats(user, group));
@@ -301,6 +276,28 @@ async function respond(req, res, db) {
         res.writeHead(200);
         res.end();
     }
+}
+
+async function getUser(user_id) {
+    var user_item;
+    try {
+        user_item = await db.collection('people').findOne({'groupme_user_id': user_id});
+    } catch(err) {
+        throw err
+    }
+
+    return user_item
+}
+
+async function getGroup() {
+    var group_item;
+    try {
+        group_item = await db.collection('people').findOne({'name': 'Group'})
+    } catch (err) {
+        throw err
+    }
+
+    return group_item
 }
 
 function autoMention(user, origin) {
