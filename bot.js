@@ -21,9 +21,11 @@ MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
 
 var botID = process.env.BOT_ID;
 
-function respond(request) {
+function respond(req, res) {
 
-    console.log(request.text + ' - ' + request.name)
+    let request = req.body
+
+    console.log('Message => "' + request.text + ' - ' + request.name + '"')
 
     /* Regex Commands */
     var botRegexFuckOff = /^\/fuckoff/i;
@@ -51,55 +53,55 @@ function respond(request) {
     // Name Metions
     //Ryder
     if(request.text && botRegexRyder.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('17738651', 'RM');
-        this.res.end();
+        res.end();
     }
     //Mason
     if(request.text && botRegexMason.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('10896812', 'MJ');
-        this.res.end();
+        res.end();
     }
     //Royce
     if(request.text && botRegexRoyce.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('19585794', 'RF');
-        this.res.end();
+        res.end();
     }
     //Austin
     if(request.text && botRegexAustin.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('20932518', 'AC');
-        this.res.end();
+        res.end();
     }
     //Thomas
     if(request.text && botRegexThomas.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('17079486', 'TK');
-        this.res.end();
+        res.end();
     }
     //Mitch
     if(request.text && botRegexMitch.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('9493451', 'MM');
-        this.res.end();
+        res.end();
     }
     //Miguel
     if(request.text && botRegexMiguel.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         autoMention('30310364', 'MT');
-        this.res.end();
+        res.end();
     }
 
     // Commands
     if(request.text && botRegexFuckOff.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexBeer.test(request.text)) { // Beer
-        this.res.writeHead(200);
+        res.writeHead(200);
         ba.beerSearch(request.text.substring(6), function(beers) {
             beers = JSON.parse(beers);
             beer_url = beers[0].beer_url;
@@ -112,32 +114,32 @@ function respond(request) {
                 postMessage(message);
             });
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexChel.test(request.text)) { // Chel
-        this.res.writeHead(200);
+        res.writeHead(200);
         giphy.random('nhl', function(err, resGif) {
             postMessage(resGif.data.image_url);
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexEightBall.test(request.text)) { // EEight Ball
-        this.res.writeHead(200);
+        res.writeHead(200);
         postMessage(eightBall());
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexHelp.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         postMessage(help());
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexCoin.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         postMessage(coin());
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         giphy.random('fuck me', function(err, resGif) {
             if(err) {
                 postMessage("Error Retrieving Gif");
@@ -146,10 +148,10 @@ function respond(request) {
 
             postMessage(resGif.data.image_url);
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexRandom.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         // Random gif by tag using callback
         giphy.random(request.text.substring(8), function(err, resGif) {
             if(err) {
@@ -159,10 +161,10 @@ function respond(request) {
 
             postMessage(resGif.data.image_url);
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexWeather.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, res) {
             if(err) {
                 postMessage("Error Retrieving Weather");
@@ -184,35 +186,35 @@ function respond(request) {
                 'Precipitation: ' + res.forecast[0].precip + ' \n'
                 );
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexUrbanDictionary.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         var query = urban(request.text.substring(11));
 
         query.first(function(json) {
             postMessage(json.word +'\n\n' + json.definition + '\n\n' + json.example);
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexHackerNewsTop.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         hn.author().story().show_hn().since("past_24h").top(function (error, data) {
             if (error) throw error;
             postMessage(data.hits[0].title + "\n\n" + data.hits[0].url);
         });
-        this.res.end();
+        res.end();
     }
     else if(request.text && botRegexOddsAre.test(request.text)) {
-        this.res.writeHead(200);
+        res.writeHead(200);
         req_split = request.text.split(" ");
 	postMessage(oddsAre(req_split[1], req_split[2]));
-        this.res.end();
+        res.end();
     }
     else {
         console.log("No Command");
-        this.res.writeHead(200);
-        this.res.end();
+        res.writeHead(200);
+        res.end();
     }
 }
 
