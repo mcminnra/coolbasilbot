@@ -10,7 +10,7 @@ var ba = require('beeradvocate-api');
 
 var botID = process.env.BOT_ID;
 
-async function respond(req, res, db) {
+function respond(req, res, db) {
     let request = req.body
 
     /* Skip BasilBot Message */
@@ -167,13 +167,14 @@ async function respond(req, res, db) {
         return;
     }
     else if(request.text && botRegexHelp.test(request.text)) {
+        res.writeHead(200);
         postMessageTest(help());
         return;
     }
     else if(request.text && botRegexCoin.test(request.text)) {
         res.writeHead(200);
         postMessage(coin());
-        
+        res.end();
         return;
     }
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
@@ -251,9 +252,9 @@ async function respond(req, res, db) {
     }
     else if(request.text && botRegexStats.test(request.text)) {
 
-        var user = await getUser(request.user_id, db);
-        var group = await getGroup(db);
-        res.end();
+        let userGroup = getUserGroup(request.user_id, db);
+        let user = userGroup[0]
+        let group = userGroup[1]
 
         res.writeHead(200);
         postMessage(stats(user, group));
@@ -265,6 +266,13 @@ async function respond(req, res, db) {
         res.writeHead(200);
         res.end();
     }
+}
+
+async function getUserGroup(user_id, db){
+    var user = await getUser(request.user_id, db);
+    var group = await getGroup(db);
+
+    return [user, group]
 }
 
 function getUser(user_id, db) {
@@ -368,29 +376,6 @@ function postMessage(message) {
         console.log('timeout posting message '  + JSON.stringify(err));
     });
     botReq.end(JSON.stringify(body));
-}
-
-function postMessageTest(message){
-    var body, options
-
-    body = {
-        "bot_id" : botID,
-        "text" : message
-    };
-
-    options = {
-        uri: 'api.groupme.com/v3/bots/post',
-        method: 'POST',
-        body: body,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    request(options, function (error, response) {
-        console.log(error,response.body);
-        return;
-    });
 }
 
 function eightBall() {
