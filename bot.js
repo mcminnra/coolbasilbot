@@ -263,9 +263,6 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        let user;
-        let group;
-
         // Find User
         db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, user_item) {
             if (err) {
@@ -353,6 +350,8 @@ function postMessage(message) {
         "bot_id" : botID,
         "text" : botResponse
     };
+
+    console.log(body)
 
     console.log('sending ' + botResponse + ' to ' + botID);
 
@@ -454,8 +453,7 @@ function oddsAre(odds, guess){
 
 function stats(user, group){
     total = Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2)
-    msg = user.name + "'s GroupMe Stats" + "\n" +
-          "Groupme Message Percentage: " + String(total) + "%"
+    msg = String(user.name) + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + String(total) + "%";
 
     return msg;   
 }
