@@ -32,7 +32,7 @@ function respond(req, res, db) {
     }
    
     // Find User
-    db.collection('people').findOne({'groupme_user_id': request.user_id}).toArray(function(err, item) {
+    db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
         if (err) return console.log('Error retriving people')
 
         console.log(item)
