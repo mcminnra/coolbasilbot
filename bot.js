@@ -33,11 +33,11 @@ function respond(req, res, db) {
         console.log('Message => "' + request.text + ' - ' + request.name + '"')
     }
    
-
-    db.collection('people').find().toArray(function(err, items) {
+    // Find User
+    db.collection('people').find({'groupme_user_id': request.user_id}).toArray(function(err, items) {
         if (err) return console.log('Error retriving people')
 
-        console.log(items)
+        postMessage(items)
     });
 
     /* Regex Commands */
