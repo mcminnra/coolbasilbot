@@ -27,12 +27,12 @@ port = Number(process.env.PORT || 5000);
 
 MongoClient.connect(process.env.MONGODB_URI, (err, client) => {
   if (err) return console.log(err)
-  else if (!err) return console.log('Connected to Database.')
+  else if (!err) console.log('Connected to database')
 
   db = client.db('heroku_n9z3q6pd') // located on mLab
 
   app.listen(port, () => {
-    console.log('Server running on Port ' + port)
+    console.log('Server running on port ' + port)
   })
 })
 
