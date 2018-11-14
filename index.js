@@ -13,7 +13,8 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/', (req, res) => {
-  bot.respond()
+  console.log(req)
+  bot.respond(req)
 });
 
 app.get('/', (req, res) => {
