@@ -371,6 +371,7 @@ function postMessage(message) {
 }
 
 function postMessageTest(message){
+    var body, options
 
     body = {
         "bot_id" : botID,
