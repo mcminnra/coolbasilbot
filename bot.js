@@ -52,17 +52,17 @@ function respond(req, res, db) {
         }
     });
 
-    // Find User
-    db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
-        if (err) {
-            console.log('Error retriving people')
-            res.writeHead(200);
-            res.end();
-        }
+    // // Find User
+    // db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
+    //     if (err) {
+    //         console.log('Error retriving people')
+    //         res.writeHead(200);
+    //         res.end();
+    //     }
 
-        console.log(item)
-        postMessage(JSON.stringify(item))
-    });
+    //     console.log(item)
+    //     postMessage(JSON.stringify(item))
+    // });
 
     /* Regex Commands */
     var botRegexFuckOff = /^\/fuckoff/i;
@@ -76,6 +76,7 @@ function respond(req, res, db) {
     var botRegexUrbanDictionary = /^\/urbandict/i;
     var botRegexHackerNewsTop = /^\/hntop/i;
     var botRegexOddsAre = /^\/odds/i;
+    var botRegexStats = /^\/stats/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -93,42 +94,49 @@ function respond(req, res, db) {
         res.writeHead(200);
         autoMention('17738651', 'RM');
         res.end();
+        return;
     }
     //Mason
     if(request.text && botRegexMason.test(request.text)) {
         res.writeHead(200);
         autoMention('10896812', 'MJ');
         res.end();
+        return;
     }
     //Royce
     if(request.text && botRegexRoyce.test(request.text)) {
         res.writeHead(200);
         autoMention('19585794', 'RF');
         res.end();
+        return;
     }
     //Austin
     if(request.text && botRegexAustin.test(request.text)) {
         res.writeHead(200);
         autoMention('20932518', 'AC');
         res.end();
+        return;
     }
     //Thomas
     if(request.text && botRegexThomas.test(request.text)) {
         res.writeHead(200);
         autoMention('17079486', 'TK');
         res.end();
+        return;
     }
     //Mitch
     if(request.text && botRegexMitch.test(request.text)) {
         res.writeHead(200);
         autoMention('9493451', 'MM');
         res.end();
+        return;
     }
     //Miguel
     if(request.text && botRegexMiguel.test(request.text)) {
         res.writeHead(200);
         autoMention('30310364', 'MT');
         res.end();
+        return;
     }
 
     // Commands
@@ -136,6 +144,7 @@ function respond(req, res, db) {
         res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         res.end();
+        return;
     }
     else if(request.text && botRegexBeer.test(request.text)) { // Beer
         res.writeHead(200);
@@ -152,6 +161,7 @@ function respond(req, res, db) {
             });
         });
         res.end();
+        return;
     }
     else if(request.text && botRegexChel.test(request.text)) { // Chel
         res.writeHead(200);
@@ -159,21 +169,25 @@ function respond(req, res, db) {
             postMessage(resGif.data.image_url);
         });
         res.end();
+        return;
     }
     else if(request.text && botRegexEightBall.test(request.text)) { // EEight Ball
         res.writeHead(200);
         postMessage(eightBall());
         res.end();
+        return;
     }
     else if(request.text && botRegexHelp.test(request.text)) {
         res.writeHead(200);
         postMessage(help());
         res.end();
+        return;
     }
     else if(request.text && botRegexCoin.test(request.text)) {
         res.writeHead(200);
         postMessage(coin());
         res.end();
+        return;
     }
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         res.writeHead(200);
@@ -247,6 +261,36 @@ function respond(req, res, db) {
         req_split = request.text.split(" ");
 	postMessage(oddsAre(req_split[1], req_split[2]));
         res.end();
+    }
+    else if(request.text && botRegexStats.test(request.text)) {
+        res.writeHead(200);
+
+        let user;
+        let group;
+        // Find User
+        db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
+            if (err) {
+                console.log('Error retriving people')
+                res.writeHead(200);
+                res.end();
+            }
+    
+            user = item;
+        });
+        // Find Group
+        db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
+            if (err) {
+                console.log('Error retriving people')
+                res.writeHead(200);
+                res.end();
+            }
+    
+            group = item
+        });
+
+        postMessage(stats(user, group));
+        res.end();
+        return;
     }
     else {
         console.log("No Command");
@@ -407,6 +451,15 @@ function oddsAre(odds, guess){
     }
 
     return msg;
+}
+
+function stats(user, group){
+    total = (user.message_total / group.message_total * 100).toFixed(2)
+    Math.floor(num * 100) / 100
+    msg = user.name + "'s GroupMe Stats" + "\n" +
+          "Groupme Talk Percentage: " + total 
+
+    return msg      
 }
 
 exports.respond = respond;
