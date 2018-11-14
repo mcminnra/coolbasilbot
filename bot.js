@@ -21,7 +21,7 @@ MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
 
 var botID = process.env.BOT_ID;
 
-function respond(req, res, db) {
+async function respond(req, res, db) {
     let request = req.body
 
     /* Skip BasilBot Message */
@@ -264,29 +264,36 @@ function respond(req, res, db) {
     }
     else if(request.text && botRegexStats.test(request.text)) {
         res.writeHead(200);
-        var user;
-        var group;
-
-        // Find User
-        db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, user_item) {
-            if (err) {
-                console.log('Error retriving people')
-                res.writeHead(200);
-                res.end();
-            }
-            // Find Group
-            db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
-                if (err) {
-                    console.log('Error retriving people')
-                    res.writeHead(200);
-                    res.end();
-                }
-                
-                user = user_item;
-                group = group_item;
-            });
-        });
         
+
+        function getUser() {
+            var user_item;
+          
+            return new Promise(function(resolve, reject) {
+                db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, user_item) {
+                    if (err) throw err
+
+                    resolve(user_item)
+                });
+            });
+          }
+
+        function getGroup() {
+            var group_item;
+        
+            return new Promise(function(resolve, reject) {
+                db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
+                    if (err) throw err
+
+                    resolve(group_item)
+                });
+            });
+        }
+
+
+        var user = await getUser();
+        var group = await getGroup();
+
         postMessage(stats(user, group));
         res.end();
         return;
