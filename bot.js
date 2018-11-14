@@ -24,8 +24,6 @@ var botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
-    console.log(request)
-
     // Skip BasilBot Message
     if(request.name == 'BasilBot'){
         return console.log('BasilBot message -- Skipping...')
@@ -37,7 +35,8 @@ function respond(req, res, db) {
     db.collection('people').find({'groupme_user_id': request.user_id}).toArray(function(err, items) {
         if (err) return console.log('Error retriving people')
 
-        postMessage(items)
+        console.log(items)
+        postMessage(JSON.stringify(items))
     });
 
     /* Regex Commands */
