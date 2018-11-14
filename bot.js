@@ -22,10 +22,8 @@ MongoClient.connect(process.env.MONGODB_URI, function(err, db) {
 var botID = process.env.BOT_ID;
 
 function respond(request) {
-    console.log(request)
-    var request = JSON.parse(this.req.chunks[0]);
 
-    console.log(this.req.chunks[0]);
+    console.log(request.text + ' - ' + request.name)
 
     /* Regex Commands */
     var botRegexFuckOff = /^\/fuckoff/i;
