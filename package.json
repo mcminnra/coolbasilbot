@@ -23,9 +23,6 @@
     "urban": "^0.3.2",
     "weather-js": "^1.0.2"
   },
-  "engines": {
-    "node": "8.1.x"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rmcminn/coolbasilbot"
