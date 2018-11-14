@@ -24,16 +24,38 @@ var botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
-    // Skip BasilBot Message
+    /* Skip BasilBot Message */
     if(request.name == 'BasilBot'){
-        return console.log('BasilBot message -- Skipping...')
+        console.log('BasilBot message -- Skipping...')
+        res.writeHead(200);
+        res.end();
     } else {
         console.log('Message => "' + request.text + ' - ' + request.name + '"')
     }
    
+    /* Update Group and person messages */
+    db.collection("people").updateOne({'name': 'Group'}, {$inc: { "message_total": 1 }}, function(err, res) {
+        if (err) {
+            console.log('Error incrementing group')
+            res.writeHead(200);
+            res.end();
+        }
+    });
+    db.collection("people").updateOne({'groupme_user_id': request.user_id}, {$inc: { "message_total": 1 }}, function(err, res) {
+        if (err) {
+            console.log('Error incrementing person')
+            res.writeHead(200);
+            res.end();
+        }
+    });
+
     // Find User
     db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
-        if (err) return console.log('Error retriving people')
+        if (err) {
+            console.log('Error retriving people')
+            res.writeHead(200);
+            res.end();
+        }
 
         console.log(item)
         postMessage(JSON.stringify(item))
