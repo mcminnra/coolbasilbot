@@ -166,9 +166,7 @@ async function respond(req, res, db) {
         return;
     }
     else if(request.text && botRegexHelp.test(request.text)) {
-        res.writeHead(200);
         postMessage(help());
-        res.end();
         return;
     }
     else if(request.text && botRegexCoin.test(request.text)) {
