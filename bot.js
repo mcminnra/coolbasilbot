@@ -27,11 +27,16 @@ function respond(req, res, db) {
     // Skip BasilBot Message
     if(request.name == 'BasilBot'){
         return console.log('BasilBot message -- Skipping...')
+    } else {
+        console.log('Message => "' + request.text + ' - ' + request.name + '"')
     }
+   
 
-    console.log('Message => "' + request.text + ' - ' + request.name + '"')
+    db.collection('people').find().toArray(function(err, items) {
+        if (err) return console.log('Error retriving people')
 
-    console.log(db.collection('people').find())
+        console.log(items)
+    });
 
     /* Regex Commands */
     var botRegexFuckOff = /^\/fuckoff/i;
