@@ -24,6 +24,8 @@ var botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
+    console.log(request)
+
     // Skip BasilBot Message
     if(request.name == 'BasilBot'){
         return console.log('BasilBot message -- Skipping...')
