@@ -450,7 +450,7 @@ function beer(user){
     let SD = user.beer_count  // 12 ounces
     let Wt = 95.2544
     let MR = 0.015
-    let DP = (new Date).getTime()/(1000*60*60) - user.beer_time
+    let DP = Number((new Date).getTime()/(1000*60*60) - user.beer_time).toFixed(3)
 
     let bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP)
 
@@ -467,7 +467,7 @@ function beer(user){
     let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac.toFixed(3) + "\n\n" +
-          'Been Drinking for ' + DP.toFixed(3) + ' Hours'
+          'Been Drinking for ' + DP + ' Hours'
 
     if(DP >= 24){
         msg = msg + '\n\nIts been over 24 hours since you\'ve have a drink. You might want to reset your current beers with /resetbeer'
