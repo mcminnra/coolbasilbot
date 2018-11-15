@@ -258,7 +258,7 @@ function respond(req, res, db) {
 
             return stats(user, group)
         }).then(msg => {
-            return postMessage(msg)
+            return postMessageTest(msg)
         }).catch(err => {
             console.log(err)
         });
@@ -270,6 +270,26 @@ function respond(req, res, db) {
         res.writeHead(200);
         res.end();
     }
+}
+
+function postMessageTest(msg){
+
+    let body = {
+        "bot_id" : botID,
+        "text" : botResponse
+    };
+    let options = {
+        uri: 'api.groupme.com/v3/bots/post',
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    request(options, function (error, response) {
+        console.log(error,response.body);
+        return;
+    });
 }
 
 function stats(user, group){
