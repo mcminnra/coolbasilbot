@@ -247,12 +247,12 @@ function respond(req, res, db) {
     else if(request.text && botRegexOddsAre.test(request.text)) {
         res.writeHead(200);
         req_split = request.text.split(" ");
-	postMessage(oddsAre(req_split[1], req_split[2]));
+	    postMessage(oddsAre(req_split[1], req_split[2]));
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
         res.writeHead(200);
-        stats(user, group);
+        stats(request.user_id, db);
         res.end();
         return;
     }
