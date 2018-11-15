@@ -55,8 +55,7 @@ function respond(req, res, db) {
     var botRegexBeer = /^\/beer/i;
     var botRegexBeerStatus = /^\/statusbeer/i;
     var botRegexBeerReset = /^\/resetbeer/i;
-    var botRegexBeerLeaderboard = /^\/leaderboardbeer/i;
-    var botRegexMessageLeaderboard = /^\/leaderboardchat/i;
+    var botRegexLeaderboard = /^\/leaderboard/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -289,33 +288,23 @@ function respond(req, res, db) {
         res.end();
         return;
     }
-    else if(request.text && botRegexBeerLeaderboard.test(request.text)) {
+    else if(request.text && botRegexLeaderboard.test(request.text)) {
         res.writeHead(200);
         getUsers(db).then(users => {
-            // Sort by beers
-            users.sort((a, b) => a.beer_total - b.beer_total);
-            msg = "Beers Leaderboard:\n"
-            for(var user in users){
-                msg = msg + user.name + " " + user.beer_total + '\n'
-            }
-            postMessage(msg)
-        }).catch(err => {
-            console.log(err)
-        })
-        res.end();
-        return;
-    }
-    else if(request.text && botRegexMessageLeaderboard.test(request.text)) {
-        res.writeHead(200);
-        getUsers(db).then(users => {
-            console.log(users)
             // Sort by messages
             users.sort((a, b) => a.message_total - b.message_total);
             msg = "Messages Leaderboard:\n"
-            for(var user in users){
-                msg = msg + user.name + " " + user.message_total + '\n'
+            for (i=0; i<users.length; ++i) {
+                msg = msg + users[i].name + " " + users[i].message_total + '\n'
             }
-            console.log(msg)
+            msg = msg + "\n"
+
+            users.sort((a, b) => a.beer_total - b.beer_total);
+            msg = msg + "Beers Leaderboard:\n"
+            for (i=0; i<users.length; ++i) {
+                msg = msg + users[i].name + " " + users[i].beer_total + '\n'
+            }
+
             postMessage(msg)
         }).catch(err => {
             console.log(err)
@@ -529,8 +518,7 @@ function help(){
         "/beer - Adds a beer and calculates BAC\n" +
         "/statusbeer - Gets your current beer count and BAC\n" +
         "/resetbeer - Resets your current beer count to 0\n" +
-        "/leaderboardbeer - Check the current leaderboard for beers\n" +
-        "/leaderboardchat - Check the current leaderboard for chat\n" +
+        "/leaderboard - Check the current leaderboard\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
