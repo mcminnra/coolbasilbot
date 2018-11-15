@@ -280,7 +280,7 @@ function postMessageTest(msg){
         "text" : msg
     };
     let options = {
-        uri: 'api.groupme.com/v3/bots/post',
+        uri: 'https://api.groupme.com/v3/bots/post',
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
