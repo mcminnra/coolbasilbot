@@ -282,7 +282,6 @@ function postMessage(msg){
 }
 
 function autoMention(user, origin) {
-    var botResponse, options, body, botReq;
 
     let body = {
         "bot_id" : botID,
