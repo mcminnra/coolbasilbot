@@ -6,7 +6,6 @@ var weather = require('weather-js');
 var querystring = require('querystring');
 var hn = require("hacker-news-api");
 var urban = require('urban');
-var ba = require('beeradvocate-api');
 
 var botID = process.env.BOT_ID;
 
@@ -49,7 +48,6 @@ function respond(req, res, db) {
     var botRegexOhFuckMe =/^\/ohfuckme/i;
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
-    var botRegexBeer = /^\/beer/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
     var botRegexHackerNewsTop = /^\/hntop/i;
     var botRegexOddsAre = /^\/odds/i;
@@ -121,23 +119,6 @@ function respond(req, res, db) {
     if(request.text && botRegexFuckOff.test(request.text)) {
         res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
-        res.end();
-        return;
-    }
-    else if(request.text && botRegexBeer.test(request.text)) { // Beer
-        res.writeHead(200);
-        ba.beerSearch(request.text.substring(6), function(beers) {
-            beers = JSON.parse(beers);
-            beer_url = beers[0].beer_url;
-
-            ba.beerPage(beer_url, function(beer) {
-                beer = JSON.parse(beer)[0];
-
-                console.log(beer);
-                message = 'Beer Name: ' + beer.beer_name + '\n' + 'Brewery: ' + beer.brewery_name + '\n' + 'Rating: ' + beer.ba_score + '/5';
-                postMessage(message);
-            });
-        });
         res.end();
         return;
     }
@@ -459,7 +440,7 @@ function help(){
         "/fuckoff {Person} - Tell that person to fuck off\n" +
         "/8ball {Question} - Ask an 8ball question\n" +
 	    "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
-        "/beer {beer} - Gets beer info and rating\n" +
+        "/beer - Adds a beer and calculates BAC\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
