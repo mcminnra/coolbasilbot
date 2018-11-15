@@ -391,7 +391,7 @@ function beer(user){
     const bac = ((A * 5.14)/(W * r)) - .015 * H
 
     msg = 'Beers Drank: ' + user.beer_count + '\n' +
-          'BAC: ' + BAC
+          'BAC: ' + bac
 
     return msg
 }
