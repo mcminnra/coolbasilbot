@@ -275,8 +275,8 @@ function postMessage(msg){
         }
     };
     request(options, function (error, response) {
-        console.log(error)
-        console.log(response.body);
+        if (err) console.log(error)
+        if (res) console.log(response.body)
         return;
     });
 }
@@ -306,9 +306,9 @@ function autoMention(user, origin) {
 
     console.log('mentioning ' + user + ' to ' + botID);
     
-    request(options, function (error, response) {
-        console.log(error)
-        console.log(response.body);
+    request(options, function (err, res) {
+        if (err) console.log(error)
+        if (res) console.log(response.body)
         return;
     });
 }
