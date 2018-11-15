@@ -41,18 +41,6 @@ function respond(req, res, db) {
         }
     });
 
-    // // Find User
-    // db.collection('people').findOne({'groupme_user_id': request.user_id}, function(err, item) {
-    //     if (err) {
-    //         console.log('Error retriving people')
-    //         res.writeHead(200);
-    //         res.end();
-    //     }
-
-    //     console.log(item)
-    //     postMessage(JSON.stringify(item))
-    // });
-
     /* Regex Commands */
     var botRegexFuckOff = /^\/fuckoff/i;
     var botRegexEightBall = /^\/8ball/i;
@@ -258,7 +246,7 @@ function respond(req, res, db) {
 
             return stats(user, group)
         }).then(msg => {
-            return postMessageTest(msg)
+            return postMessage(msg)
         }).catch(err => {
             console.log(err)
         });
@@ -272,9 +260,8 @@ function respond(req, res, db) {
     }
 }
 
-function postMessageTest(msg){
-    console.log(msg)
-
+/* Message Functions */
+function postMessage(msg){
     let body = {
         "bot_id" : botID,
         "text" : msg
@@ -294,15 +281,40 @@ function postMessageTest(msg){
     });
 }
 
-function stats(user, group){
-    total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
-    msg = user.name + "'s GroupMe Stats:" + "\n" +
-        "Total Number of Messages Sent: " + user.message_total + "\n" +
-        "Groupme Message Percentage: " + total + "%";
+function autoMention(user, origin) {
+    var botResponse, options, body, botReq;
 
-    return msg;
+    let body = {
+        "bot_id" : botID,
+        "attachments" : [
+	    {
+		"loci" : [[0, origin.length + 1]],
+	    "type" : "mentions",
+	    "user_ids" : [user]
+	    }
+	],
+	"text" : "@" + origin
+    };
+
+    let options = {
+        uri: 'https://api.groupme.com/v3/bots/post',
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    console.log('mentioning ' + user + ' to ' + botID);
+    
+    request(options, function (error, response) {
+        console.log(error)
+        console.log(response.body);
+        return;
+    });
 }
 
+/* Database Functions */
 async function getUser(user_id, db){
     try{
         var user = await db.collection('people').findOne({'groupme_user_id': user_id})
@@ -323,82 +335,14 @@ async function getGroup(db){
     }
 }
 
-function autoMention(user, origin) {
-    var botResponse, options, body, botReq;
+/* Command Functions */
+function stats(user, group){
+    total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
+    msg = user.name + "'s GroupMe Stats:" + "\n" +
+        "Total Number of Messages Sent: " + user.message_total + "\n" +
+        "Groupme Message Percentage: " + total + "%";
 
-    options = {
-        hostname: 'api.groupme.com',
-        path: '/v3/bots/post',
-        method: 'POST'
-    };
-    
-    body = {
-        "bot_id" : botID,
-        "attachments" : [
-	    {
-		"loci" : [[0, origin.length + 1]],
-	    "type" : "mentions",
-	    "user_ids" : [user]
-	    }
-	],
-	"text" : "@" + origin
-    };
-
-    console.log('mentioning ' + user + ' to ' + botID);
-    console.log(body);
-
-    botReq = HTTPS.request(options, function(res) {
-        if(res.statusCode == 202) {
-            //neat
-        } else {
-            console.log('rejecting bad status code ' + res.statusCode);
-        }
-    });
-
-    botReq.on('error', function(err) {
-        console.log('error posting message '  + JSON.stringify(err));
-    });
-    botReq.on('timeout', function(err) {
-        console.log('timeout posting message '  + JSON.stringify(err));
-    });
-    botReq.end(JSON.stringify(body));
-}
-
-function postMessage(message) {
-    var botResponse, options, body, botReq;
-
-    botResponse = message;
-
-    options = {
-        hostname: 'api.groupme.com',
-        path: '/v3/bots/post',
-        method: 'POST'
-    };
-
-    body = {
-        "bot_id" : botID,
-        "text" : botResponse
-    };
-
-    console.log(body)
-
-    console.log('sending ' + botResponse + ' to ' + botID);
-
-    botReq = HTTPS.request(options, function(res) {
-        if(res.statusCode == 202) {
-            //neat
-        } else {
-            console.log('rejecting bad status code ' + res.statusCode);
-        }
-    });
-
-    botReq.on('error', function(err) {
-        console.log('error posting message '  + JSON.stringify(err));
-    });
-    botReq.on('timeout', function(err) {
-        console.log('timeout posting message '  + JSON.stringify(err));
-    });
-    botReq.end(JSON.stringify(body));
+    return msg;
 }
 
 function eightBall() {
@@ -442,7 +386,7 @@ function help(){
         "/stats - See your groupme stats\n" +
         "/fuckoff {Person} - Tell that person to fuck off\n" +
         "/8ball {Question} - Ask an 8ball question\n" +
-	"/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
+	    "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
         "/beer {beer} - Gets beer info and rating\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
@@ -479,4 +423,5 @@ function oddsAre(odds, guess){
 
     return msg;
 }
+
 exports.respond = respond;
