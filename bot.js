@@ -452,7 +452,7 @@ function beer(user){
     const MR = 0.015
     const DP = (new Date).getTime()/(1000*60*60) - user.beer_time
 
-    const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP) * 10
+    const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP)
 
     if(bac < 0){
         bac = 0
