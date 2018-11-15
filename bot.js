@@ -246,7 +246,7 @@ function respond(req, res, db) {
                 }).then(msg => {
                     return postMessage(msg)
                 }).catch(err => {
-                    console.log(e)
+                    console.log(err)
                 })
             } else {
                 updateBeer(user.groupme_user_id), db.then(user => {
@@ -254,7 +254,7 @@ function respond(req, res, db) {
                 }).then(msg => {
                     return postMessage(msg)
                 }).catch(err => {
-                    console.log(e)
+                    console.log(err)
                 })
             }
 
@@ -328,8 +328,8 @@ async function getUser(user_id, db){
         var user = await db.collection('people').findOne({'groupme_user_id': user_id})
 
         return user
-    } catch(e) {
-        console.log(e)
+    } catch(err) {
+        console.log(err)
     }
 }
 
@@ -338,8 +338,8 @@ async function getGroup(db){
         var group = await db.collection('people').findOne({'name': 'Group'})
 
         return group
-    } catch(e) {
-        console.log(e)
+    } catch(err) {
+        console.log(err)
     }
 }
 
@@ -348,8 +348,8 @@ async function updateBeer(user_id, db){
         var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }}, {new: true})
 
         return user
-    } catch(e) {
-        console.log(e)
+    } catch(err) {
+        console.log(err)
     }
 }
 
@@ -358,8 +358,8 @@ async function resetBeer(user_id, db){
         var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_count": 0 }}, {new: true})
 
         return user
-    } catch(e) {
-        console.log(e)
+    } catch(err) {
+        console.log(err)
     }
 }
 
@@ -369,8 +369,8 @@ async function resetBeerTime(user_id, db){
         user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch }}, {new: true})
 
         return user
-    } catch(e) {
-        console.log(e)
+    } catch(err) {
+        console.log(err)
     }
 }
 
