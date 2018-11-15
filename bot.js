@@ -413,9 +413,9 @@ function beer(user){
     const SD = user.beer_count  // 12 ounces
     const Wt = 95.2544
     const MR = 0.015
-    const CP = (new Date).getTime()/(1000*60*60) - user.beer_time
+    const DP = (new Date).getTime()/(1000*60*60) - user.beer_time
 
-    const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * H) * 10
+    const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP) * 10
 
     let msg = 'Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac
