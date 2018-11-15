@@ -252,7 +252,8 @@ function respond(req, res, db) {
     }
     else if(request.text && botRegexStats.test(request.text)) {
         res.writeHead(200);
-        stats(request.user_id, db);
+        getUserGroup(request.user_id, db)
+            .then(user => postMessage(user))
         res.end();
         return;
     }
@@ -274,6 +275,17 @@ async function stats(user_id, db){
     msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
 
     postMessage(msg);
+}
+
+async function getUserGroup(user_id, db){
+    try{
+        var user = await db.collection('people').findOne({'groupme_user_id': user_id})
+        //var group = await db.collection('people').findOne({'name': 'Group'});
+
+        return user
+    } catch(e) {
+        console.log(e)
+    }
 }
 
 function getUser(user_id, db) {
