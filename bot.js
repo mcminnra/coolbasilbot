@@ -288,7 +288,7 @@ function respond(req, res, db) {
         res.end();
         return;
     }
-    else if(request.text && botRegexBeerLeaderboard.test(request.text)) {
+    else if(request.text && botRegexLeaderboard.test(request.text)) {
         res.writeHead(200);
         getUsers(db).then(users => {
             // Sort by messages
