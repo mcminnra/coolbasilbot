@@ -314,6 +314,7 @@ function respond(req, res, db) {
             for(var user in users){
                 msg = msg + user.name + " " + user.message_total + '\n'
             }
+            console.log(msg)
             postMessage(msg)
         }).catch(err => {
             console.log(err)
