@@ -251,9 +251,18 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
+        
+        let user = getUser(request.user_id, db)
+            .then(function(user_json){ 
+                return user_json
+            });
+        let group = getGroup(db)
+            .then(function(group_json){ 
+                return group_json
+            });
+
         res.writeHead(200);
-        getUserGroup(request.user_id, db)
-            .then(user => postMessage(user))
+        postMessage(stats(user, group))
         res.end();
         return;
     }
@@ -264,23 +273,16 @@ function respond(req, res, db) {
     }
 }
 
-async function stats(user_id, db){
-    var user = await db.collection('people').findOne({'groupme_user_id': user_id})
-    var group = await db.collection('people').findOne({'name': 'Group'});
-
-    console.log(user)
-    console.log(group)
-
+async function stats(user, group){
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
     msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
 
-    postMessage(msg);
+    return msg;
 }
 
-async function getUserGroup(user_id, db){
+async function getUser(user_id, db){
     try{
         var user = await db.collection('people').findOne({'groupme_user_id': user_id})
-        //var group = await db.collection('people').findOne({'name': 'Group'});
 
         return user
     } catch(e) {
@@ -288,28 +290,14 @@ async function getUserGroup(user_id, db){
     }
 }
 
-function getUser(user_id, db) {
-    var user_item;
-    
-    return new Promise(function(resolve, reject) {
-        db.collection('people').findOne({'groupme_user_id': user_id}, function(err, user_item) {
-            if (err) throw err
+async function getGroup(db){
+    try{
+        var group = await db.collection('people').findOne({'name': 'Group'})
 
-            resolve(user_item)
-        });
-    });
-}
-
-function getGroup(db) {
-    var group_item;
-
-    return new Promise(function(resolve, reject) {
-        db.collection('people').findOne({'name': 'Group'}, function(err, group_item) {
-            if (err) throw err
-
-            resolve(group_item)
-        });
-    });
+        return group
+    } catch(e) {
+        console.log(e)
+    }
 }
 
 function autoMention(user, origin) {
