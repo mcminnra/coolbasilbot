@@ -53,6 +53,7 @@ function respond(req, res, db) {
     var botRegexOddsAre = /^\/odds/i;
     var botRegexStats = /^\/stats/i;
     var botRegexBeer = /^\/beer/i;
+    var botRegexBeerStatus = /^\/beerstatus/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -260,6 +261,18 @@ function respond(req, res, db) {
         });
         res.end();
         return;
+    } 
+    else if(request.text && botRegexBeerStatus.test(request.text)) {
+        res.writeHead(200);
+        getUser(request.user_id, db).then(user => {
+            return beer(user.value)
+        }).then(msg => {
+            return postMessage(msg)
+        }).catch(err => {
+            console.log(err)
+        })
+        res.end();
+        return;
     }   
     else {
         console.log("No Command");
@@ -364,7 +377,7 @@ async function resetBeer(user_id, db){
 
 async function resetBeerTimeAndIncBeer(user_id, db){
     try{
-        var hours_epoch = (new Date).getTime()/(1000*60*60);
+        var hours_epoch = (new Date).getTime()/(1000*60*60)-.25;
         var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {returnOriginal:false})
 
         return user
@@ -440,6 +453,7 @@ function help(){
         "/8ball {Question} - Ask an 8ball question\n" +
 	    "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
         "/beer - Adds a beer and calculates BAC\n" +
+        "/beerstatus - Gets you current beer count and BAC\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
