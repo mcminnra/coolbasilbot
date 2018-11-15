@@ -308,6 +308,7 @@ function respond(req, res, db) {
     else if(request.text && botRegexMessageLeaderboard.test(request.text)) {
         res.writeHead(200);
         getUsers(db).then(users => {
+            console.log(users)
             // Sort by messages
             users.sort((a, b) => a.message_total - b.message_total);
             msg = "Messages Leaderboard:\n"
