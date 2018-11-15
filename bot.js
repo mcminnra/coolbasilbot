@@ -364,7 +364,7 @@ async function resetBeer(user_id, db){
 async function resetBeerTimeAndIncBeer(user_id, db){
     try{
         var hours_epoch = (new Date).getTime()/(1000*60*60);
-        user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {new: true})
+        var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {new: true})
 
         return user
     } catch(err) {
