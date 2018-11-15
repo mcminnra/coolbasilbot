@@ -54,6 +54,7 @@ function respond(req, res, db) {
     var botRegexHackerNewsTop = /^\/hntop/i;
     var botRegexOddsAre = /^\/odds/i;
     var botRegexStats = /^\/stats/i;
+    var botRegexBeer = /^\/beer/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -253,6 +254,33 @@ function respond(req, res, db) {
         res.end();
         return;
     }
+    else if(request.text && botRegexBeer.test(request.text)) {
+        res.writeHead(200);
+        getUser(request.user_id, db).then(user => {
+            if(user.beer_count == 0){
+                resetBeerTime(user.groupme_user_id).then(user => {
+                    return updateBeer(user.groupme_user_id)
+                }).then(user => {
+                    return beer(user)
+                }).then(msg => {
+                    return postMessage(msg)
+                }).catch(err => {
+                    console.log(e)
+                })
+            } else {
+                updateBeer(user.groupme_user_id).then(user => {
+                    return beer(user)
+                }).then(msg => {
+                    return postMessage(msg)
+                }).catch(err => {
+                    console.log(e)
+                })
+            }
+
+        })
+        res.end();
+        return;
+    }   
     else {
         console.log("No Command");
         res.writeHead(200);
@@ -334,6 +362,37 @@ async function getGroup(db){
     }
 }
 
+async function updateBeer(user_id, db){
+    try{
+        var user = await db.collection("people").findAndModify({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }})
+
+        return user
+    } catch(e) {
+        console.log(e)
+    }
+}
+
+async function resetBeer(user_id, db){
+    try{
+        var user = await db.collection("people").findAndModify({'groupme_user_id': user_id}, {$set: { "beer_count": 0 }})
+
+        return user
+    } catch(e) {
+        console.log(e)
+    }
+}
+
+async function resetBeerTime(user_id, db){
+    try{
+        var hours_epoch = (new Date).getTime()/(1000*60*60);
+        user = await db.collection("people").findAndModify({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch }})
+
+        return user
+    } catch(e) {
+        console.log(e)
+    }
+}
+
 /* Command Functions */
 function stats(user, group){
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
@@ -342,6 +401,20 @@ function stats(user, group){
         "Groupme Message Percentage: " + total + "%";
 
     return msg;
+}
+
+function beer(user){
+    const A = user.beer_count * 12  // 12 ounces
+    const W = 210
+    const r = 0.73
+    const H = (new Date).getTime()/(1000*60*60) - user.beer_time
+
+    const bac = ((A * 5.14)/(W * r)) - .015 * H
+
+    msg = 'Beers Drank: ' + user.beer_count + '\n' +
+          'BAC: ' + BAC
+
+    return msg
 }
 
 function eightBall() {
