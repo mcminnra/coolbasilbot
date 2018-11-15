@@ -386,7 +386,7 @@ function autoMention(user, origin) {
 /* Database Functions */
 async function getUsers(db){
     try{
-        var users = await db.collection('people').find({'name': { $ne: 'Group'}})
+        var users = await db.collection('people').find({'name': { $ne: 'Group'}}).toArray()
 
         return users
     } catch(err) {
