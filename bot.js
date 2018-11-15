@@ -239,8 +239,8 @@ function respond(req, res, db) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
             if(user.beer_count == 0){
-                resetBeerTime(user.groupme_user_id).then(user => {
-                    return updateBeer(user.groupme_user_id)
+                resetBeerTime(user.groupme_user_id, db).then(user => {
+                    return updateBeer(user.groupme_user_id, db)
                 }).then(user => {
                     return beer(user)
                 }).then(msg => {
@@ -249,7 +249,7 @@ function respond(req, res, db) {
                     console.log(e)
                 })
             } else {
-                updateBeer(user.groupme_user_id).then(user => {
+                updateBeer(user.groupme_user_id), db.then(user => {
                     return beer(user)
                 }).then(msg => {
                     return postMessage(msg)
