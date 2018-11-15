@@ -460,6 +460,9 @@ function beer(user){
     if(DP > 24){
         DP = "NEEDS RESET"
     }
+    if(SD == 0){
+        DP = "ADD A BEER TO CALCULATE BAC"
+    }
 
     let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
