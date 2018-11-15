@@ -431,8 +431,8 @@ function beer(user){
 
     let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
-          'BAC: ' + bac + "\n\n" +
-          'Been Drinking for ' + DP + ' Hours'
+          'BAC: ' + bac.toFixed(3) + "\n\n" +
+          'Been Drinking for ' + DP.toFixed(3) + ' Hours'
 
     return msg
 }
