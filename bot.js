@@ -292,14 +292,14 @@ function respond(req, res, db) {
         res.writeHead(200);
         getUsers(db).then(users => {
             // Sort by messages
-            users.sort((a, b) => a.message_total - b.message_total);
+            users.sort((a, b) => b.message_total - a.message_total);
             msg = "Messages Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
                 msg = msg + users[i].name + " " + users[i].message_total + '\n'
             }
             msg = msg + "\n"
 
-            users.sort((a, b) => a.beer_total - b.beer_total);
+            users.sort((a, b) => b.beer_total - a.beer_total);
             msg = msg + "Beers Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
                 msg = msg + users[i].name + " " + users[i].beer_total + '\n'
