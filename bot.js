@@ -53,7 +53,8 @@ function respond(req, res, db) {
     var botRegexOddsAre = /^\/odds/i;
     var botRegexStats = /^\/stats/i;
     var botRegexBeer = /^\/beer/i;
-    var botRegexBeerStatus = /^\/beerstatus/i;
+    var botRegexBeerStatus = /^\/statusbeer/i;
+    var botRegexBeerReset = /^\/resetbeer/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -273,7 +274,19 @@ function respond(req, res, db) {
         })
         res.end();
         return;
-    }   
+    }
+    else if(request.text && botRegexBeerReset.test(request.text)) {
+        res.writeHead(200);
+        resetBeer(request.user_id, db).then(user => {
+            return beer(user.value)
+        }).then(msg => {
+            return postMessage(msg)
+        }).catch(err => {
+            console.log(err)
+        })
+        res.end();
+        return;
+    } 
     else {
         console.log("No Command");
         res.writeHead(200);
@@ -397,12 +410,12 @@ function stats(user, group){
 }
 
 function beer(user){
-    const A = user.beer_count * 12  // 12 ounces
-    const W = 210
-    const r = 0.73
-    const H = (new Date).getTime()/(1000*60*60) - user.beer_time
+    const SD = user.beer_count  // 12 ounces
+    const Wt = 95.2544
+    const MR = 0.015
+    const CP = (new Date).getTime()/(1000*60*60) - user.beer_time
 
-    const bac = ((A * 5.14)/(W * r)) - .015 * H
+    const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * H) * 10
 
     let msg = 'Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac
@@ -453,7 +466,8 @@ function help(){
         "/8ball {Question} - Ask an 8ball question\n" +
 	    "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
         "/beer - Adds a beer and calculates BAC\n" +
-        "/beerstatus - Gets you current beer count and BAC\n" +
+        "/statusbeer - Gets your current beer count and BAC\n" +
+        "/resetbeer - Resets your beer count to 0\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
