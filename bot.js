@@ -168,7 +168,7 @@ function respond(req, res, db) {
     }
     else if(request.text && botRegexHelp.test(request.text)) {
         res.writeHead(200);
-        postMessageTest(help());
+        postMessage(help());
         return;
     }
     else if(request.text && botRegexCoin.test(request.text)) {
@@ -251,13 +251,8 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-
-        let userGroup = getUserGroup(request.user_id, db);
-        let user = userGroup[0]
-        let group = userGroup[1]
-
         res.writeHead(200);
-        postMessage(stats(user, group));
+        stats(user, group);
         res.end();
         return;
     }
@@ -268,11 +263,14 @@ function respond(req, res, db) {
     }
 }
 
-async function getUserGroup(user_id, db){
+async function stats(user_id, db){
     var user = await getUser(request.user_id, db);
     var group = await getGroup(db);
 
-    return [user, group]
+    total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
+    msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
+
+    postMessage(msg);
 }
 
 function getUser(user_id, db) {
@@ -456,12 +454,4 @@ function oddsAre(odds, guess){
 
     return msg;
 }
-
-function stats(user, group){
-    total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
-    msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
-
-    return msg;   
-}
-
 exports.respond = respond;
