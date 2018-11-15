@@ -266,7 +266,7 @@ function respond(req, res, db) {
     else if(request.text && botRegexBeerStatus.test(request.text)) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
-            return beer(user.value)
+            return beer(user)
         }).then(msg => {
             return postMessage(msg)
         }).catch(err => {
