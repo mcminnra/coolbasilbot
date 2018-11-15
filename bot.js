@@ -432,7 +432,7 @@ function beer(user){
     let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac + "\n\n" +
-          'Been Drinking Since ' + new Date(user.beer_time*1000*60*60)
+          'Been Drinking for ' + DP + ' Hours'
 
     return msg
 }
