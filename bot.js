@@ -345,7 +345,7 @@ async function getGroup(db){
 
 async function updateBeer(user_id, db){
     try{
-        var user = await db.collection("people").findAndModify({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }})
+        var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }}, {new: true})
 
         return user
     } catch(e) {
@@ -355,7 +355,7 @@ async function updateBeer(user_id, db){
 
 async function resetBeer(user_id, db){
     try{
-        var user = await db.collection("people").findAndModify({'groupme_user_id': user_id}, {$set: { "beer_count": 0 }})
+        var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_count": 0 }}, {new: true})
 
         return user
     } catch(e) {
@@ -366,7 +366,7 @@ async function resetBeer(user_id, db){
 async function resetBeerTime(user_id, db){
     try{
         var hours_epoch = (new Date).getTime()/(1000*60*60);
-        user = await db.collection("people").findAndModify({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch }})
+        user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch }}, {new: true})
 
         return user
     } catch(e) {
