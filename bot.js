@@ -371,6 +371,7 @@ async function getGroup(db){
 async function updateBeer(user_id, db){
     try{
         var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }}, {returnOriginal:false})
+        user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_total": 1 }}, {returnOriginal:false})
 
         return user
     } catch(err) {
@@ -392,6 +393,7 @@ async function resetBeerTimeAndIncBeer(user_id, db){
     try{
         var hours_epoch = (new Date).getTime()/(1000*60*60)-.25;
         var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {returnOriginal:false})
+        user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_total": 1 }}, {returnOriginal:false})
 
         return user
     } catch(err) {
@@ -402,7 +404,7 @@ async function resetBeerTimeAndIncBeer(user_id, db){
 /* Command Functions */
 function stats(user, group){
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
-    msg = user.name + "'s GroupMe Stats:" + "\n" +
+    msg = user.name + "'s GroupMe Stats:" + "\n\n" +
         "Total Number of Messages Sent: " + user.message_total + "\n" +
         "Groupme Message Percentage: " + total + "%";
 
@@ -417,7 +419,8 @@ function beer(user){
 
     const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP) * 10
 
-    let msg = 'Beers Drank: ' + user.beer_count + '\n' +
+    let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
+          'Current Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac
 
     return msg
