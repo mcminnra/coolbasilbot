@@ -348,6 +348,16 @@ function autoMention(user, origin) {
 }
 
 /* Database Functions */
+async function getUsers(db){
+    try{
+        var users = await db.collection('people').find({'name': { $ne: 'Group'}})
+
+        return users
+    } catch(err) {
+        console.log(err)
+    }
+}
+
 async function getUser(user_id, db){
     try{
         var user = await db.collection('people').findOne({'groupme_user_id': user_id})
@@ -421,7 +431,8 @@ function beer(user){
 
     let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
-          'BAC: ' + bac
+          'BAC: ' + bac + "\n\n"
+          'Been Drinking Since ' + new Date(user.beer_time*1000*60*60)
 
     return msg
 }
@@ -505,6 +516,20 @@ function oddsAre(odds, guess){
     }
 
     return msg;
+}
+
+/* Utility Functions */
+function msToTime(duration) {
+    var milliseconds = parseInt((duration%1000)/100)
+        , seconds = parseInt((duration/1000)%60)
+        , minutes = parseInt((duration/(1000*60))%60)
+        , hours = parseInt((duration/(1000*60*60))%24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
 
 exports.respond = respond;
