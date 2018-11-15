@@ -239,7 +239,7 @@ function respond(req, res, db) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
             if(user.beer_count == 0){
-                resetBeerTimeAndUpdate(user.groupme_user_id, db).then(user => {
+                resetBeerTimeAndIncBeer(user.groupme_user_id, db).then(user => {
                     return beer(user)
                 }).then(msg => {
                     return postMessage(msg)
@@ -361,7 +361,7 @@ async function resetBeer(user_id, db){
     }
 }
 
-async function resetBeerTimeAndBeer(user_id, db){
+async function resetBeerTimeAndIncBeer(user_id, db){
     try{
         var hours_epoch = (new Date).getTime()/(1000*60*60);
         user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {new: true})
