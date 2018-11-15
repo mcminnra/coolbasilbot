@@ -251,16 +251,16 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        
-        Promise.all([getUser(request.user_id, db), getGroup(db)]).then(function(userGroup){
+        res.writeHead(200);
+        Promise.all([getUser(request.user_id, db), getGroup(db)]).then(userGroup =>{
             let user = userGroup[0]
             let group = userGroup[1]
-            
-            res.writeHead(200);
-            postMessage(stats(user, group))
-            res.end();
+
+            return stats(user, group)
+        }).then(msg => {
+            postMessage(msg)
         });
-        
+        res.end();
         return;
     }
     else {
