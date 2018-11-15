@@ -251,18 +251,18 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        
+        res.writeHead(200);
         Promise.all([getUser(request.user_id, db), getGroup(db)]).then(userGroup =>{
             let user = userGroup[0]
             let group = userGroup[1]
 
             return stats(user, group)
         }).then(msg => {
-            res.writeHead(200);
-            postMessage(msg)
-            res.end();
+            return postMessage(msg)
+        }).catch(err => {
+            console.log(err)
         });
-        
+        res.end();
         return;
     }
     else {
