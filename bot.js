@@ -264,8 +264,11 @@ function respond(req, res, db) {
 }
 
 async function stats(user_id, db){
-    var user = await getUser(request.user_id, db);
-    var group = await getGroup(db);
+    var user = await db.collection('people').findOne({'groupme_user_id': user_id})
+    var group = await db.collection('people').findOne({'name': 'Group'});
+
+    console.log(user)
+    console.log(group)
 
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
     msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
@@ -363,7 +366,6 @@ function postMessage(message) {
             //neat
         } else {
             console.log('rejecting bad status code ' + res.statusCode);
-            console.log(res)
         }
     });
 
