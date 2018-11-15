@@ -273,6 +273,7 @@ function respond(req, res, db) {
 }
 
 function postMessageTest(msg){
+    console.log(msg)
 
     let body = {
         "bot_id" : botID,
@@ -287,7 +288,8 @@ function postMessageTest(msg){
         }
     };
     request(options, function (error, response) {
-        console.log(error,response.body);
+        console.log(error)
+        console.log(response.body);
         return;
     });
 }
