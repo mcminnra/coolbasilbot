@@ -251,16 +251,18 @@ function respond(req, res, db) {
         res.end();
     }
     else if(request.text && botRegexStats.test(request.text)) {
-        res.writeHead(200);
+        
         Promise.all([getUser(request.user_id, db), getGroup(db)]).then(userGroup =>{
             let user = userGroup[0]
             let group = userGroup[1]
 
             return stats(user, group)
         }).then(msg => {
+            res.writeHead(200);
             postMessage(msg)
+            res.end();
         });
-        res.end();
+        
         return;
     }
     else {
@@ -270,9 +272,11 @@ function respond(req, res, db) {
     }
 }
 
-async function stats(user, group){
+function stats(user, group){
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
-    msg = user.name + "'s GroupMe Stats:" + "\n" + "Groupme Message Percentage: " + total + "%";
+    msg = user.name + "'s GroupMe Stats:" + "\n" +
+        "Total Number of Messages Sent: " + user.message_total + "\n" +
+        "Groupme Message Percentage: " + total + "%";
 
     return msg;
 }
