@@ -447,12 +447,12 @@ function stats(user, group){
 }
 
 function beer(user){
-    const SD = user.beer_count  // 12 ounces
-    const Wt = 95.2544
-    const MR = 0.015
-    const DP = (new Date).getTime()/(1000*60*60) - user.beer_time
+    let SD = user.beer_count  // 12 ounces
+    let Wt = 95.2544
+    let MR = 0.015
+    let DP = (new Date).getTime()/(1000*60*60) - user.beer_time
 
-    const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP)
+    let bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP)
 
     if(bac < 0){
         bac = 0
