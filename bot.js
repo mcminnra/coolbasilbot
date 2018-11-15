@@ -240,8 +240,7 @@ function respond(req, res, db) {
         getUser(request.user_id, db).then(user => {
             if(user.beer_count == 0){
                 resetBeerTimeAndIncBeer(user.groupme_user_id, db).then(user => {
-                    console.log(user)
-                    return beer(user)
+                    return beer(user.value)
                 }).then(msg => {
                     return postMessage(msg)
                 }).catch(err => {
@@ -249,7 +248,7 @@ function respond(req, res, db) {
                 })
             } else {
                 updateBeer(user.groupme_user_id, db).then(user => {
-                    return beer(user)
+                    return beer(user.value)
                 }).then(msg => {
                     return postMessage(msg)
                 }).catch(err => {
