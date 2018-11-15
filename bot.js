@@ -55,6 +55,7 @@ function respond(req, res, db) {
     var botRegexBeer = /^\/beer/i;
     var botRegexBeerStatus = /^\/statusbeer/i;
     var botRegexBeerReset = /^\/resetbeer/i;
+    var botRegexLeaderboard = /^\/leaderboard/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -286,7 +287,32 @@ function respond(req, res, db) {
         })
         res.end();
         return;
-    } 
+    }
+    else if(request.text && botRegexBeerLeaderboard.test(request.text)) {
+        res.writeHead(200);
+        getUsers(db).then(users => {
+            // Sort by messages
+            users.sort((a, b) => a.message_total - b.message_total);
+            msg = "Messages Leaderboard:\n"
+            for(var user in users){
+                msg = msg + user.name + " " + user.message_total + '\n'
+            }
+            msg = msg + "\n"
+
+            // Sort by beers
+            users.sort((a, b) => a.beer_total - b.beer_total);
+            msg = msg + "Beers Leaderboard:\n"
+            for(var user in users){
+                msg = msg + user.name + " " + user.beer_total + '\n'
+            }
+            
+            postMessage(msg)
+        }).catch(err => {
+            console.log(err)
+        })
+        res.end();
+        return;
+    }
     else {
         console.log("No Command");
         res.writeHead(200);
@@ -429,10 +455,21 @@ function beer(user){
 
     const bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP) * 10
 
+    if(bac < 0){
+        bac = 0
+    }
+    if(DP > 24){
+        DP = "NEEDS RESET"
+    }
+
     let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac.toFixed(3) + "\n\n" +
           'Been Drinking for ' + DP.toFixed(3) + ' Hours'
+
+    if(DP >= 24){
+        msg = msg + '\n\nIts been over 24 hours since you\'ve have a drink. You might want to reset your current beers with /resetbeer'
+    }
 
     return msg
 }
@@ -481,7 +518,8 @@ function help(){
 	    "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
         "/beer - Adds a beer and calculates BAC\n" +
         "/statusbeer - Gets your current beer count and BAC\n" +
-        "/resetbeer - Resets your beer count to 0\n" +
+        "/resetbeer - Resets your current beer count to 0\n" +
+        "/leaderboard - Check the current leaderboard\n" +
         "/coin - Flips a coin heads or tails\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
