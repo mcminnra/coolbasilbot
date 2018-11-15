@@ -276,7 +276,7 @@ function postMessageTest(msg){
 
     let body = {
         "bot_id" : botID,
-        "text" : botResponse
+        "text" : msg
     };
     let options = {
         uri: 'api.groupme.com/v3/bots/post',
