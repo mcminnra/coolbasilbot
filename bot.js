@@ -315,13 +315,13 @@ function respond(req, res, db) {
             msg = msg + "Beers Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
                 if(i == 0){
-                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + '\n'
+                    msg = msg + "🥇 " + users[i].name + " " + users[i].beer_total + '\n'
                 } else if(i == 1){
-                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + '\n'
+                    msg = msg + "🥈 " + users[i].name + " " + users[i].beer_total + '\n'
                 } else if(i == 2) {
-                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + '\n'
+                    msg = msg + "🥉 " + users[i].name + " " + users[i].beer_total + '\n'
                 } else {
-                    msg = msg + users[i].name + " " + users[i].message_total + '\n' 
+                    msg = msg + users[i].name + " " + users[i].beer_total + '\n' 
                 }
             }
 
