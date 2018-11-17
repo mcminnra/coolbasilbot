@@ -460,7 +460,7 @@ function beer(user, optional_message){
     let msg = ""
 
     // Print Optional Message
-    if(optional_message != undefined){
+    if(optional_message){
         msg = msg + optional_message +"\n\n"
     }
 
