@@ -13,7 +13,7 @@ function respond(req, res, db) {
     let request = req.body
 
     /* Skip BasilBot Message */
-    if(request.name == 'BasilBot'){
+    if(request.name == '🌿'){
         console.log('BasilBot message -- Skipping...')
         res.writeHead(200);
         res.end();
@@ -242,7 +242,7 @@ function respond(req, res, db) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
             let delta_time = Number((new Date).getTime()/(1000*60*60) - user.beer_time).toFixed(3)
-            
+
             if(user.beer_count == 0){
                 resetBeerTimeAndIncBeer(user.groupme_user_id, db).then(user => {
                     return beer(user.value)
