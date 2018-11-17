@@ -474,7 +474,7 @@ function beer(user, optional_message){
         DP = "ADD A BEER TO CALCULATE BAC"
     }
 
-    let msg = msg + 'Total Beers Drank: ' + user.beer_total + '\n' +
+    msg = msg + 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac.toFixed(3) + "\n\n" +
           'Been Drinking for ' + DP + ' Hours'
