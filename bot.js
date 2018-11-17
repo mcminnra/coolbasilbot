@@ -241,7 +241,11 @@ function respond(req, res, db) {
     else if(request.text && botRegexBeer.test(request.text)) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
-            if(user.beer_count == 0){
+            let delta_time = Number((new Date).getTime()/(1000*60*60) - user.beer_time).toFixed(3)
+            if(delta_time > 24){
+                return beer(user, "IT'S BEEN 24 HOURS SINCE YOUR LAST BEER. YOU NEED TO RESET BEFORE YOU CAN ADD ANOTHER!")
+            }
+            else if(user.beer_count == 0){
                 resetBeerTimeAndIncBeer(user.groupme_user_id, db).then(user => {
                     return beer(user.value)
                 }).then(msg => {
@@ -446,13 +450,19 @@ function stats(user, group){
     return msg;
 }
 
-function beer(user){
+function beer(user, optional_message){
     let SD = user.beer_count  // 12 ounces
     let Wt = 95.2544
     let MR = 0.015
     let DP = Number((new Date).getTime()/(1000*60*60) - user.beer_time).toFixed(3)
 
     let bac = (((0.806 * SD * 1.2)/(0.58 * Wt)) - .015 * DP)
+    let msg = ""
+
+    // Print Optional Message
+    if(optional_message != undefined){
+        msg = msg + optional_message +"\n\n"
+    }
 
     if(bac < 0){
         bac = 0
@@ -464,7 +474,7 @@ function beer(user){
         DP = "ADD A BEER TO CALCULATE BAC"
     }
 
-    let msg = 'Total Beers Drank: ' + user.beer_total + '\n' +
+    let msg = msg + 'Total Beers Drank: ' + user.beer_total + '\n' +
           'Current Beers Drank: ' + user.beer_count + '\n' +
           'BAC: ' + bac.toFixed(3) + "\n\n" +
           'Been Drinking for ' + DP + ' Hours'
