@@ -242,12 +242,8 @@ function respond(req, res, db) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
             let delta_time = Number((new Date).getTime()/(1000*60*60) - user.beer_time).toFixed(3)
-            console.log(delta_time)
-            if(delta_time > 24){
-                console.log('got to delta_time')
-                return beer(user, "IT'S BEEN 24 HOURS SINCE YOUR LAST BEER. YOU NEED TO RESET BEFORE YOU CAN ADD ANOTHER!")
-            }
-            else if(user.beer_count == 0){
+            
+            if(user.beer_count == 0){
                 resetBeerTimeAndIncBeer(user.groupme_user_id, db).then(user => {
                     return beer(user.value)
                 }).then(msg => {
@@ -255,6 +251,8 @@ function respond(req, res, db) {
                 }).catch(err => {
                     console.log(err)
                 })
+            } else if(delta_time > 24){
+                return postMessage(beer(user, "IT'S BEEN 24 HOURS SINCE YOUR LAST BEER. YOU NEED TO RESET BEFORE YOU CAN ADD ANOTHER!"))
             } else {
                 updateBeer(user.groupme_user_id, db).then(user => {
                     return beer(user.value)
@@ -453,7 +451,6 @@ function stats(user, group){
 }
 
 function beer(user, optional_message){
-    console.log('got to beer')
     let SD = user.beer_count  // 12 ounces
     let Wt = 95.2544
     let MR = 0.015
@@ -486,7 +483,6 @@ function beer(user, optional_message){
         msg = msg + '\n\nIts been over 24 hours since you\'ve have a drink. You might want to reset your current beers with /resetbeer'
     }
 
-    console.log(msg)
     return msg
 }
 
