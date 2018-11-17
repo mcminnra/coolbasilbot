@@ -486,6 +486,7 @@ function beer(user, optional_message){
         msg = msg + '\n\nIts been over 24 hours since you\'ve have a drink. You might want to reset your current beers with /resetbeer'
     }
 
+    console.log(msg)
     return msg
 }
 
