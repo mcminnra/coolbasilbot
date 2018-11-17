@@ -299,14 +299,30 @@ function respond(req, res, db) {
             users.sort((a, b) => b.message_total - a.message_total);
             msg = "Messages Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
-                msg = msg + users[i].name + " " + users[i].message_total + '\n'
+                if(i == 0){
+                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + '\n'
+                } else if(i == 1){
+                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + '\n'
+                } else if(i == 2) {
+                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + '\n'
+                } else {
+                    msg = msg + users[i].name + " " + users[i].message_total + '\n' 
+                }
             }
             msg = msg + "\n"
 
             users.sort((a, b) => b.beer_total - a.beer_total);
             msg = msg + "Beers Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
-                msg = msg + users[i].name + " " + users[i].beer_total + '\n'
+                if(i == 0){
+                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + '\n'
+                } else if(i == 1){
+                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + '\n'
+                } else if(i == 2) {
+                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + '\n'
+                } else {
+                    msg = msg + users[i].name + " " + users[i].message_total + '\n' 
+                }
             }
 
             postMessage(msg)
