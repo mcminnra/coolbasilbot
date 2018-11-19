@@ -65,6 +65,7 @@ function respond(req, res, db) {
     var botRegexMason = /Mason|Johnson/i;
     var botRegexMiguel = /Miguel|Thompson/i;
     var botRegexAustin = /Austin|Combs/i;
+    var botRegexRichmond = /Sam|Richmond/i;
     var botRegexChel = /Chel/i;
 
     // Name Metions
@@ -114,6 +115,13 @@ function respond(req, res, db) {
     if(request.text && botRegexMiguel.test(request.text)) {
         res.writeHead(200);
         autoMention('30310364', 'MT');
+        res.end();
+        return;
+    }
+    //Richmond
+    if(request.text && botRegexRichmond.test(request.text)) {
+        res.writeHead(200);
+        autoMention('4022094', 'SR');
         res.end();
         return;
     }
