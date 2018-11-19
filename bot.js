@@ -19,7 +19,7 @@ function respond(req, res, db) {
         res.end();
         return;
     } else {
-        console.log('Message => "' + request.text + ' - ' + request.name + '"')
+        console.log('Message => "' + request.text + ' - ' + request.name + ' (' + request.user_id + ')"')
     }
    
     /* Update Group and person messages */
