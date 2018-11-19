@@ -65,7 +65,7 @@ function respond(req, res, db) {
     var botRegexMason = /Mason|Johnson/i;
     var botRegexMiguel = /Miguel|Thompson/i;
     var botRegexAustin = /Austin|Combs/i;
-    var botRegexRichmond = /Sam|Richmond/i;
+    var botRegexRichmond = /Samuel|Richmond/i;
     var botRegexChel = /Chel/i;
 
     // Name Metions
