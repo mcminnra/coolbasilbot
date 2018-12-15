@@ -12,6 +12,8 @@ var botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
+    console.log(request)
+
     /* Skip BasilBot Message */
     if(request.name == '🌿'){
         console.log('BasilBot message -- Skipping...')
@@ -56,6 +58,7 @@ function respond(req, res, db) {
     var botRegexBeerStatus = /^\/statusbeer/i;
     var botRegexBeerReset = /^\/resetbeer/i;
     var botRegexLeaderboard = /^\/leaderboard/i;
+    var botRegexAnnounce = /^\/announce/i;
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
@@ -338,7 +341,21 @@ function respond(req, res, db) {
         });
         res.end();
         return;
-    }
+    } 
+    else if(request.text && botRegexAnnounce.test(request.text)) {
+        let announce_user = request.user_id
+
+        res.writeHead(200);
+        getUsers(db).then(users => {
+            return announce(users)
+        }).then(msg => {
+            return postMessage(msg)
+        }).catch(err => {
+            console.log(err)
+        })
+        res.end();
+        return;
+    } 
     else {
         res.writeHead(200);
         console.log("No Command");
@@ -392,6 +409,41 @@ function autoMention(user, origin) {
 
     console.log('mentioning ' + user + ' to ' + botID);
     
+    request(options, function (err, res) {
+        if (err) console.log(err)
+        if (res) console.log(res.body)
+        return;
+    });
+}
+
+function announce(users) {
+    let body = {
+        "bot_id" : botID,
+        "attachments" : [
+	    
+	],
+	"text" : "@" + origin
+    };
+
+
+    for(i = 0; i < users.length; i++){
+        let id = String(users[i].groupme_user_id)
+        let user_item = {
+            "loci" : [[0, origin.length + 1]],
+            "type" : "mentions",
+            "user_ids" : [id]
+        }
+    }
+
+    let options = {
+        uri: 'https://api.groupme.com/v3/bots/post',
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
     request(options, function (err, res) {
         if (err) console.log(err)
         if (res) console.log(res.body)
@@ -464,6 +516,10 @@ async function resetBeerTimeAndIncBeer(user_id, db){
 }
 
 /* Command Functions */
+function announce(users){
+
+}
+
 function stats(user, group){
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
     msg = user.name + "'s GroupMe Stats:" + "\n\n" +
