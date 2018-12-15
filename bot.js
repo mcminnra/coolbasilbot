@@ -306,26 +306,35 @@ function respond(req, res, db) {
             let users = userGroup[0]
             let group = userGroup[1]
 
+            // Get longest name length
+            let longest_name_len = -1
+            for (i=0; i<users.length; i++) {
+                if(users[i].name.length > longest_name_len){
+                    longest_name_len = users[i].name.length
+                }
+            }
+
             // Sort by messages
             users.sort((a, b) => b.message_total - a.message_total);
             msg = "Messages Leaderboard:\n"
-            for (i=0; i<users.length; ++i) {
+            for (i=0; i<users.length; i++) {
                 total = String(Number(Number(users[i].message_total) / Number(group.message_total) * 100).toFixed(2))
+                name_diff = users[i].name.length - longest_name_len
                 if(i == 0){
-                    msg = msg + "🥇 " + users[i].name + "\t " + users[i].message_total + " (" + total + '%)\n'
+                    msg = msg + "🥇 " + users[i].name + " ".repeat(name_diff) + " " + users[i].message_total + " (" + total + '%)\n'
                 } else if(i == 1){
-                    msg = msg + "🥈 " + users[i].name + "\t " + users[i].message_total + " (" + total + '%)\n'
+                    msg = msg + "🥈 " + users[i].name + " ".repeat(name_diff) + " " + users[i].message_total + " (" + total + '%)\n'
                 } else if(i == 2) {
-                    msg = msg + "🥉 " + users[i].name + "\t " + users[i].message_total + " (" + total + '%)\n'
+                    msg = msg + "🥉 " + users[i].name + " ".repeat(name_diff) + " " + users[i].message_total + " (" + total + '%)\n'
                 } else {
-                    msg = msg + users[i].name + "\t " + users[i].message_total + " (" + total + '%)\n' 
+                    msg = msg + users[i].name + " ".repeat(name_diff+2) + " " + users[i].message_total + " (" + total + '%)\n' 
                 }
             }
             msg = msg + "\n"
 
             users.sort((a, b) => b.beer_total - a.beer_total);
             msg = msg + "Beers Leaderboard:\n"
-            for (i=0; i<users.length; ++i) {
+            for (i=0; i<users.length; i++) {
 
                 if(i == 0){
                     msg = msg + "🥇 " + users[i].name + " " + users[i].beer_total + '\n'
@@ -342,42 +351,6 @@ function respond(req, res, db) {
         }).catch(err => {
             console.log(err)
         });
-
-        // getUsers(db).then(users => {
-        //     // Sort by messages
-        //     users.sort((a, b) => b.message_total - a.message_total);
-        //     msg = "Messages Leaderboard:\n"
-        //     for (i=0; i<users.length; ++i) {
-        //         if(i == 0){
-        //             msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + '\n'
-        //         } else if(i == 1){
-        //             msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + '\n'
-        //         } else if(i == 2) {
-        //             msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + '\n'
-        //         } else {
-        //             msg = msg + users[i].name + " " + users[i].message_total + '\n' 
-        //         }
-        //     }
-        //     msg = msg + "\n"
-
-        //     users.sort((a, b) => b.beer_total - a.beer_total);
-        //     msg = msg + "Beers Leaderboard:\n"
-        //     for (i=0; i<users.length; ++i) {
-        //         if(i == 0){
-        //             msg = msg + "🥇 " + users[i].name + " " + users[i].beer_total + '\n'
-        //         } else if(i == 1){
-        //             msg = msg + "🥈 " + users[i].name + " " + users[i].beer_total + '\n'
-        //         } else if(i == 2) {
-        //             msg = msg + "🥉 " + users[i].name + " " + users[i].beer_total + '\n'
-        //         } else {
-        //             msg = msg + users[i].name + " " + users[i].beer_total + '\n' 
-        //         }
-        //     }
-
-        //     postMessage(msg)
-        // }).catch(err => {
-        //     console.log(err)
-        // })
         res.end();
         return;
     }
