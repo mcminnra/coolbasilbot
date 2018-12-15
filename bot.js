@@ -345,8 +345,7 @@ function respond(req, res, db) {
 
         res.writeHead(200);
         getUsers(db).then(users => {
-            console.log(users.length)
-            return announce(users)
+            announce(users)
         }).catch(err => {
             console.log(err)
         })
@@ -425,6 +424,8 @@ function announce(users) {
         ],
         "text" : ""
     };
+
+    console.log(body)
 
     // Add users to mention
     let last = 0
