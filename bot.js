@@ -424,12 +424,12 @@ function announce(users) {
         ],
         "text" : ""
     };
-    
+
     // Add users to mention
     let last = 0
     for(i = 0; i < users.length; i++){
         let id = String(users[i].groupme_user_id)
-        let name = users[i].name.substring(0, 2)
+        let name = users[i].name.substring(0, 3)
         let next = last + name.length + 1
         body.attachments[0].loci.push([last, next])
         body.attachments[0].user_ids.push(String(id))
