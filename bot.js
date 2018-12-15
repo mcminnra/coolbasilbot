@@ -314,12 +314,15 @@ function respond(req, res, db) {
                 }
             }
 
-            // Sort by messages
+            /*
+             * Messages
+             */
             users.sort((a, b) => b.message_total - a.message_total);
             msg = "Messages Leaderboard:\n"
             for (i=0; i<users.length; i++) {
-                total = String(Number(Number(users[i].message_total) / Number(group.message_total) * 100).toFixed(2))
-                name_diff = users[i].name.length - longest_name_len
+                let total = String(Number(Number(users[i].message_total) / Number(group.message_total) * 100).toFixed(2))
+                let name_diff = Number(users[i].name.length - longest_name_len)
+                console.log(name_diff)
                 if(i == 0){
                     msg = msg + "🥇 " + users[i].name + " ".repeat(name_diff) + " " + users[i].message_total + " (" + total + '%)\n'
                 } else if(i == 1){
@@ -332,6 +335,9 @@ function respond(req, res, db) {
             }
             msg = msg + "\n"
 
+            /*
+             * Beers
+             */
             users.sort((a, b) => b.beer_total - a.beer_total);
             msg = msg + "Beers Leaderboard:\n"
             for (i=0; i<users.length; i++) {
