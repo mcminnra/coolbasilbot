@@ -12,7 +12,8 @@ var botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
-    console.log(request)
+    console.log(request.attachments[0].loci)
+    console.log(request.attachments[0].user_ids)
 
     /* Skip BasilBot Message */
     if(request.name == '🌿'){
