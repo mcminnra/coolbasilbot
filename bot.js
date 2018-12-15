@@ -348,9 +348,7 @@ function respond(req, res, db) {
 
         res.writeHead(200);
         getUsers(db).then(users => {
-            return announce(users)
-        }).then(msg => {
-            return postMessage(msg)
+            announce(users)
         }).catch(err => {
             console.log(err)
         })
@@ -421,19 +419,24 @@ function announce(users) {
     let body = {
         "bot_id" : botID,
         "attachments" : [
-	    
-	],
-	"text" : "@" + origin
+            {
+                "loci" : [],
+                "type" : "mentions",
+                "user_ids" : []
+            }
+        ],
+        "text" : ""
     };
 
-
+    // Add users to mention
+    let last = 0
     for(i = 0; i < users.length; i++){
         let id = String(users[i].groupme_user_id)
-        let user_item = {
-            "loci" : [[0, origin.length + 1]],
-            "type" : "mentions",
-            "user_ids" : [id]
-        }
+        let next = last + id.length + 1
+        body.attachments[0].loci.push([last, next])
+        body.attachments[0].user_ids.push(String(id))
+        body.text += "@" + id + " "
+        last = next + 1
     }
 
     let options = {
