@@ -109,6 +109,7 @@ function respond(req, res, db) {
     if(request.text && botRegexMiguel.test(request.text)) {
         res.writeHead(200);
         autoMention('30310364', 'MT');
+        res.end();
     }
     //Richmond
     if(request.text && botRegexRichmond.test(request.text)) {
