@@ -345,7 +345,8 @@ function respond(req, res, db) {
 
         res.writeHead(200);
         getUsers(db).then(users => {
-            announce(users)
+            console.log(users.length)
+            return announce(users)
         }).catch(err => {
             console.log(err)
         })
@@ -435,6 +436,8 @@ function announce(users) {
         body.text += "@" + id + " "
         last = next + 1
     }
+
+    console.log(body)
 
     let options = {
         uri: 'https://api.groupme.com/v3/bots/post',
