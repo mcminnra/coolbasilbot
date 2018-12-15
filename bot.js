@@ -521,10 +521,6 @@ async function resetBeerTimeAndIncBeer(user_id, db){
 }
 
 /* Command Functions */
-function announce(users){
-
-}
-
 function stats(user, group){
     total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
     msg = user.name + "'s GroupMe Stats:" + "\n\n" +
