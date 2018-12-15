@@ -74,56 +74,47 @@ function respond(req, res, db) {
         res.writeHead(200);
         autoMention('17738651', 'RM');
         res.end();
-        return;
     }
     //Mason
     if(request.text && botRegexMason.test(request.text)) {
         res.writeHead(200);
         autoMention('10896812', 'MJ');
         res.end();
-        return;
     }
     //Royce
     if(request.text && botRegexRoyce.test(request.text)) {
         res.writeHead(200);
         autoMention('19585794', 'RF');
         res.end();
-        return;
     }
     //Austin
     if(request.text && botRegexAustin.test(request.text)) {
         res.writeHead(200);
         autoMention('20932518', 'AC');
         res.end();
-        return;
     }
     //Thomas
     if(request.text && botRegexThomas.test(request.text)) {
         res.writeHead(200);
         autoMention('17079486', 'TK');
         res.end();
-        return;
     }
     //Mitch
     if(request.text && botRegexMitch.test(request.text)) {
         res.writeHead(200);
         autoMention('9493451', 'MM');
         res.end();
-        return;
     }
     //Miguel
     if(request.text && botRegexMiguel.test(request.text)) {
         res.writeHead(200);
         autoMention('30310364', 'MT');
-        res.end();
-        return;
     }
     //Richmond
     if(request.text && botRegexRichmond.test(request.text)) {
         res.writeHead(200);
         autoMention('4022094', 'SR');
         res.end();
-        return;
     }
 
     // Commands
