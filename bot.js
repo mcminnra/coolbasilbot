@@ -312,13 +312,13 @@ function respond(req, res, db) {
             for (i=0; i<users.length; ++i) {
                 total = String(Number(Number(users[i].message_total) / Number(group.message_total) * 100).toFixed(2))
                 if(i == 0){
-                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + " " + total + '%\n'
+                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + " (" + total + '%)\n'
                 } else if(i == 1){
-                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + " " + total + '%\n'
+                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + " (" + total + '%)\n'
                 } else if(i == 2) {
-                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + " " + total + '%\n'
+                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + " (" + total + '%)\n'
                 } else {
-                    msg = msg + users[i].name + " " + users[i].message_total + " " + total + '%\n' 
+                    msg = msg + users[i].name + " " + users[i].message_total + " (" + total + '%)\n' 
                 }
             }
             msg = msg + "\n"
