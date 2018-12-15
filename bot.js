@@ -60,7 +60,7 @@ function respond(req, res, db) {
 
     /* Keyword */
     var botRegexRyder = /Ryder|McMinn/i;
-    var botRegexRoyce = /Royce|Roy|Funk/i;
+    var botRegexRoyce = /Royce|Funk/i;
     var botRegexThomas = /Thomas|Kreuzman|Tommy/i;
     var botRegexMitch = /Mitch|Molchin/i;
     var botRegexMason = /Mason|Johnson/i;
