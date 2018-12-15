@@ -68,57 +68,45 @@ function respond(req, res, db) {
     var botRegexRichmond = /Samuel|Richmond/i;
     var botRegexChel = /Chel/i;
 
-    // Name Metions
+    /*
+     * Name Mentions
+     */
     //Ryder
     if(request.text && botRegexRyder.test(request.text)) {
-        res.writeHead(200);
         autoMention('17738651', 'RM');
-        res.end();
     }
     //Mason
     if(request.text && botRegexMason.test(request.text)) {
-        res.writeHead(200);
         autoMention('10896812', 'MJ');
-        res.end();
     }
     //Royce
     if(request.text && botRegexRoyce.test(request.text)) {
-        res.writeHead(200);
         autoMention('19585794', 'RF');
-        res.end();
     }
     //Austin
     if(request.text && botRegexAustin.test(request.text)) {
-        res.writeHead(200);
         autoMention('20932518', 'AC');
-        res.end();
     }
     //Thomas
     if(request.text && botRegexThomas.test(request.text)) {
-        res.writeHead(200);
         autoMention('17079486', 'TK');
-        res.end();
     }
     //Mitch
     if(request.text && botRegexMitch.test(request.text)) {
-        res.writeHead(200);
         autoMention('9493451', 'MM');
-        res.end();
     }
     //Miguel
     if(request.text && botRegexMiguel.test(request.text)) {
-        res.writeHead(200);
         autoMention('30310364', 'MT');
-        res.end();
     }
     //Richmond
     if(request.text && botRegexRichmond.test(request.text)) {
-        res.writeHead(200);
         autoMention('4022094', 'SR');
-        res.end();
     }
 
-    // Commands
+    /*
+     * Commands
+     */
     if(request.text && botRegexFuckOff.test(request.text)) {
         res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
@@ -352,8 +340,8 @@ function respond(req, res, db) {
         return;
     }
     else {
-        console.log("No Command");
         res.writeHead(200);
+        console.log("No Command");
         res.end();
     }
 }
