@@ -302,19 +302,23 @@ function respond(req, res, db) {
     }
     else if(request.text && botRegexLeaderboard.test(request.text)) {
         res.writeHead(200);
-        getUsers(db).then(users => {
+        Promise.all([getUsers(db), getGroup(db)]).then(userGroup =>{
+            let users = userGroup[0]
+            let group = userGroup[1]
+
             // Sort by messages
             users.sort((a, b) => b.message_total - a.message_total);
             msg = "Messages Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
+                total = String(Number(Number(users[i].message_total) / Number(group.message_total) * 100).toFixed(2))
                 if(i == 0){
-                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + '\n'
+                    msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + " " + total + '%\n'
                 } else if(i == 1){
-                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + '\n'
+                    msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + " " + total + '%\n'
                 } else if(i == 2) {
-                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + '\n'
+                    msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + " " + total + '%\n'
                 } else {
-                    msg = msg + users[i].name + " " + users[i].message_total + '\n' 
+                    msg = msg + users[i].name + " " + users[i].message_total + " " + total + '%\n' 
                 }
             }
             msg = msg + "\n"
@@ -322,6 +326,7 @@ function respond(req, res, db) {
             users.sort((a, b) => b.beer_total - a.beer_total);
             msg = msg + "Beers Leaderboard:\n"
             for (i=0; i<users.length; ++i) {
+
                 if(i == 0){
                     msg = msg + "🥇 " + users[i].name + " " + users[i].beer_total + '\n'
                 } else if(i == 1){
@@ -336,7 +341,43 @@ function respond(req, res, db) {
             postMessage(msg)
         }).catch(err => {
             console.log(err)
-        })
+        });
+
+        // getUsers(db).then(users => {
+        //     // Sort by messages
+        //     users.sort((a, b) => b.message_total - a.message_total);
+        //     msg = "Messages Leaderboard:\n"
+        //     for (i=0; i<users.length; ++i) {
+        //         if(i == 0){
+        //             msg = msg + "🥇 " + users[i].name + " " + users[i].message_total + '\n'
+        //         } else if(i == 1){
+        //             msg = msg + "🥈 " + users[i].name + " " + users[i].message_total + '\n'
+        //         } else if(i == 2) {
+        //             msg = msg + "🥉 " + users[i].name + " " + users[i].message_total + '\n'
+        //         } else {
+        //             msg = msg + users[i].name + " " + users[i].message_total + '\n' 
+        //         }
+        //     }
+        //     msg = msg + "\n"
+
+        //     users.sort((a, b) => b.beer_total - a.beer_total);
+        //     msg = msg + "Beers Leaderboard:\n"
+        //     for (i=0; i<users.length; ++i) {
+        //         if(i == 0){
+        //             msg = msg + "🥇 " + users[i].name + " " + users[i].beer_total + '\n'
+        //         } else if(i == 1){
+        //             msg = msg + "🥈 " + users[i].name + " " + users[i].beer_total + '\n'
+        //         } else if(i == 2) {
+        //             msg = msg + "🥉 " + users[i].name + " " + users[i].beer_total + '\n'
+        //         } else {
+        //             msg = msg + users[i].name + " " + users[i].beer_total + '\n' 
+        //         }
+        //     }
+
+        //     postMessage(msg)
+        // }).catch(err => {
+        //     console.log(err)
+        // })
         res.end();
         return;
     }
