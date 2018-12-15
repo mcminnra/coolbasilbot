@@ -321,8 +321,7 @@ function respond(req, res, db) {
             msg = "Messages Leaderboard:\n"
             for (i=0; i<users.length; i++) {
                 let total = String(Number(Number(users[i].message_total) / Number(group.message_total) * 100).toFixed(2))
-                let name_diff = Number(users[i].name.length - longest_name_len)
-                console.log(name_diff)
+                let name_diff = Number(longest_name_len - users[i].name.length)
                 if(i == 0){
                     msg = msg + "🥇 " + users[i].name + " ".repeat(name_diff) + " " + users[i].message_total + " (" + total + '%)\n'
                 } else if(i == 1){
