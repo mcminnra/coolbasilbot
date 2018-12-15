@@ -12,9 +12,6 @@ var botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
-    console.log(request.attachments[0].loci)
-    console.log(request.attachments[0].user_ids)
-
     /* Skip BasilBot Message */
     if(request.name == '🌿'){
         console.log('BasilBot message -- Skipping...')
@@ -621,6 +618,7 @@ function help(){
         "/weather {City / Zip} - displays weather\n" +
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
         "/hntop - gets top Hacker New's story from past 24 hours\n" +
+        "/announce - mentions everyone in the chat\n" +
         "/help - Display this menu";
 }
 
