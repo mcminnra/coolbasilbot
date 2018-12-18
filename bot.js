@@ -54,15 +54,15 @@ function respond(req, res, db) {
     var botRegexAnnounce = /^\/announce/i;
 
     /* Keyword */
-    var botRegexRyder = /Ryder|McMinn/i;
-    var botRegexRoyce = /Royce|Funk/i;
-    var botRegexThomas = /Thomas|Kreuzman|Tommy/i;
-    var botRegexMitch = /Mitch|Molchin/i;
-    var botRegexMason = /Mason|Johnson/i;
-    var botRegexMiguel = /Miguel|Thompson/i;
-    var botRegexAustin = /Austin|Combs/i;
-    var botRegexRichmond = /Samuel|Richmond/i;
-    var botRegexChel = /Chel/i;
+    var botRegexRyder = /\b(Ryder)\b|\b(McMinn)\b/i;
+    var botRegexRoyce = /\b(Royce)\b|\b(Funk)\b|\b(Roy)\b/i;
+    var botRegexThomas = /\b(Thomas)\b|\b(Kreuzman)\b|\b(Tommy)\b|\b(Tom)\b/i;
+    var botRegexMitch = /\b(Mitch)\b|\b(Molchin)\b/i;
+    var botRegexMason = /\b(Mason)\b|\b(Johnson)\b/i;
+    var botRegexMiguel = /\b(Miguel)\b|\b(Thompson)\b/i;
+    var botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
+    var botRegexRichmond = /\b(Samuel)\b|\b(Richmond)\b|\b(Rich)\b/i;
+    var botRegexChel = /\b(Chel)\b/i;
 
     /*
      * Name Mentions
