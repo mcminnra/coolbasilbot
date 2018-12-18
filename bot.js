@@ -1,10 +1,6 @@
-var HTTPS = require('https');
 var request = require('request');
-var cool = require('cool-ascii-faces');
 var giphy = require('giphy-api')();
 var weather = require('weather-js');
-var querystring = require('querystring');
-var hn = require("hacker-news-api");
 var urban = require('urban');
 
 var botID = process.env.BOT_ID;
@@ -22,7 +18,7 @@ function respond(req, res, db) {
         console.log('Message => "' + request.text + ' - ' + request.name + ' (' + request.user_id + ')"')
     }
    
-    /* Update Group and person messages */
+    /* Update Group and person message totals */
     db.collection("people").updateOne({'name': 'Group'}, {$inc: { "message_total": 1 }}, function(err, res) {
         if (err) {
             console.log('Error incrementing group')
@@ -49,7 +45,6 @@ function respond(req, res, db) {
     var botRegexRandom = /^\/random/i;
     var botRegexWeather = /^\/weather/i;
     var botRegexUrbanDictionary = /^\/urbandict/i;
-    var botRegexHackerNewsTop = /^\/hntop/i;
     var botRegexOddsAre = /^\/odds/i;
     var botRegexStats = /^\/stats/i;
     var botRegexBeer = /^\/beer/i;
@@ -108,13 +103,15 @@ function respond(req, res, db) {
     /*
      * Commands
      */
+    // /fuckoff
     if(request.text && botRegexFuckOff.test(request.text)) {
         res.writeHead(200);
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         res.end();
         return;
     }
-    else if(request.text && botRegexChel.test(request.text)) { // Chel
+    // Chel keyword
+    else if(request.text && botRegexChel.test(request.text)) {
         res.writeHead(200);
         giphy.random('nhl', function(err, resGif) {
             postMessage(resGif.data.image_url);
@@ -122,23 +119,27 @@ function respond(req, res, db) {
         res.end();
         return;
     }
-    else if(request.text && botRegexEightBall.test(request.text)) { // EEight Ball
+    // /8ball
+    else if(request.text && botRegexEightBall.test(request.text)) {
         res.writeHead(200);
         postMessage(eightBall());
         res.end();
         return;
     }
+    // /help
     else if(request.text && botRegexHelp.test(request.text)) {
         res.writeHead(200);
         postMessage(help());
         return;
     }
+    // /coin
     else if(request.text && botRegexCoin.test(request.text)) {
         res.writeHead(200);
         postMessage(coin());
         res.end();
         return;
     }
+    // /ohfuckme
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         res.writeHead(200);
         giphy.random('fuck me', function(err, resGif) {
@@ -151,6 +152,7 @@ function respond(req, res, db) {
         });
         res.end();
     }
+    // /random
     else if(request.text && botRegexRandom.test(request.text)) {
         res.writeHead(200);
         // Random gif by tag using callback
@@ -164,6 +166,7 @@ function respond(req, res, db) {
         });
         res.end();
     }
+    // /weather
     else if(request.text && botRegexWeather.test(request.text)) {
         res.writeHead(200);
         weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, res) {
@@ -189,6 +192,7 @@ function respond(req, res, db) {
         });
         res.end();
     }
+    // /urbandict
     else if(request.text && botRegexUrbanDictionary.test(request.text)) {
         res.writeHead(200);
         var query = urban(request.text.substring(11));
@@ -198,20 +202,14 @@ function respond(req, res, db) {
         });
         res.end();
     }
-    else if(request.text && botRegexHackerNewsTop.test(request.text)) {
-        res.writeHead(200);
-        hn.author().story().show_hn().since("past_24h").top(function (error, data) {
-            if (error) throw error;
-            postMessage(data.hits[0].title + "\n\n" + data.hits[0].url);
-        });
-        res.end();
-    }
+    // /odds
     else if(request.text && botRegexOddsAre.test(request.text)) {
         res.writeHead(200);
         req_split = request.text.split(" ");
 	    postMessage(oddsAre(req_split[1], req_split[2]));
         res.end();
     }
+    // /stats
     else if(request.text && botRegexStats.test(request.text)) {
         res.writeHead(200);
         Promise.all([getUser(request.user_id, db), getGroup(db)]).then(userGroup =>{
@@ -227,6 +225,7 @@ function respond(req, res, db) {
         res.end();
         return;
     }
+    // /beer
     else if(request.text && botRegexBeer.test(request.text)) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
@@ -256,7 +255,8 @@ function respond(req, res, db) {
         });
         res.end();
         return;
-    } 
+    }
+    // /statusbeer
     else if(request.text && botRegexBeerStatus.test(request.text)) {
         res.writeHead(200);
         getUser(request.user_id, db).then(user => {
@@ -269,6 +269,7 @@ function respond(req, res, db) {
         res.end();
         return;
     }
+    // /resetbeer
     else if(request.text && botRegexBeerReset.test(request.text)) {
         res.writeHead(200);
         resetBeer(request.user_id, db).then(user => {
@@ -281,6 +282,7 @@ function respond(req, res, db) {
         res.end();
         return;
     }
+    // /leaderboard
     else if(request.text && botRegexLeaderboard.test(request.text)) {
         res.writeHead(200);
         Promise.all([getUsers(db), getGroup(db)]).then(userGroup =>{
@@ -339,7 +341,8 @@ function respond(req, res, db) {
         });
         res.end();
         return;
-    } 
+    }
+    // /announce
     else if(request.text && botRegexAnnounce.test(request.text)) {
         let announce_user = request.user_id
 
@@ -352,6 +355,7 @@ function respond(req, res, db) {
         res.end();
         return;
     } 
+    // No Command
     else {
         res.writeHead(200);
         console.log("No Command");
@@ -616,7 +620,6 @@ function help(){
         "/random {Keyword(s)} - displays random gif\n" +
         "/weather {City / Zip} - displays weather\n" +
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
-        "/hntop - gets top Hacker New's story from past 24 hours\n" +
         "/announce - mentions everyone in the chat\n" +
         "/help - Display this menu";
 }
