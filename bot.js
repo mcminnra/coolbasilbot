@@ -2,6 +2,7 @@ const request = require('request');
 const giphy = require('giphy-api')();
 const weather = require('weather-js');
 const urban = require('urban');
+const sentiment = require("sentiment");
 
 const botID = process.env.BOT_ID;
 
@@ -35,6 +36,26 @@ function respond(req, res, db) {
             return;
         }
     });
+
+    /* Update Sentiment */
+    let senti = new sentiment()
+    let comparative_score = senti.analyze(request.text).comparative  // Only get comparative score
+    getUser(request.user_id, db).then(user => {
+        let new_score = user.sentiment + (comparative_score - user.sentiment)/(user.sentiment_counter+1)
+        db.collection("people").updateOne({'groupme_user_id': request.user_id},
+                                          {$inc: { "sentiment_counter": 1 },
+                                           $set: { "sentiment": new_score}}, function(err, res) {
+            if (err) {
+                console.log('Error adding sentiment')
+                res.writeHead(200);
+                res.end();
+                return;
+            }
+        });
+    }).catch(err => {
+        consolelog(err);
+    });
+    
 
     /* Regex Commands */
     let botRegexFuckOff = /^\/fuckoff/i;
