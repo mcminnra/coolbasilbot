@@ -1,9 +1,9 @@
-var request = require('request');
-var giphy = require('giphy-api')();
-var weather = require('weather-js');
-var urban = require('urban');
+const request = require('request');
+const giphy = require('giphy-api')();
+const weather = require('weather-js');
+const urban = require('urban');
 
-var botID = process.env.BOT_ID;
+const botID = process.env.BOT_ID;
 
 function respond(req, res, db) {
     let request = req.body
@@ -37,32 +37,32 @@ function respond(req, res, db) {
     });
 
     /* Regex Commands */
-    var botRegexFuckOff = /^\/fuckoff/i;
-    var botRegexEightBall = /^\/8ball/i;
-    var botRegexHelp = /^\/help/i;
-    var botRegexCoin = /^\/coin/i;
-    var botRegexOhFuckMe =/^\/ohfuckme/i;
-    var botRegexRandom = /^\/random/i;
-    var botRegexWeather = /^\/weather/i;
-    var botRegexUrbanDictionary = /^\/urbandict/i;
-    var botRegexOddsAre = /^\/odds/i;
-    var botRegexStats = /^\/stats/i;
-    var botRegexBeer = /^\/beer/i;
-    var botRegexBeerStatus = /^\/statusbeer/i;
-    var botRegexBeerReset = /^\/resetbeer/i;
-    var botRegexLeaderboard = /^\/leaderboard/i;
-    var botRegexAnnounce = /^\/announce/i;
+    let botRegexFuckOff = /^\/fuckoff/i;
+    let botRegexEightBall = /^\/8ball/i;
+    let botRegexHelp = /^\/help/i;
+    let botRegexCoin = /^\/coin/i;
+    let botRegexOhFuckMe =/^\/ohfuckme/i;
+    let botRegexRandom = /^\/random/i;
+    let botRegexWeather = /^\/weather/i;
+    let botRegexUrbanDictionary = /^\/urbandict/i;
+    let botRegexOddsAre = /^\/odds/i;
+    let botRegexStats = /^\/stats/i;
+    let botRegexBeer = /^\/beer/i;
+    let botRegexBeerStatus = /^\/statusbeer/i;
+    let botRegexBeerReset = /^\/resetbeer/i;
+    let botRegexLeaderboard = /^\/leaderboard/i;
+    let botRegexAnnounce = /^\/announce/i;
 
     /* Keyword */
-    var botRegexRyder = /\b(Ryder)\b|\b(McMinn)\b/i;
-    var botRegexRoyce = /\b(Royce)\b|\b(Funk)\b|\b(Roy)\b/i;
-    var botRegexThomas = /\b(Thomas)\b|\b(Kreuzman)\b|\b(Tommy)\b|\b(Tom)\b/i;
-    var botRegexMitch = /\b(Mitch)\b|\b(Molchin)\b/i;
-    var botRegexMason = /\b(Mason)\b|\b(Johnson)\b/i;
-    var botRegexMiguel = /\b(Miguel)\b|\b(Thompson)\b/i;
-    var botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
-    var botRegexRichmond = /\b(Samuel)\b|\b(Richmond)\b|\b(Rich)\b/i;
-    var botRegexChel = /\b(Chel)\b/i;
+    let botRegexRyder = /\b(Ryder)\b|\b(McMinn)\b/i;
+    let botRegexRoyce = /\b(Royce)\b|\b(Funk)\b|\b(Roy)\b/i;
+    let botRegexThomas = /\b(Thomas)\b|\b(Kreuzman)\b|\b(Tommy)\b|\b(Tom)\b/i;
+    let botRegexMitch = /\b(Mitch)\b|\b(Molchin)\b/i;
+    let botRegexMason = /\b(Mason)\b|\b(Johnson)\b/i;
+    let botRegexMiguel = /\b(Miguel)\b|\b(Thompson)\b/i;
+    let botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
+    let botRegexRichmond = /\b(Samuel)\b|\b(Richmond)\b|\b(Rich)\b/i;
+    let botRegexChel = /\b(Chel)\b/i;
 
     /*
      * Name Mentions
@@ -195,7 +195,7 @@ function respond(req, res, db) {
     // /urbandict
     else if(request.text && botRegexUrbanDictionary.test(request.text)) {
         res.writeHead(200);
-        var query = urban(request.text.substring(11));
+        let query = urban(request.text.substring(11));
 
         query.first(function(json) {
             postMessage(json.word +'\n\n' + json.definition + '\n\n' + json.example);
@@ -462,7 +462,7 @@ function announce(users) {
 /* Database Functions */
 async function getUsers(db){
     try{
-        var users = await db.collection('people').find({'name': { $ne: 'Group'}}).toArray()
+        let users = await db.collection('people').find({'name': { $ne: 'Group'}}).toArray()
 
         return users
     } catch(err) {
@@ -472,7 +472,7 @@ async function getUsers(db){
 
 async function getUser(user_id, db){
     try{
-        var user = await db.collection('people').findOne({'groupme_user_id': user_id})
+        let user = await db.collection('people').findOne({'groupme_user_id': user_id})
 
         return user
     } catch(err) {
@@ -482,7 +482,7 @@ async function getUser(user_id, db){
 
 async function getGroup(db){
     try{
-        var group = await db.collection('people').findOne({'name': 'Group'})
+        let group = await db.collection('people').findOne({'name': 'Group'})
 
         return group
     } catch(err) {
@@ -492,7 +492,7 @@ async function getGroup(db){
 
 async function updateBeer(user_id, db){
     try{
-        var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }}, {returnOriginal:false})
+        let user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_count": 1 }}, {returnOriginal:false})
         user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_total": 1 }}, {returnOriginal:false})
 
         return user
@@ -503,7 +503,7 @@ async function updateBeer(user_id, db){
 
 async function resetBeer(user_id, db){
     try{
-        var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_count": 0 }}, {returnOriginal:false})
+        let user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_count": 0 }}, {returnOriginal:false})
 
         return user
     } catch(err) {
@@ -513,8 +513,8 @@ async function resetBeer(user_id, db){
 
 async function resetBeerTimeAndIncBeer(user_id, db){
     try{
-        var hours_epoch = (new Date).getTime()/(1000*60*60)-.25;
-        var user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {returnOriginal:false})
+        let hours_epoch = (new Date).getTime()/(1000*60*60)-.25;
+        let user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$set: { "beer_time": hours_epoch, "beer_count": 1}}, {returnOriginal:false})
         user = await db.collection("people").findOneAndUpdate({'groupme_user_id': user_id}, {$inc: { "beer_total": 1 }}, {returnOriginal:false})
 
         return user
@@ -570,7 +570,7 @@ function beer(user, optional_message){
 }
 
 function eightBall() {
-    var outcomes = [
+    let outcomes = [
         "It is certain",
         "It is decidedly so",
         "Without a doubt",
@@ -597,7 +597,7 @@ function eightBall() {
 }
 
 function coin() {
-    var options = [
+    let options = [
         "HEADS",
         "TAILS"
     ];
@@ -629,7 +629,7 @@ function oddsAre(odds, guess){
 
     console.log("Guess: " + guess + ", Odds: " + odds); 
 
-    var msg = "";
+    let msg = "";
     
     // Bad Guess
     if(guess > odds){
@@ -653,7 +653,7 @@ function oddsAre(odds, guess){
 
 /* Utility Functions */
 function msToTime(duration) {
-    var milliseconds = parseInt((duration%1000)/100)
+    let milliseconds = parseInt((duration%1000)/100)
         , seconds = parseInt((duration/1000)%60)
         , minutes = parseInt((duration/(1000*60))%60)
         , hours = parseInt((duration/(1000*60*60))%24);
