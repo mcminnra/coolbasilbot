@@ -395,7 +395,6 @@ function postMessage(msg){
     };
     request(options, function (err, res) {
         if (err) console.log(err)
-        if (res) console.log(res.body)
         return;
     });
 }
@@ -427,7 +426,6 @@ function autoMention(user, origin) {
     
     request(options, function (err, res) {
         if (err) console.log(err)
-        if (res) console.log(res.body)
         return;
     });
 }
@@ -457,8 +455,6 @@ function announce(users) {
         last = next + 1
     }
 
-    console.log(body)
-
     let options = {
         uri: 'https://api.groupme.com/v3/bots/post',
         method: 'POST',
@@ -470,7 +466,6 @@ function announce(users) {
 
     request(options, function (err, res) {
         if (err) console.log(err)
-        if (res) console.log(res.body)
         return;
     });
 }
