@@ -536,10 +536,14 @@ async function resetBeerTimeAndIncBeer(user_id, db){
 
 /* Command Functions */
 function stats(user, group){
-    total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
+    let total = String(Number(Number(user.message_total) / Number(group.message_total) * 100).toFixed(2))
+    let num_days = user.start_date/1000/60/60/24 - Math.floor(new Date().getTime()/1000.0/60/60/24)
+    let daily_messages = user.message_total / num_days
+
     msg = user.name + "'s GroupMe Stats:" + "\n\n" +
         "Total Number of Messages Sent: " + user.message_total + "\n" +
-        "Groupme Message Percentage: " + total + "%";
+        "Groupme Message Percentage: " + total + "%" + "\n" +
+        "Average Daily Messages: " + daily_messages;
 
     return msg;
 }
