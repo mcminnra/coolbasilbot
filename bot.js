@@ -106,6 +106,7 @@ function respond(req, res, db) {
     // /fuckoff
     if(request.text && botRegexFuckOff.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /fuckoff")
         postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         res.end();
         return;
@@ -113,6 +114,7 @@ function respond(req, res, db) {
     // Chel keyword
     else if(request.text && botRegexChel.test(request.text)) {
         res.writeHead(200);
+        console.log("Keyword => chel")
         giphy.random('nhl', function(err, resGif) {
             postMessage(resGif.data.image_url);
         });
@@ -122,6 +124,7 @@ function respond(req, res, db) {
     // /8ball
     else if(request.text && botRegexEightBall.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /8ball")
         postMessage(eightBall());
         res.end();
         return;
@@ -129,12 +132,14 @@ function respond(req, res, db) {
     // /help
     else if(request.text && botRegexHelp.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /help")
         postMessage(help());
         return;
     }
     // /coin
     else if(request.text && botRegexCoin.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /coin")
         postMessage(coin());
         res.end();
         return;
@@ -142,6 +147,7 @@ function respond(req, res, db) {
     // /ohfuckme
     else if(request.text && botRegexOhFuckMe.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /ohfuckme")
         giphy.random('fuck me', function(err, resGif) {
             if(err) {
                 postMessage("Error Retrieving Gif");
@@ -155,6 +161,7 @@ function respond(req, res, db) {
     // /random
     else if(request.text && botRegexRandom.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /random")
         // Random gif by tag using callback
         giphy.random(request.text.substring(8), function(err, resGif) {
             if(err) {
@@ -169,6 +176,7 @@ function respond(req, res, db) {
     // /weather
     else if(request.text && botRegexWeather.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /weather")
         weather.find({search: request.text.substring(9), degreeType: 'F'}, function(err, res) {
             if(err) {
                 postMessage("Error Retrieving Weather");
@@ -195,6 +203,7 @@ function respond(req, res, db) {
     // /urbandict
     else if(request.text && botRegexUrbanDictionary.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /urbandict")
         let query = urban(request.text.substring(11));
 
         query.first(function(json) {
@@ -205,6 +214,7 @@ function respond(req, res, db) {
     // /odds
     else if(request.text && botRegexOddsAre.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /odds")
         req_split = request.text.split(" ");
 	    postMessage(oddsAre(req_split[1], req_split[2]));
         res.end();
@@ -212,6 +222,7 @@ function respond(req, res, db) {
     // /stats
     else if(request.text && botRegexStats.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /stats")
         Promise.all([getUser(request.user_id, db), getGroup(db)]).then(userGroup =>{
             let user = userGroup[0]
             let group = userGroup[1]
@@ -228,6 +239,7 @@ function respond(req, res, db) {
     // /beer
     else if(request.text && botRegexBeer.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /beer")
         getUser(request.user_id, db).then(user => {
             let delta_time = Number((new Date).getTime()/(1000*60*60) - user.beer_time).toFixed(3)
 
@@ -259,6 +271,7 @@ function respond(req, res, db) {
     // /statusbeer
     else if(request.text && botRegexBeerStatus.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /statusbeer")
         getUser(request.user_id, db).then(user => {
             return beer(user)
         }).then(msg => {
@@ -272,6 +285,7 @@ function respond(req, res, db) {
     // /resetbeer
     else if(request.text && botRegexBeerReset.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /resetbeer")
         resetBeer(request.user_id, db).then(user => {
             return beer(user.value)
         }).then(msg => {
@@ -285,6 +299,7 @@ function respond(req, res, db) {
     // /leaderboard
     else if(request.text && botRegexLeaderboard.test(request.text)) {
         res.writeHead(200);
+        console.log("Command => /leaderboard")
         Promise.all([getUsers(db), getGroup(db)]).then(userGroup =>{
             let users = userGroup[0]
             let group = userGroup[1]
@@ -344,6 +359,7 @@ function respond(req, res, db) {
     }
     // /announce
     else if(request.text && botRegexAnnounce.test(request.text)) {
+        console.log("Command => /announce")
         let announce_user = request.user_id
 
         res.writeHead(200);
