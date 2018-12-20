@@ -370,6 +370,25 @@ function respond(req, res, db) {
                     msg = msg + users[i].name + " " + users[i].beer_total + '\n' 
                 }
             }
+            msg = msg + "\n"
+
+            /*
+             * Negative
+             */
+            users.sort((a, b) => b.sentiment - a.sentiment);
+            msg = msg + "Negativity Leaderboard:\n"
+            for (i=0; i<users.length; i++) {
+
+                if(i == 0){
+                    msg = msg + "🥇 " + users[i].name + " " + users[i].sentiment + '\n'
+                } else if(i == 1){
+                    msg = msg + "🥈 " + users[i].name + " " + users[i].sentiment + '\n'
+                } else if(i == 2) {
+                    msg = msg + "🥉 " + users[i].name + " " + users[i].sentiment + '\n'
+                } else {
+                    msg = msg + users[i].name + " " + users[i].sentiment + '\n' 
+                }
+            }
 
             postMessage(msg)
         }).catch(err => {
@@ -564,7 +583,8 @@ function stats(user, group){
     msg = user.name + "'s GroupMe Stats:" + "\n\n" +
         "Total Number of Messages Sent: " + user.message_total + "\n" +
         "Groupme Message Percentage: " + total + "%" + "\n" +
-        "Average Daily Messages: " + daily_messages;
+        "Average Daily Messages: " + daily_messages + "\n" +
+        "Sentiment Score(5 = Postive, -5 = Negative): " + user.sentiment;
 
     return msg;
 }
