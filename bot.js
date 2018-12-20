@@ -58,21 +58,21 @@ function respond(req, res, db) {
     
 
     /* Regex Commands */
-    let botRegexFuckOff = /^\/fuckoff/i;
-    let botRegexEightBall = /^\/8ball/i;
-    let botRegexHelp = /^\/help/i;
-    let botRegexCoin = /^\/coin/i;
-    let botRegexOhFuckMe =/^\/ohfuckme/i;
-    let botRegexRandom = /^\/random/i;
-    let botRegexWeather = /^\/weather/i;
-    let botRegexUrbanDictionary = /^\/urbandict/i;
-    let botRegexOddsAre = /^\/odds/i;
-    let botRegexStats = /^\/stats/i;
-    let botRegexBeer = /^\/beer/i;
-    let botRegexBeerStatus = /^\/statusbeer/i;
-    let botRegexBeerReset = /^\/resetbeer/i;
-    let botRegexLeaderboard = /^\/leaderboard/i;
-    let botRegexAnnounce = /^\/announce/i;
+    let botRegexFuckOff = /\b(^\/fuckoff)\b/i;
+    let botRegexEightBall = /\b(^\/8ball)\b/i;
+    let botRegexHelp = /\b(^\/help)\b/i;
+    let botRegexCoin = /\b(^\/coin)\b/i;
+    let botRegexOhFuckMe =/\b(^\/ohfuckme)\b/i;
+    let botRegexRandom = /\b(^\/random)\b/i;
+    let botRegexWeather = /\b(^\/weather)\b/i;
+    let botRegexUrbanDictionary = /\b(^\/urbandict)\b/i;
+    let botRegexOddsAre = /\b(^\/odds)\b/i;
+    let botRegexStats = /\b(^\/stats)\b/i;
+    let botRegexBeer = /\b(^\/beer)\b/i;
+    let botRegexBeerStatus = /\b(^\/statusbeer)\b/i;
+    let botRegexBeerReset = /\b(^\/resetbeer)\b/i;
+    let botRegexLeaderboard = /\b(^\/leaderboard)\b/i;
+    let botRegexAnnounce = /\b(^\/announce)\b/i;
 
     /* Keyword */
     let botRegexRyder = /\b(Ryder)\b|\b(McMinn)\b/i;
