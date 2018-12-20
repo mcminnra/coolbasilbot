@@ -375,18 +375,18 @@ function respond(req, res, db) {
             /*
              * Negative
              */
-            users.sort((a, b) => b.sentiment - a.sentiment);
+            users.sort((a, b) => a.sentiment - b.sentiment);
             msg = msg + "Negativity Leaderboard:\n"
             for (i=0; i<users.length; i++) {
 
                 if(i == 0){
-                    msg = msg + "🥇 " + users[i].name + " " + users[i].sentiment + '\n'
+                    msg = msg + "🥇 " + users[i].name + " " + Number(users[i].sentiment).toFixed(3) + '\n'
                 } else if(i == 1){
-                    msg = msg + "🥈 " + users[i].name + " " + users[i].sentiment + '\n'
+                    msg = msg + "🥈 " + users[i].name + " " + Number(users[i].sentiment).toFixed(3) + '\n'
                 } else if(i == 2) {
-                    msg = msg + "🥉 " + users[i].name + " " + users[i].sentiment + '\n'
+                    msg = msg + "🥉 " + users[i].name + " " + Number(users[i].sentiment).toFixed(3) + '\n'
                 } else {
-                    msg = msg + users[i].name + " " + users[i].sentiment + '\n' 
+                    msg = msg + users[i].name + " " + Number(users[i].sentiment).toFixed(3) + '\n' 
                 }
             }
 
@@ -584,7 +584,7 @@ function stats(user, group){
         "Total Number of Messages Sent: " + user.message_total + "\n" +
         "Groupme Message Percentage: " + total + "%" + "\n" +
         "Average Daily Messages: " + daily_messages + "\n" +
-        "Sentiment Score(5 = Postive, -5 = Negative): " + user.sentiment;
+        "Sentiment Score(5 = Postive, -5 = Negative): " + Number(user.sentiment).toFixed(3);
 
     return msg;
 }
