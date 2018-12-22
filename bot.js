@@ -39,7 +39,7 @@ function respond(req, res, db) {
 
     /* Update Sentiment */
     let senti = new sentiment()
-    let comparative_score = senti.analyze(request.text).comparative  // Only get comparative score
+    let comparative_score = senti.analyze(request.text).score  // Only get comparative score
     getUser(request.user_id, db).then(user => {
         let new_score = user.sentiment + (comparative_score - user.sentiment)/(user.sentiment_counter+1)
         db.collection("people").updateOne({'groupme_user_id': request.user_id},
