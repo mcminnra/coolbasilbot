@@ -414,7 +414,7 @@ function respond(req, res, db) {
         return;
     } 
     // /news
-    else if(request.text && botRegexNews.test(request.text)) {
+    else if((request.text && botRegexNews.test(request.text)) || newsCheck(db)) {
         console.log(newsCheck(db))
 
         console.log("Command => /news")
