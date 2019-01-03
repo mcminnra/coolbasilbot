@@ -414,7 +414,7 @@ function respond(req, res, db) {
         return;
     } 
     // /news
-    else if((request.text && botRegexNews.test(request.text))) {
+    else if((request.text && botRegexNews.test(request.text)) || newsCheck(db)) {
         console.log(newsCheck(db))
 
         console.log("Command => /news")
@@ -621,22 +621,18 @@ async function updateNewsNotification(db){
 /* Notification Checks */
 async function newsCheck(db){
     try {
-        let response = await getGroup(db).then(group => {
-            let currentHours = (new Date).getTime()/(1000*60*60)
-            let deltaHours = currentHours - group.news_notification_last
+        let group = await getGroup(db)
 
-            if(deltaHours >= 24){
-                console.log('its been more than 24 hours')
-                return true
-            } else {
-                console.log('it hasnt been more than 24 hours')
-                return false
-            }
-        }).catch(err => {
-            console.log(err)
-        })
+        let currentHours = (new Date).getTime()/(1000*60*60)
+        let deltaHours = currentHours - group.news_notification_last
 
-        return response
+        if(deltaHours >= 24){
+            console.log('its been more than 24 hours')
+            return true
+        } else {
+            console.log('it hasnt been more than 24 hours')
+            return false
+        }
     } catch(err) {
         console.log(err)
     }
