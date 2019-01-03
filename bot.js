@@ -73,6 +73,7 @@ function respond(req, res, db) {
     let botRegexBeerReset = /^\/resetbeer/i;
     let botRegexLeaderboard = /^\/leaderboard/i;
     let botRegexAnnounce = /^\/announce/i;
+    let botRegexNews = /^\/news/i;
 
     /* Keyword */
     let botRegexRyder = /\b(Ryder)\b|\b(McMinn)\b/i;
@@ -411,6 +412,28 @@ function respond(req, res, db) {
         res.end();
         return;
     } 
+    // /news
+    else if(request.text && botRegexNews.test(request.text)) {
+        console.log("Command => /news")
+
+        let limit = 3
+
+        res.writeHead(200);
+        fetch("https://api.reddit.com/r/news/top.json?sort=top&t=day&limit=" + String(limit))
+        .then(response => response.json())
+        .then(response => {
+            let msg = "Top Posts from r/news\n" +
+                      "---------------------\n\n"
+
+            for(let i  = 0; i < limit; i++){
+            msg += response.data.children[i].data.title + " [" + response.data.children[i].data.score + "]\n" +
+                   "https://reddit.com" + response.data.children[i].data.permalink + "\n\n"
+            }
+            postMessage(msg)
+        });
+        res.end();
+        return;
+    } 
     // No Command
     else {
         res.writeHead(200);
@@ -677,6 +700,7 @@ function help(){
         "/weather {City / Zip} - displays weather\n" +
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
         "/announce - mentions everyone in the chat\n" +
+        "/news - Retrieves the top 3 news stories from r/news\n" +
         "/help - Display this menu";
 }
 
