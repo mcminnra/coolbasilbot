@@ -777,7 +777,7 @@ function help(){
         "/weather {City / Zip} - displays weather\n" +
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
         "/announce - mentions everyone in the chat\n" +
-        "/news - Retrieves the top 3 news stories from r/news\n" +
+        "/news - Retrieves the top 3 news stories from r/news [24hr Notification cycle]\n" +
         "/help - Display this menu";
 }
 
