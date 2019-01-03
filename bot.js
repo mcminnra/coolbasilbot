@@ -86,6 +86,7 @@ function respond(req, res, db) {
     let botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
     let botRegexRichmond = /\b(Samuel)\b|\b(Richmond)\b|\b(Rich)\b/i;
     let botRegexChel = /\b(Chel)\b/i;
+    let botRegexOof = /\b(Oof)\b/i;
 
     /*
      * Name Mentions
@@ -139,6 +140,16 @@ function respond(req, res, db) {
         res.writeHead(200);
         console.log("Keyword => chel")
         giphy.random('nhl', function(err, resGif) {
+            postMessage(resGif.data.image_url);
+        });
+        res.end();
+        return;
+    }
+    // Oof keyword
+    else if(request.text && botRegexOof.test(request.text)) {
+        res.writeHead(200);
+        console.log("Keyword => oof")
+        giphy.random('oof', function(err, resGif) {
             postMessage(resGif.data.image_url);
         });
         res.end();
@@ -654,10 +665,8 @@ async function newsCheck(db){
         let deltaHours = currentHours - group.news_notification_last
 
         if(deltaHours >= 24){
-            console.log('its been more than 24 hours')
             return true
         } else {
-            console.log('it hasnt been more than 24 hours')
             return false
         }
     } catch(err) {
