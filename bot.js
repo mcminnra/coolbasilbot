@@ -414,7 +414,7 @@ function respond(req, res, db) {
         return;
     } 
     // /news
-    else if((request.text && botRegexNews.test(request.text)) || newsCheck()) {
+    else if((request.text && botRegexNews.test(request.text)) || newsCheck(db)) {
         console.log("Command => /news")
 
         // Update last news notification
@@ -617,7 +617,7 @@ async function updateNewsNotification(db){
 }
 
 /* Notification Checks */
-function newsCheck(){
+function newsCheck(db){
     getGroup(db).then(group => {
         let currentHours = (new Date).getTime()/(1000*60*60)
         let deltaHours = currentHours - group.news_notification_last
