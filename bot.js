@@ -414,8 +414,15 @@ function respond(req, res, db) {
         return;
     } 
     // /news
-    else if(request.text && botRegexNews.test(request.text)) {
+    else if((request.text && botRegexNews.test(request.text)) || newsCheck()) {
         console.log("Command => /news")
+
+        // Update last news notification
+        updateNewsNotification(db).then(group => {
+            console.log('News last notification time updated')
+        }).catch(err => {
+            console.log(err)
+        })
 
         let limit = 3
 
@@ -596,6 +603,33 @@ async function resetBeerTimeAndIncBeer(user_id, db){
     } catch(err) {
         console.log(err)
     }
+}
+
+async function updateNewsNotification(db){
+    try{
+        let currentHours = (new Date).getTime()/(1000*60*60);
+        let group = await db.collection("people").findOneAndUpdate({'name': 'Group'}, {$set: { "news_notification_last": currentHours}}, {returnOriginal:false})
+
+        return group
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+/* Notification Checks */
+function newsCheck(){
+    getGroup(db).then(group => {
+        let currentHours = (new Date).getTime()/(1000*60*60)
+        let deltaHours = currentHours - group.news_notification_last
+
+        if(deltaHours >= 24){
+            return true
+        } else {
+            return false
+        }
+    }).catch(err => {
+        console.log(err)
+    })
 }
 
 /* Command Functions */
