@@ -618,13 +618,15 @@ async function updateNewsNotification(db){
 
 /* Notification Checks */
 function newsCheck(db){
-    getGroup(db).then(group => {
+    return getGroup(db).then(group => {
         let currentHours = (new Date).getTime()/(1000*60*60)
         let deltaHours = currentHours - group.news_notification_last
 
         if(deltaHours >= 24){
+            console.log('its been more than 24 hours')
             return true
         } else {
+            console.log('it hasnt been more than 24 hours')
             return false
         }
     }).catch(err => {
