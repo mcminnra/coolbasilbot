@@ -619,21 +619,27 @@ async function updateNewsNotification(db){
 }
 
 /* Notification Checks */
-function newsCheck(db){
-    return getGroup(db).then(group => {
-        let currentHours = (new Date).getTime()/(1000*60*60)
-        let deltaHours = currentHours - group.news_notification_last
+async function newsCheck(db){
+    try {
+        let response = await getGroup(db).then(group => {
+            let currentHours = (new Date).getTime()/(1000*60*60)
+            let deltaHours = currentHours - group.news_notification_last
 
-        if(deltaHours >= 24){
-            console.log('its been more than 24 hours')
-            return true
-        } else {
-            console.log('it hasnt been more than 24 hours')
-            return false
-        }
-    }).catch(err => {
+            if(deltaHours >= 24){
+                console.log('its been more than 24 hours')
+                return true
+            } else {
+                console.log('it hasnt been more than 24 hours')
+                return false
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+
+        return response
+    } catch(err) {
         console.log(err)
-    })
+    }
 }
 
 /* Command Functions */
