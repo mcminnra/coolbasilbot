@@ -2,5 +2,3 @@ coolbasilbot [![Stories in Ready](https://badge.waffle.io/rmcminn/coolbasilbot.s
 ------------
 
 Personal Node.JS GroupMe Bot for my friend group
-
-Built from [groupme/bot-tutorial-nodejs](https://github.com/groupme/bot-tutorial-nodejs)
