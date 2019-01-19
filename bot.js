@@ -456,7 +456,7 @@ function respond(req, res, db) {
     } 
     // /reddit 
     else if(request.text && botRegexReddit.test(request.text)) {
-        let query = urban(request.text.substring(8));
+        let query = request.text.substring(8);
 
         let limit = 3
 
@@ -464,6 +464,7 @@ function respond(req, res, db) {
         fetch("https://api.reddit.com/r/" + String(query) + "/top.json?sort=top&t=day&limit=" + String(limit))
         .then(response => response.json())
         .then(response => {
+
             let msg = "Top Posts from r/" + String(query) + "\n" +
                       "---------------------\n\n"
 
@@ -805,6 +806,7 @@ function help(){
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
         "/announce - mentions everyone in the chat\n" +
         "/news - Retrieves the top 3 news stories from r/news [24hr Notification cycle]\n" +
+        "/reddit {Subreddit} - Retrieves the top 3 news stories from a subreddit\n" +
         "/help - Display this menu";
 }
 
