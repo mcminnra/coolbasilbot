@@ -75,6 +75,7 @@ function respond(req, res, db) {
     let botRegexLeaderboard = /^\/leaderboard/i;
     let botRegexAnnounce = /^\/announce/i;
     let botRegexNews = /^\/news/i;
+    let botRegexReddit = /^\/reddit/i;
 
     /* Keyword */
     let botRegexRyder = /\b(Ryder)\b|\b(McMinn)\b/i;
@@ -453,6 +454,31 @@ function respond(req, res, db) {
         res.end();
         return;
     } 
+    // /reddit 
+    else if(request.text && botRegexReddit.test(request.text)) {
+        let query = urban(request.text.substring(8));
+
+        let limit = 3
+
+        res.writeHead(200);
+        fetch("https://api.reddit.com/r/" + String(query) + "/top.json?sort=top&t=day&limit=" + String(limit))
+        .then(response => response.json())
+        .then(response => {
+            let msg = "Top Posts from r/" + String(query) + "\n" +
+                      "---------------------\n\n"
+
+            for(let i  = 0; i < limit; i++){
+            msg += response.data.children[i].data.title + " [" + response.data.children[i].data.score + "]\n" +
+                   "https://reddit.com" + response.data.children[i].data.permalink + "\n\n"
+            }
+            postMessage(msg)
+        })
+        .catch(err => {
+            console.log(err)
+            postMessage("Error Fetching Subreddit")
+        });
+        res.end();        
+    }
     // No Command
     else {
         res.writeHead(200);
