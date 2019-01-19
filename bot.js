@@ -477,7 +477,8 @@ function respond(req, res, db) {
             fetch("https://api.reddit.com/r/news/top.json?sort=top&t=day&limit=" + String(limit))
             .then(response => response.json())
             .then(response => {
-                let msg = "Top Posts from r/news\n" +
+                let msg = "[NOTIFICATION]\n" + 
+                        "Top Posts from r/news\n" +
                         "---------------------\n\n"
 
                 for(let i  = 0; i < limit; i++){
