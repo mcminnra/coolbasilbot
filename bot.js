@@ -82,12 +82,13 @@ function respond(req, res, db) {
     let botRegexRoyce = /\b(Royce)\b|\b(Funk)\b|\b(Roy)\b/i;
     let botRegexThomas = /\b(Thomas)\b|\b(Kreuzman)\b|\b(Tommy)\b|\b(Tom)\b/i;
     let botRegexMitch = /\b(Mitch)\b|\b(Molchin)\b/i;
-    let botRegexMason = /\b(Mason)\b|\b(Johnson)\b/i;
+    let botRegexMason = /\b(Mason)\b|\b(Johnson)\b|\b(MayMay)\b/i;
     let botRegexMiguel = /\b(Miguel)\b|\b(Thompson)\b/i;
     let botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
     let botRegexRichmond = /\b(Samuel)\b|\b(Richmond)\b|\b(Rich)\b/i;
     let botRegexChel = /\b(Chel)\b/i;
     let botRegexOof = /\b(Oof)\b/i;
+    let botRegexHidden = /\b(Shred)\b/i;
 
     /*
      * Name Mentions
@@ -128,16 +129,8 @@ function respond(req, res, db) {
     /*
      * Commands
      */
-    // /fuckoff
-    if(request.text && botRegexFuckOff.test(request.text)) {
-        res.writeHead(200);
-        console.log("Command => /fuckoff")
-        postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
-        res.end();
-        return;
-    }
     // Chel keyword
-    else if(request.text && botRegexChel.test(request.text)) {
+    if(request.text && botRegexChel.test(request.text)) {
         res.writeHead(200);
         console.log("Keyword => chel")
         giphy.random('nhl', function(err, resGif) {
@@ -153,6 +146,22 @@ function respond(req, res, db) {
         giphy.random('oof', function(err, resGif) {
             postMessage(resGif.data.image_url);
         });
+        res.end();
+        return;
+    }
+    // Hidden keyword
+    else if(request.text && botRegexHidden.test(request.text)) {
+        res.writeHead(200);
+        console.log("Keyword => Hidden")
+        postMessage("YOU FOUND THE HIDDEN KEYWORD - SHRED!\n\n You've earned one Basil point!")
+        res.end();
+        return;
+    }
+    // /fuckoff
+    else if(request.text && botRegexFuckOff.test(request.text)) {
+        res.writeHead(200);
+        console.log("Command => /fuckoff")
+        postMessage(request.name + " requests that you 'fuck off' " + request.text.substring(9));
         res.end();
         return;
     }
