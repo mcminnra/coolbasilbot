@@ -791,22 +791,23 @@ function coin() {
 function help(){
     return "Help Menu\n\n" +
         "Commands:\n" +
-        "/stats - See your groupme stats\n" +
-        "/fuckoff {Person} - Tell that person to fuck off\n" +
         "/8ball {Question} - Ask an 8ball question\n" +
-	    "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
-        "/beer - Adds a beer and calculates BAC\n" +
-        "/statusbeer - Gets your current beer count and BAC\n" +
-        "/resetbeer - Resets your current beer count to 0\n" +
-        "/leaderboard - Check the current leaderboard\n" +
+        "/announce - mentions everyone in the chat\n" +
         "/coin - Flips a coin heads or tails\n" +
+        "/fuckoff {Person} - Tell that person to fuck off\n" +
+        "/leaderboard - Check the current leaderboard\n" +
+        "/news - Retrieves the top 3 news stories from r/news [24hr Notification cycle]\n" +
+        "/odds {Odds} {Your Guess} - Plays Odds Are with Basil\n" +
         "/ohfuckme - Fucks you\n" +
         "/random {Keyword(s)} - displays random gif\n" +
-        "/weather {City / Zip} - displays weather\n" +
+        "/reddit {Subreddit} - Retrieves the top 3 posts from a subreddit\n" +
+        "/stats - See your groupme stats\n" +
         "/urbandict {word} - Gets Urban Dictionary Definition for word\n" +
-        "/announce - mentions everyone in the chat\n" +
-        "/news - Retrieves the top 3 news stories from r/news [24hr Notification cycle]\n" +
-        "/reddit {Subreddit} - Retrieves the top 3 news stories from a subreddit\n" +
+        "/weather {City / Zip} - displays weather\n\n" +
+	    "Beer Commands:\n" +
+        "/beer - Adds a beer and calculates BAC\n" +
+        "/statusbeer - Gets your current beer count and BAC\n" +
+        "/resetbeer - Resets your current beer count to 0\n\n" +
         "/help - Display this menu";
 }
 
