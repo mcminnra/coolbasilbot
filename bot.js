@@ -465,7 +465,7 @@ function respond(req, res, db) {
     } 
     // /reddit 
     else if(request.text && botRegexReddit.test(request.text)) {
-        let query = request.text.substring(8);
+        let query = request.text.substring(8).replace(/\s/g, '');
 
         let limit = 3
 
