@@ -85,7 +85,7 @@ function respond(req, res, db) {
     let botRegexMason = /\b(Mason)\b|\b(Johnson)\b|\b(MayMay)\b/i;
     let botRegexMiguel = /\b(Miguel)\b|\b(Thompson)\b/i;
     let botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
-    let botRegexRichmond = /\b(Samuel)\b|\b(Richmond)\b|\b(Rich)\b/i;
+    let botRegexRichmond = /\b(Samuel)\b|\b(Sam)\b|\b(Richmond)\b|\b(Rich)\b/i;
     let botRegexChel = /\b(Chel)\b/i;
     let botRegexOof = /\b(Oof)\b/i;
     let botRegexHidden = /\b(Shred)\b/i;
