@@ -88,7 +88,6 @@ function respond(req, res, db) {
     let botRegexRichmond = /\b(Samuel)\b|\b(Sam)\b|\b(Richmond)\b|\b(Rich)\b/i;
     let botRegexChel = /\b(Chel)\b/i;
     let botRegexOof = /\b(Oof)\b/i;
-    let botRegexHidden = /\b(Shred)\b/i;
 
     /*
      * Name Mentions
@@ -146,14 +145,6 @@ function respond(req, res, db) {
         giphy.random('oof', function(err, resGif) {
             postMessage(resGif.data.image_url);
         });
-        res.end();
-        return;
-    }
-    // Hidden keyword
-    else if(request.text && botRegexHidden.test(request.text)) {
-        res.writeHead(200);
-        console.log("Keyword => Hidden")
-        postMessage("YOU FOUND THE HIDDEN KEYWORD - SHRED!\n\n You've earned one Basil point!")
         res.end();
         return;
     }
