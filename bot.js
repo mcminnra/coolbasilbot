@@ -488,34 +488,35 @@ function respond(req, res, db) {
     }
 
     /* Notifications */
-    newsCheck(db).then(giveNotification => {
-        if (giveNotification){
-            console.log("Notification => /news")
+    /* NOTE: Turn off News Notification for now */
+    // newsCheck(db).then(giveNotification => {
+    //     if (giveNotification){
+    //         console.log("Notification => /news")
 
-            // Update last news notification
-            updateNewsNotification(db).then(group => {
-                console.log('News last notification time updated')
-            }).catch(err => {
-                console.log(err)
-            })
+    //         // Update last news notification
+    //         updateNewsNotification(db).then(group => {
+    //             console.log('News last notification time updated')
+    //         }).catch(err => {
+    //             console.log(err)
+    //         })
 
-            let limit = 3
+    //         let limit = 3
 
-            fetch("https://api.reddit.com/r/news/top.json?sort=top&t=day&limit=" + String(limit))
-            .then(response => response.json())
-            .then(response => {
-                let msg = "[NOTIFICATION]\n" + 
-                        "Top Posts from r/news\n" +
-                        "---------------------\n\n"
+    //         fetch("https://api.reddit.com/r/news/top.json?sort=top&t=day&limit=" + String(limit))
+    //         .then(response => response.json())
+    //         .then(response => {
+    //             let msg = "[NOTIFICATION]\n" + 
+    //                     "Top Posts from r/news\n" +
+    //                     "---------------------\n\n"
 
-                for(let i  = 0; i < limit; i++){
-                msg += response.data.children[i].data.title + " [" + response.data.children[i].data.score + "]\n" +
-                    "https://reddit.com" + response.data.children[i].data.permalink + "\n\n"
-                }
-                postMessage(msg)
-            });
-        }
-    })
+    //             for(let i  = 0; i < limit; i++){
+    //             msg += response.data.children[i].data.title + " [" + response.data.children[i].data.score + "]\n" +
+    //                 "https://reddit.com" + response.data.children[i].data.permalink + "\n\n"
+    //             }
+    //             postMessage(msg)
+    //         });
+    //     }
+    // })
 }
 
 /* Message Functions */
