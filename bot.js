@@ -203,8 +203,8 @@ function respond(req, res, db) {
                 postMessage("Error Retrieving Gif");
                 return;
             }
-
-            postMessage(resGif.data.image_url);
+            console.log(resGif)
+            //postMessage(resGif.data.image_url);
         });
         res.end();
     }
