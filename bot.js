@@ -137,7 +137,7 @@ function respond(req, res, db) {
     //     });
     //     res.end();
     //     return;
-    }
+    // }
     // Oof keyword
     // else if(request.text && botRegexOof.test(request.text)) {
     //     res.writeHead(200);
