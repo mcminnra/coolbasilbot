@@ -1,5 +1,5 @@
 const request = require('request');
-const giphy = require('giphy-api')();
+const giphy = require('giphy-api')();  // Change or get api key
 const weather = require('weather-js');
 const urban = require('urban');
 const sentiment = require("sentiment");
