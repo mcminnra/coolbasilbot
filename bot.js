@@ -1,5 +1,5 @@
 const request = require('request');
-const giphy = require('giphy-api')();  // Change or get api key
+const giphy = require('giphy-api')(process.env.GRIPHY_KEY);
 const weather = require('weather-js');
 const urban = require('urban');
 const sentiment = require("sentiment");
@@ -128,26 +128,26 @@ function respond(req, res, db) {
     /*
      * Commands
      */
-    // // Chel keyword
-    // if(request.text && botRegexChel.test(request.text)) {
-    //     res.writeHead(200);
-    //     console.log("Keyword => chel")
-    //     giphy.random('nhl', function(err, resGif) {
-    //         postMessage(resGif.data.image_url);
-    //     });
-    //     res.end();
-    //     return;
-    // }
+    // Chel keyword
+    if(request.text && botRegexChel.test(request.text)) {
+        res.writeHead(200);
+        console.log("Keyword => chel")
+        giphy.random('nhl', function(err, resGif) {
+            postMessage(resGif.data.image_url);
+        });
+        res.end();
+        return;
+    }
     // Oof keyword
-    // else if(request.text && botRegexOof.test(request.text)) {
-    //     res.writeHead(200);
-    //     console.log("Keyword => oof")
-    //     giphy.random('oof', function(err, resGif) {
-    //         postMessage(resGif.data.image_url);
-    //     });
-    //     res.end();
-    //     return;
-    // }
+    else if(request.text && botRegexOof.test(request.text)) {
+        res.writeHead(200);
+        console.log("Keyword => oof")
+        giphy.random('oof', function(err, resGif) {
+            postMessage(resGif.data.image_url);
+        });
+        res.end();
+        return;
+    }
     // /fuckoff
     if(request.text && botRegexFuckOff.test(request.text)) {
         res.writeHead(200);
@@ -189,10 +189,7 @@ function respond(req, res, db) {
                 return;
             }
             console.log(resGif)
-            // TODO: FIX ME
-            // Giphy API not requires a developer key
-            postMessage("This feature has been depreciated. Please wait until an alternative gif provider is implemented.");
-            //postMessage(resGif.data.image_url);
+            postMessage(resGif.data.image_url);
         });
         res.end();
     }
@@ -207,10 +204,7 @@ function respond(req, res, db) {
                 return;
             }
             console.log(resGif)
-            // TODO: FIX ME
-            // Giphy API not requires a developer key
-            postMessage("This feature has been depreciated. Please wait until an alternative gif provider is implemented.");
-            //postMessage(resGif.data.image_url);
+            postMessage(resGif.data.image_url);
         });
         res.end();
     }
