@@ -187,8 +187,7 @@ function respond(req, res, db) {
             if(err) {
                 postMessage("Error Retrieving Gif");
                 return;
-            }
-            console.log(resGif)
+            }           
             postMessage(resGif.data.image_url);
         });
         res.end();
@@ -202,8 +201,7 @@ function respond(req, res, db) {
             if(err) {
                 postMessage("Error Retrieving Gif");
                 return;
-            }
-            console.log(resGif)
+            }          
             postMessage(resGif.data.image_url);
         });
         res.end();
