@@ -1,5 +1,5 @@
 const request = require('request');
-const giphy = require('giphy-api')(process.env.GRIPHY_KEY);
+const giphy = require('giphy-api')(process.env.GIPHY_KEY);
 const weather = require('weather-js');
 const urban = require('urban');
 const sentiment = require("sentiment");
@@ -133,6 +133,7 @@ function respond(req, res, db) {
         res.writeHead(200);
         console.log("Keyword => chel")
         giphy.random('nhl', function(err, resGif) {
+	    if (err) console.log(err);
             postMessage(resGif.data.image_url);
         });
         res.end();
@@ -143,7 +144,7 @@ function respond(req, res, db) {
         res.writeHead(200);
         console.log("Keyword => oof")
         giphy.random('oof', function(err, resGif) {
-	    console.log(resGif)
+    	    if (err) console.log(err);
             postMessage(resGif.data.image_url);
         });
         res.end();
