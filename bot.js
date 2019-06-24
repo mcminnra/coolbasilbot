@@ -143,7 +143,7 @@ function respond(req, res, db) {
         res.writeHead(200);
         console.log("Keyword => oof")
         giphy.random('oof', function(err, resGif) {
-	    console.log(resGif.Data)
+	    console.log(resGif)
             postMessage(resGif.data.image_url);
         });
         res.end();
