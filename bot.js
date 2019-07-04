@@ -3,9 +3,7 @@ const giphy = require('giphy-api')(process.env.GIPHY_KEY);
 const weather = require('weather-js');
 const urban = require('urban');
 const sentiment = require("sentiment");
-const fetch = require("node-fetch");
-
-const bc = require('./bot-commands.js');
+const fetch = require("node-fetch")
 
 const botID = process.env.BOT_ID;
 
@@ -134,12 +132,10 @@ function respond(req, res, db) {
     if(request.text && botRegexChel.test(request.text)) {
         res.writeHead(200);
         console.log("Keyword => chel")
-        giphy.random('nhl', function (err, resGif) {
-            if (err) console.log(err);
-            console.log("Inside Bot: " + resGif.data.image_url);
+        giphy.random('nhl', function(err, resGif) {
+	    if (err) console.log(err);
+            postMessage(resGif.data.image_url);
         });
-        console.log("Called bc: " + bc.chelKeyword());
-        postMessage(bc.chelKeyword());
         res.end();
         return;
     }
