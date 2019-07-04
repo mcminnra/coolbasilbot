@@ -136,9 +136,9 @@ function respond(req, res, db) {
         console.log("Keyword => chel")
         giphy.random('nhl', function (err, resGif) {
             if (err) console.log(err);
-            console.log(resGif.data.image_url);
+            console.log("Inside Bot: " + resGif.data.image_url);
         });
-        console.log(bc.chelKeyword());
+        console.log("Called bc: " + bc.chelKeyword());
         postMessage(bc.chelKeyword());
         res.end();
         return;
