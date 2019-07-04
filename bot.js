@@ -134,10 +134,10 @@ function respond(req, res, db) {
     if(request.text && botRegexChel.test(request.text)) {
         res.writeHead(200);
         console.log("Keyword => chel")
-        // giphy.random('nhl', function(err, resGif) {
-	    // if (err) console.log(err);
-        //     postMessage(resGif.data.image_url);
-        // });
+        giphy.random('nhl', function (err, resGif) {
+            if (err) console.log(err);
+            console.log(resGif.data.image_url);
+        });
         console.log(bc.chelKeyword());
         postMessage(bc.chelKeyword());
         res.end();
