@@ -138,7 +138,8 @@ function respond(req, res, db) {
 	    // if (err) console.log(err);
         //     postMessage(resGif.data.image_url);
         // });
-        postMessage(bc.chelKeyword())
+        console.log(bc.chelKeyword());
+        postMessage(bc.chelKeyword());
         res.end();
         return;
     }
