@@ -3,9 +3,9 @@ const giphy = require('giphy-api')(process.env.GIPHY_KEY);
 const weather = require('weather-js');
 const urban = require('urban');
 const sentiment = require("sentiment");
-const fetch = require("node-fetch")
+const fetch = require("node-fetch");
 
-const bc = request('./bot-commands.js')
+const bc = require('./bot-commands.js');
 
 const botID = process.env.BOT_ID;
 
