@@ -6,7 +6,8 @@ const giphy = require('giphy-api')(process.env.GIPHY_KEY);
 async function chelKeyword() {
     giphy.random('nhl', function (err, resGif) {
         if (err) console.log(err);
-        return resGif.data.image_url;
+        giphy_url = await resGif.data.image_url
+        return giphy_url;
     });
 }
 
