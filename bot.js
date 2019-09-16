@@ -86,6 +86,7 @@ function respond(req, res, db) {
     let botRegexMiguel = /\b(Miguel)\b|\b(Thompson)\b/i;
     let botRegexAustin = /\b(Austin)\b|\b(Combs)\b/i;
     let botRegexRichmond = /\b(Samuel)\b|\b(Sam)\b|\b(Richmond)\b|\b(Rich)\b/i;
+    let botRegexGang = /\b(gang)\b/i;
     let botRegexChel = /\b(Chel)\b/i;
     let botRegexOof = /\b(Oof)\b/i;
 
@@ -94,35 +95,57 @@ function respond(req, res, db) {
      */
     //Ryder
     if(request.text && botRegexRyder.test(request.text)) {
+        console.log("Mention => Ryder")
         autoMention('17738651', 'RM');
     }
     //Mason
     if(request.text && botRegexMason.test(request.text)) {
+        console.log("Mention => Mason")
         autoMention('10896812', 'MJ');
     }
     //Royce
     if(request.text && botRegexRoyce.test(request.text)) {
+        console.log("Mention => Royce")
         autoMention('19585794', 'RF');
     }
     //Austin
     if(request.text && botRegexAustin.test(request.text)) {
+        console.log("Mention => Austin")
         autoMention('20932518', 'AC');
     }
     //Thomas
     if(request.text && botRegexThomas.test(request.text)) {
+        console.log("Mention => Thomas")
         autoMention('17079486', 'TK');
     }
     //Mitch
     if(request.text && botRegexMitch.test(request.text)) {
+        console.log("Mention => Mitch")
         autoMention('9493451', 'MM');
     }
     //Miguel
     if(request.text && botRegexMiguel.test(request.text)) {
+        console.log("Mention => Miguel")
         autoMention('30310364', 'MT');
     }
     //Richmond
     if(request.text && botRegexRichmond.test(request.text)) {
+        console.log("Mention => Richmond")
         autoMention('4022094', 'SR');
+    }
+    //Whole Gang
+    if(request.text && botRegexGang.test(request.text)) {
+        console.log("Mention => Gang")
+        let announce_user = request.user_id
+
+        res.writeHead(200);
+        getUsers(db).then(users => {
+            announce(users)
+        }).catch(err => {
+            console.log(err)
+        })
+        res.end();
+        return;
     }
 
     /*
