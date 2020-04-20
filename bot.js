@@ -10,6 +10,14 @@ const botID = process.env.BOT_ID;
 function respond(req, res, db) {
     let request = req.body
 
+    /* Depreciation Notce */
+    let msg = "[NOTICE] Ryder is removing Basil from GroupMe.\n\n" +
+	"Basil is being moved to Discord.\n" +
+	"Follow the link to join our new Discord Server, so the Gang can finally use a chat that isn't stuck in 2005.\n" +
+	"https://discord.gg/YEZsfzY";
+    postMessage(msg);
+    return;
+
     /* Skip BasilBot Message */
     if(request.name == '🌿'){
         console.log('BasilBot message -- Skipping...')
