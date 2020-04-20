@@ -11,12 +11,16 @@ function respond(req, res, db) {
     let request = req.body
 
     /* Depreciation Notce */
-    let msg = "[NOTICE] Ryder is removing Basil from GroupMe.\n\n" +
-	"Basil is being moved to Discord.\n" +
-	"Follow the link to join our new Discord Server, so the Gang can finally use a chat that isn't stuck in 2005.\n" +
-	"https://discord.gg/YEZsfzY";
-    postMessage(msg);
-    return;
+    if (request.text) {
+	res.writeHead(200);
+	let msg = "[NOTICE] Ryder is removing Basil from GroupMe.\n\n" +
+	    "Basil is being moved to Discord.\n" +
+	    "Follow the link to join our new Discord Server, so the Gang can finally use a chat that isn't stuck in 2005.\n" +
+	    "https://discord.gg/YEZsfzY";
+	postMessage(msg);
+	res.end();
+	return;
+    }
 
     /* Skip BasilBot Message */
     if(request.name == '🌿'){
