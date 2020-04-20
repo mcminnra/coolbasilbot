@@ -11,7 +11,8 @@ function respond(req, res, db) {
     let request = req.body
 
     /* Depreciation Notce */
-    if (request.text) {
+    let botRegexCommand = /^\//i;
+    if (request.text && botRegexCommand.test(request.text)) {
 	res.writeHead(200);
 	let msg = "[NOTICE] Ryder is removing Basil from GroupMe.\n\n" +
 	    "Basil is being moved to Discord.\n" +
