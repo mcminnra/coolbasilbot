@@ -15,7 +15,7 @@
     "express": "^4.16.4",
     "giphy-api": "^1.2.8",
     "mongodb": "^3.1.9",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.6.1",
     "node-gyp": "^4.0.0",
     "request": "^2.88.0",
     "sentiment": "^5.0.1",
